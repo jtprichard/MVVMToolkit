@@ -1,7 +1,7 @@
 ﻿using MVVMToolkit.Ioc;
 using Ninject;
 
-namespace MVVMToolkit.DialogServices.ViewModels
+namespace MVVMToolkit.DialogServices
 {
     /// <summary>
     /// Main View Model class used for dependency injection service used for locator

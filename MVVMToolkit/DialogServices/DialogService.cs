@@ -1,7 +1,4 @@
-﻿using MVVMToolkit.DialogServices.ViewModels;
-using MVVMToolkit.DialogServices.Views;
-
-namespace MVVMToolkit.DialogServices
+﻿namespace MVVMToolkit.DialogServices
 {
     public class DialogService : IDialogService
     {

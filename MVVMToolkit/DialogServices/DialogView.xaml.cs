@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MVVMToolkit.DialogServices.Views
+namespace MVVMToolkit.DialogServices
 {
     /// <summary>
     /// Interaction logic for DialogView.xaml

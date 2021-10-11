@@ -1,5 +1,4 @@
 ﻿using MVVMToolkit.DialogServices;
-using MVVMToolkit.DialogServices.ViewModels;
 using Ninject.Modules;
 
 namespace MVVMToolkit.Ioc

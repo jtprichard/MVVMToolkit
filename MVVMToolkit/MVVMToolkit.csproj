@@ -50,9 +50,9 @@
   <ItemGroup>
     <Compile Include="DialogServices\DialogService.cs" />
     <Compile Include="DialogServices\IDialogService.cs" />
-    <Compile Include="DialogServices\ViewModels\DialogViewModelBase.cs" />
-    <Compile Include="DialogServices\ViewModels\MainViewModel.cs" />
-    <Compile Include="DialogServices\Views\DialogView.xaml.cs">
+    <Compile Include="DialogServices\DialogViewModelBase.cs" />
+    <Compile Include="DialogServices\MainViewModel.cs" />
+    <Compile Include="DialogServices\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ioc\Container.cs" />
@@ -63,7 +63,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DialogServices\Views\DialogView.xaml">
+    <Page Include="DialogServices\DialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

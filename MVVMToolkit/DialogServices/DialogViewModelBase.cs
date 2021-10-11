@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MVVMToolkit.DialogServices.ViewModels
+namespace MVVMToolkit.DialogServices
 {
     /// <summary>
     /// Base View Model Class to be extended by dialogs

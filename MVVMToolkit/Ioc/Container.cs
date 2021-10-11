@@ -1,7 +1,7 @@
 ﻿using System;
 using Ninject;
 
-namespace MVVMToolkit.Ioc
+namespace PB.MVVMToolkit.Ioc
 {
     /// <summary>
     /// Container class used for dependency injection

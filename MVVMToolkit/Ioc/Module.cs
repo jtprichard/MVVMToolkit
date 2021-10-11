@@ -1,7 +1,7 @@
-﻿using MVVMToolkit.DialogServices;
+﻿using PB.MVVMToolkit.DialogServices;
 using Ninject.Modules;
 
-namespace MVVMToolkit.Ioc
+namespace PB.MVVMToolkit.Ioc
 {
     /// <summary>
     /// Module for dependency injection of main view model

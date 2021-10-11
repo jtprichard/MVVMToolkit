@@ -1,4 +1,4 @@
-﻿namespace MVVMToolkit.DialogServices
+﻿namespace PB.MVVMToolkit.DialogServices
 {
     public class DialogService : IDialogService
     {

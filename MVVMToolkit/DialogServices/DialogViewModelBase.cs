@@ -1,11 +1,12 @@
 ﻿using System.Windows;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace PB.MVVMToolkit.DialogServices
 {
     /// <summary>
     /// Base View Model Class to be extended by dialogs
     /// </summary>
-    public class DialogViewModelBase
+    public class DialogViewModelBase : ObservableObject
     {
         /// <summary>
         /// Window object

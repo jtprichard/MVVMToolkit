@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using PB.MVVMToolkit.DialogServices;
 
 namespace PB.MVVMToolkit.DialogServices
 {
@@ -8,6 +9,12 @@ namespace PB.MVVMToolkit.DialogServices
     /// </summary>
     public class DialogViewModelBase : ObservableObject
     {
+
+        public IDialogService DialogService
+        {
+            get => DialogServices.DialogService.Instance;
+        }
+
         /// <summary>
         /// Window object
         /// </summary>
@@ -22,5 +29,7 @@ namespace PB.MVVMToolkit.DialogServices
             if (view != null)
                 view.DialogResult = true;
         }
+
+
     }
 }

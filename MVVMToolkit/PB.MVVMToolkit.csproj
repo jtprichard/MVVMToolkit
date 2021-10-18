@@ -85,14 +85,16 @@
       <DependentUpon>DialogView.xaml</DependentUpon>
     </Compile>
     <None Include="Dialogs\For Reference Future\DialogYesNo - Event Handler.cs" />
-    <Compile Include="Dialogs\DialogImage.cs" />
-    <Compile Include="Dialogs\DialogResult.cs" />
+    <Compile Include="Dialogs\DialogInputOkCancel.cs" />
+    <Compile Include="Dialogs\Enumerations\DialogImage.cs" />
+    <Compile Include="Dialogs\DialogInputOkCancelView.xaml.cs">
+      <DependentUpon>DialogInputOkCancelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Enumerations\DialogResult.cs" />
     <Compile Include="Dialogs\DialogYesNoView.xaml.cs">
       <DependentUpon>DialogYesNoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\DialogYesNo.cs" />
-    <Compile Include="Dialogs\ResourceAssembly.cs" />
-    <Compile Include="Dialogs\ResourceImage.cs" />
     <Compile Include="Ioc\Container.cs" />
     <Compile Include="Ioc\Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,21 +110,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\DialogInputOkCancelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\DialogYesNoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Dialogs\Images\dialog_error_icon.png" />
+    <Resource Include="Images\dialog_error_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Dialogs\Images\dialog_information_icon.png" />
-    <Resource Include="Dialogs\Images\dialog_ok_icon.png" />
-    <Resource Include="Dialogs\Images\dialog_warning_icon.png" />
+    <Resource Include="Images\dialog_information_icon.png" />
+    <Resource Include="Images\dialog_ok_icon.png" />
+    <Resource Include="Images\dialog_warning_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Dialogs\Images\dialog_question_icon.png" />
+    <Resource Include="Images\dialog_question_icon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

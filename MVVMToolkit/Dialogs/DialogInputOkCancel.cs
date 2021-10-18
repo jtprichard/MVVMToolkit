@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
 
@@ -11,14 +8,15 @@ namespace PB.MVVMToolkit.Dialogs
     /// <summary>
     /// A dialog class to ask a question and return a DialogResult of Yes or No
     /// </summary>
-    public class DialogYesNo : DialogViewModelBase
+    public class DialogInputOkCancel : DialogViewModelBase
     {
-        #region Properties
+        private string _answer;
 
+        #region Properties
         /// <summary>
         /// A static reference to the viewmodel
         /// </summary>
-        internal static DialogYesNo Instance { get; set; }
+        internal static DialogInputOkCancel Instance { get; set; }
         /// <summary>
         /// Dialog message as string
         /// </summary>
@@ -29,6 +27,15 @@ namespace PB.MVVMToolkit.Dialogs
         public string Caption { get; private set; }
 
         /// <summary>
+        /// Default answer to show in the dialog answer textbox
+        /// </summary>
+        public string Answer
+        {
+            get { return _answer; }
+            set { SetProperty(ref _answer, value); }
+
+        }
+        /// <summary>
         /// Dialog Result
         /// Dialog will return Yes or No
         /// </summary>
@@ -38,24 +45,24 @@ namespace PB.MVVMToolkit.Dialogs
 
         #region Commands
 
-        private ICommand yesCommand = null;
+        private ICommand _okCommand = null;
         /// <summary>
         /// Yes Click Command
         /// </summary>
-        public ICommand YesCommand
+        public ICommand OkCommand
         {
-            get { return yesCommand; }
-            set { yesCommand = value; }
+            get { return _okCommand; }
+            set { _okCommand = value; }
         }
 
-        private ICommand noCommand = null;
+        private ICommand _cancelCommand = null;
         /// <summary>
         /// No Click Command
         /// </summary>
-        public ICommand NoCommand
+        public ICommand CancelCommand
         {
-            get { return noCommand; }
-            set { noCommand = value; }
+            get { return _cancelCommand; }
+            set { _cancelCommand = value; }
         }
 
         #endregion
@@ -66,14 +73,15 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="message">Dialog message as string</param>
         /// <param name="caption">Dialog window caption as string</param>
-        private DialogYesNo(string message, string caption, DialogImage image = DialogImage.None)
+        public DialogInputOkCancel(string message, string caption, string defaultAnswer = "", DialogImage image = DialogImage.None)
         {
             Message = message;
             Caption = caption;
+            Answer = defaultAnswer;
             Image = image;
 
-            this.yesCommand = new RelayCommand(OnYesClicked);
-            this.noCommand = new RelayCommand(OnNoClicked);
+            this._okCommand = new RelayCommand(OnOkClicked);
+            this._cancelCommand = new RelayCommand(OnCancelClicked);
             Instance = this;
         }
         #endregion
@@ -85,10 +93,11 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="message">Dialog message as string</param>
         /// <param name="caption">Dialog window caption as string</param>
         /// <returns></returns>
-        public static DialogResult Show(string message, string caption, DialogImage image = DialogImage.None)
+        public static DialogResult Show(string message, string caption, out string answer, string defaultAnswer = "", DialogImage image = DialogImage.None)
         {
-            var vm = new DialogYesNo(message, caption, image);
+            var vm = new DialogInputOkCancel(message, caption, defaultAnswer, image);
             vm.Show();
+            answer = vm.Answer;
             return vm.Result;
         }
 
@@ -98,27 +107,28 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Show dialog
         /// </summary>
-        private void Show()
+        public DialogResult Show()
         {
-            var view = new DialogYesNoView();
+            var view = new DialogInputOkCancelView();
             view.ShowDialog();
+            return Result;
         }
         /// <summary>
         /// Yes clicked command event
         /// </summary>
         /// <param name="parameter"></param>
-        private void OnYesClicked(object parameter)
+        private void OnOkClicked(object parameter)
         {
-            Result = DialogResult.Yes;
+            Result = DialogResult.Ok;
             CloseDialog(parameter as Window);
         }
         /// <summary>
         /// No clicked command event
         /// </summary>
         /// <param name="parameter"></param>
-        private void OnNoClicked(object parameter)
+        private void OnCancelClicked(object parameter)
         {
-            Result = DialogResult.No;
+            Result = DialogResult.Cancel;
             CloseDialog(parameter as Window);
         }
 

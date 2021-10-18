@@ -1,15 +1,15 @@
 ﻿using System.Windows;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using PB.MVVMToolkit.Dialogs;
+using PB.MVVMToolkit.ViewModel;
 
 namespace PB.MVVMToolkit.DialogServices
 {
     /// <summary>
     /// Base View Model Class to be extended by dialogs
     /// </summary>
-    public class DialogViewModelBase : ObservableObject
+    public class DialogViewModelBase : BaseViewModel
     {
-        private static string _imagePath = "pack://application:,,,/PB.MVVMToolkit;component/Images/";
+        private static readonly string _imagePath = "pack://application:,,,/PB.MVVMToolkit;component/Images/";
 
         /// <summary>
         /// Dialog image
@@ -21,10 +21,10 @@ namespace PB.MVVMToolkit.DialogServices
         /// </summary>
         public string ImageFile => SelectImage(Image);
 
-        public IDialogService DialogService
-        {
-            get => DialogServices.DialogService.Instance;
-        }
+        //public IDialogService DialogService
+        //{
+        //    get => DialogServices.DialogService.Instance;
+        //}
 
         /// <summary>
         /// Window object

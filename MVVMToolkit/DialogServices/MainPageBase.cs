@@ -2,8 +2,6 @@
 using System.Windows.Controls;
 using PB.MVVMToolkit.ViewModel;
 
-
-
 namespace PB.MVVMToolkit.DialogServices
 {
     public class MainPageBase : Page
@@ -23,8 +21,7 @@ namespace PB.MVVMToolkit.DialogServices
             if (v == null)
                 return;
 
-            //MainPageViewModel vm = v.DataContext as MainPageViewModel;
-            ViewModelBase vm = v.DataContext as ViewModelBase;
+            BaseViewModel vm = v.DataContext as BaseViewModel;
             if (vm == null)
                 return;
 

@@ -32,7 +32,7 @@ namespace PB.MVVMToolkit.Dialogs
         public string Answer
         {
             get { return _answer; }
-            set { SetProperty(ref _answer, value); }
+            set { _answer = value; OnPropertyChanged(nameof(Answer)); }
 
         }
         /// <summary>

@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace PB.MVVMToolkit.DialogServices
+﻿namespace PB.MVVMToolkit.DialogServices
 {
     public class DialogService : IDialogService
     {

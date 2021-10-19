@@ -6,18 +6,13 @@
              xmlns:local="clr-namespace:PB.MVVMToolkit.Dialogs"
              mc:Ignorable="d"  
              WindowStartupLocation="CenterOwner"
-             Height="140" Width="320"
+             Height="150" Width="340"
              Title="{Binding Caption}"
              >
 
     <Grid Margin="4">
         <StackPanel Orientation="Horizontal" VerticalAlignment="top" Margin="10">
-            <Image Width="40" Height="40" Source="{Binding ImageFile}" />
-            <!--<Image Width="40">
-                <Image.Source>
-                    <BitmapImage DecodePixelWidth="40"  UriSource="{Binding ImageFile}" />
-                </Image.Source>
-            </Image>-->
+            <Image Width="40" Height="40" Margin ="10,0,10,0" Source="{Binding ImageFile}" />
 
 <Label Content="{Binding Message}"/>
         </StackPanel>

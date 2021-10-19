@@ -6,48 +6,47 @@
              xmlns:local="clr-namespace:PB.MVVMToolkit.Dialogs"
              mc:Ignorable="d"  
              WindowStartupLocation="CenterOwner"
-             Height="140" Width="320"
+             Height="180" Width="360"
              Title="{Binding Caption}"
             >
     
-    <StackPanel>
-        <Grid Margin="15">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+    <Grid Margin="4">
+<Grid Margin="4">
+        <StackPanel Orientation="Horizontal" 
+                    VerticalAlignment="top" 
+                    Margin="10"
+                    MinHeight="80">
+            <Image Width="40" Height="40" Margin="10" Source="{Binding ImageFile}" />
 
-            <Label Content="{Binding Message}"
-                    Name="lblQuestion" 
-                   Grid.Column="1"/>
+            <StackPanel Margin="6" Width="230">
+				<Label Content="{Binding Message}"
+                       MinHeight="30"/>
 
-            <TextBox Text="{Binding Answer}"
-                     Name="txtAnswer" 
-                     Grid.Column="1" 
-                     Grid.Row="1" 
-                     MinWidth="250"/>
+                <TextBox Text="{Binding Answer}"
+                         MinHeight="20"
 
-            <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
-                <Button Content="_Ok"
+                         Margin="4"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+        <Grid Margin="0,20,0,0">
+        <Button Content="_Ok"
                         IsDefault="True" 
-                        Name="btnDialogOk" 
-                        MinWidth="60" 
-                        Margin="0,0,10,0"
+                        HorizontalAlignment="Left"
+                        Width="75"
+                        Margin="150, 80, 0, 0"
+                        VerticalAlignment="Top"
                         Command="{Binding OkCommand}"   
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         />
                 <Button Content="_Cancel"
-                        IsCancel="True" 
-                        MinWidth="60"
+                        HorizontalAlignment="Left"
+                        Width="75"
+                        Margin="230, 80, 0, 0"
+                        VerticalAlignment="Top"
                         Command="{Binding CancelCommand}"   
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         />
-            </WrapPanel>
         </Grid>
-    </StackPanel>
+    </Grid>
 </Window>

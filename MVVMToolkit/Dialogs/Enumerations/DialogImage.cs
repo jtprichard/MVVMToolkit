@@ -11,5 +11,6 @@ namespace PB.MVVMToolkit.Dialogs
         Warning,
         Error,
         Question,
+        Ok
     }
 }

@@ -62,6 +62,9 @@
     </Compile>
     <None Include="Dialogs\For Reference Future\DialogYesNo - Event Handler.cs" />
     <Compile Include="Dialogs\DialogInputOkCancel.cs" />
+    <Compile Include="Dialogs\DialogInputOkCancelView - Copy.xaml.cs">
+      <DependentUpon>DialogInputOkCancelView - Copy.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\Enumerations\DialogImage.cs" />
     <Compile Include="Dialogs\DialogInputOkCancelView.xaml.cs">
       <DependentUpon>DialogInputOkCancelView.xaml</DependentUpon>
@@ -85,6 +88,10 @@
     <Page Include="DialogServices\DialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\DialogInputOkCancelView - Copy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\DialogInputOkCancelView.xaml">
       <SubType>Designer</SubType>

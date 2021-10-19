@@ -58,6 +58,8 @@ namespace PB.MVVMToolkit.DialogServices
                     return _imagePath + "dialog_warning_icon.png";
                 case DialogImage.Question:
                     return _imagePath + "dialog_question_icon.png";
+                case DialogImage.Ok:
+                    return _imagePath + "dialog_ok_icon.png";
                 case DialogImage.None:
                     return "";
                 default:

@@ -13,30 +13,32 @@
              >
 
     <Grid Margin="10" MinWidth="320" MaxWidth="400">
-        <Grid Height="auto">
-            <Grid VerticalAlignment="Center" Margin="10">
-                <Grid.ColumnDefinitions>
+        <StackPanel>
+
+        <Grid VerticalAlignment="Center" Margin="10">
+
+            <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Width="40" 
-                       VerticalAlignment="Top"
-                       Height="40" 
-                       Margin ="10,20,10,0" 
-                       Source="{Binding ImageFile}" />
+            <Image Grid.Column="0"  Width="auto" 
+                   VerticalAlignment="Stretch"
+                   Height="40" 
+                   Margin ="10,0,10,0" 
+                   Source="{Binding ImageFile}"
+            />
 
+            <TextBlock Grid.Column="1"
+                        Text="{Binding Message}"
+                        VerticalAlignment="Center"
+                       TextWrapping="WrapWithOverflow" 
+                       MinHeight="0"
+                       MaxWidth="260"
+                       Margin="10,0,15,0"/>
 
-                <TextBlock Grid.Column="1"
-                            Text="{Binding Message}"
-                            VerticalAlignment="Center"
-                           TextWrapping="WrapWithOverflow" 
-                           MinHeight="30"
-                           MaxWidth="260"
-                           Margin="10,10,15,40"/>
-            </Grid>
         </Grid>
 
-        <Grid Margin="0,40,10,0">
+        <Grid>
             <Button Content="Ok" 
                     IsDefault="True"
                     HorizontalAlignment="Right" 
@@ -55,5 +57,6 @@
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
 
         </Grid>
+        </StackPanel>
     </Grid>
 </Window>

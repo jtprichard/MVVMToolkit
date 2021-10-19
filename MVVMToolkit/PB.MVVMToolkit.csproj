@@ -114,5 +114,6 @@
   <ItemGroup>
     <Resource Include="Images\dialog_question_icon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

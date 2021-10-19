@@ -5,45 +5,58 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PB.MVVMToolkit.Dialogs"
              mc:Ignorable="d"  
+             x:ClassModifier="internal"
+             ContentRendered="Window_ContentRendered"
              WindowStartupLocation="CenterOwner"
-             Height="180" Width="360"
+             SizeToContent="WidthAndHeight"
+             ResizeMode="NoResize"
              Title="{Binding Caption}"
             >
-    
-    <Grid Margin="4">
-<Grid Margin="4">
-        <StackPanel Orientation="Horizontal" 
-                    VerticalAlignment="top" 
-                    Margin="10"
-                    MinHeight="80">
-            <Image Width="40" Height="40" Margin="10" Source="{Binding ImageFile}" />
 
-            <StackPanel Margin="6" Width="230">
-				<Label Content="{Binding Message}"
-                       MinHeight="30"/>
+    <Grid Margin="4" MinWidth="230" MaxWidth="400">
+        <Grid Margin="4" Height="auto">
+        <StackPanel Orientation="Horizontal" 
+                    VerticalAlignment="Top" 
+                    Margin="10"
+                    MinHeight="80"
+                    Height="auto">
+            <Image Width="40" 
+                   Height="40" 
+                   Margin="10" 
+                   VerticalAlignment="Top"
+                   Source="{Binding ImageFile}" />
+
+            <StackPanel Margin="6">
+				<TextBlock Text="{Binding Message}"
+                           TextWrapping="WrapWithOverflow" 
+                           MinHeight="30"
+                           MaxWidth="260"
+                           Margin="4,0,4,0"/>
 
                 <TextBox Text="{Binding Answer}"
+                         x:Name="txtAnswer"
                          MinHeight="20"
 
-                         Margin="4"/>
+                         Margin="4,15,4,40"/>
             </StackPanel>
         </StackPanel>
     </Grid>
-        <Grid Margin="0,20,0,0">
+        <Grid Margin="0,0,10,0">
         <Button Content="_Ok"
                         IsDefault="True" 
-                        HorizontalAlignment="Left"
+                        HorizontalAlignment="Right"
                         Width="75"
-                        Margin="150, 80, 0, 0"
-                        VerticalAlignment="Top"
+                        Margin="0, 80, 100, 10"
+                        VerticalAlignment="Bottom"
                         Command="{Binding OkCommand}"   
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         />
                 <Button Content="_Cancel"
-                        HorizontalAlignment="Left"
+                        IsCancel="True"
+                        HorizontalAlignment="Right"
                         Width="75"
-                        Margin="230, 80, 0, 0"
-                        VerticalAlignment="Top"
+                        Margin="0, 80, 15, 10"
+                        VerticalAlignment="Bottom"
                         Command="{Binding CancelCommand}"   
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                         />

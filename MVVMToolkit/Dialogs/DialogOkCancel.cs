@@ -8,15 +8,14 @@ namespace PB.MVVMToolkit.Dialogs
     /// <summary>
     /// A dialog class to ask a question and return a DialogResult of Yes or No
     /// </summary>
-    public class DialogInputOkCancel : DialogViewModelBase
+    public class DialogOkCancel : DialogViewModelBase
     {
-        private string _answer;
-
         #region Properties
+
         /// <summary>
         /// A static reference to the viewmodel
         /// </summary>
-        internal static DialogInputOkCancel Instance { get; set; }
+        internal static DialogOkCancel Instance { get; set; }
         /// <summary>
         /// Dialog message as string
         /// </summary>
@@ -26,15 +25,6 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public string Caption { get; private set; }
 
-        /// <summary>
-        /// Default answer to show in the dialog answer textbox
-        /// </summary>
-        public string Answer
-        {
-            get { return _answer; }
-            set { _answer = value; OnPropertyChanged(nameof(Answer)); }
-
-        }
         /// <summary>
         /// Dialog Result
         /// Dialog will return Yes or No
@@ -73,11 +63,10 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="message">Dialog message as string</param>
         /// <param name="caption">Dialog window caption as string</param>
-        public DialogInputOkCancel(string message, string caption, string defaultAnswer = "", DialogImage image = DialogImage.None)
+        private DialogOkCancel(string message, string caption, DialogImage image = DialogImage.None)
         {
             Message = message;
             Caption = caption;
-            Answer = defaultAnswer;
             Image = image;
 
             this._okCommand = new RelayCommand(OnOkClicked);
@@ -85,56 +74,21 @@ namespace PB.MVVMToolkit.Dialogs
             Instance = this;
         }
 
-        public DialogInputOkCancel(string message, string caption)
-        {
-            Message = message;
-            Caption = caption;
-            Answer = "";
-            Image = DialogImage.None;
-
-            this._okCommand = new RelayCommand(OnOkClicked);
-            this._cancelCommand = new RelayCommand(OnCancelClicked);
-            Instance = this;
-        }
-
-
-
         #endregion
 
         #region Public Methods
-        public static DialogResult Show(string message, string caption, string defaultAnswer, DialogImage image, out string answer)
+        /// <summary>
+        /// A dialog asks a question and return a DialogResult of Yes or No
+        /// </summary>
+        /// <param name="message">Dialog message as string</param>
+        /// <param name="caption">Dialog window caption as string</param>
+        /// <returns></returns>
+        public static DialogResult Show(string message, string caption, DialogImage image = DialogImage.None)
         {
-            var vm = new DialogInputOkCancel(message, caption, defaultAnswer, image);
+            var vm = new DialogOkCancel(message, caption, image);
             vm.Show();
-            answer = vm.Answer;
             return vm.Result;
         }
-
-        public static DialogResult Show(string message, string caption, out string answer)
-        {
-            var vm = new DialogInputOkCancel(message, caption, "", DialogImage.None);
-            vm.Show();
-            answer = vm.Answer;
-            return vm.Result;
-        }
-
-        public static DialogResult Show(string message, string caption, string defaultAnswer, out string answer)
-        {
-            var vm = new DialogInputOkCancel(message, caption, defaultAnswer, DialogImage.None);
-            vm.Show();
-            answer = vm.Answer;
-            return vm.Result;
-        }
-
-        public static DialogResult Show(string message, string caption, DialogImage image, out string answer)
-        {
-            var vm = new DialogInputOkCancel(message, caption, "", image);
-            vm.Show();
-            answer = vm.Answer;
-            return vm.Result;
-        }
-
-
 
         #endregion
 
@@ -142,11 +96,10 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Show dialog
         /// </summary>
-        public DialogResult Show()
+        private void Show()
         {
-            var view = new DialogInputOkCancelView();
+            var view = new DialogOkCancelView();
             view.ShowDialog();
-            return Result;
         }
         /// <summary>
         /// Yes clicked command event

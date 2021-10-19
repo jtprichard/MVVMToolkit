@@ -1,16 +1,23 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace PB.MVVMToolkit.Dialogs
 {
     /// <summary>
     /// Interaction logic for DialogInputOkCancelView.xaml
     /// </summary>
-    public partial class DialogInputOkCancelView : Window
+    internal partial class DialogInputOkCancelView : Window
     {
-        public DialogInputOkCancelView()
+        internal DialogInputOkCancelView()
         {
             InitializeComponent();
             DataContext = DialogInputOkCancel.Instance;
+        }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            txtAnswer.SelectAll();
+            txtAnswer.Focus();
         }
     }
 }

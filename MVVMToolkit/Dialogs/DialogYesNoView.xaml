@@ -12,6 +12,19 @@
              Title="{Binding Caption}"
              >
 
+    <!-- Resource Dictionary Reference-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Style>
+        <StaticResource ResourceKey="Window"/>
+    </Window.Style>
+
     <Grid Margin="10" MinWidth="320" MaxWidth="400">
         <Grid Height="auto">
             <Grid VerticalAlignment="Center" Margin="10">
@@ -37,23 +50,20 @@
         </Grid>
 
         <Grid Margin="0,40,10,0">
-            <Button Content="Yes" 
-                    IsDefault="True"
-                    HorizontalAlignment="Right" 
-                    Margin="0,20,100,10" 
-                    VerticalAlignment="Bottom" 
-                    Width="75"   
-                    Command="{Binding YesCommand}"   
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-            <Button Content="No" 
-                    IsCancel="True"
-                    HorizontalAlignment="Right" 
-                    Margin="0,20,15,10" 
-                    VerticalAlignment="Bottom" 
-                    Width="75"   
-                    Command="{Binding NoCommand}"  
-                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,20,0">
+                <Button Content="Yes" 
+                        IsDefault="True"
+                        Style="{StaticResource MainButton}"
+                        Command="{Binding YesCommand}"   
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                <Button Content="No" 
+                        IsCancel="True"
+                        Style="{StaticResource MainButton}"
+                        Command="{Binding NoCommand}"  
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </StackPanel>
         </Grid>
     </Grid>
 </Window>

@@ -7,7 +7,7 @@ namespace PB.MVVMToolkit.DialogServices
     /// <summary>
     /// Base View Model Class to be extended by dialogs
     /// </summary>
-    public class DialogViewModelBase : BaseViewModel
+    public abstract class DialogViewModelBase : BaseViewModel
     {
         private static readonly string _imagePath = "pack://application:,,,/PB.MVVMToolkit;component/Images/";
 

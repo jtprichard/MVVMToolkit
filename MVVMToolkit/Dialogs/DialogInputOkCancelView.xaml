@@ -58,11 +58,13 @@
                             HorizontalAlignment="Right"
                             Margin="0,0,20,0">
                 <Button Content="Ok"
+                        IsDefault="True"
                         Style="{StaticResource MainButton}"
                         Command="{Binding OkCommand}"   
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                 />
                 <Button Content="Cancel"
+                        IsCancel="True"
                         Style="{StaticResource MainButton}"
                         Command="{Binding CancelCommand}"   
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"

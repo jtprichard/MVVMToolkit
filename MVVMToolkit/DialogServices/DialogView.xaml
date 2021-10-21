@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d" 
         WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight" 
+        ResizeMode="NoResize"
         d:DesignHeight="450" d:DesignWidth="800">
 
     <ContentPresenter x:Name="ContentPresenter" Content="{Binding}">

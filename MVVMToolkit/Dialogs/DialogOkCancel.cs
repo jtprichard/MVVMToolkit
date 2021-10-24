@@ -8,7 +8,7 @@ namespace PB.MVVMToolkit.Dialogs
     /// <summary>
     /// A dialog class to ask a question and return a DialogResult of Yes or No
     /// </summary>
-    public class DialogOkCancel : DialogViewModelBase
+    public class DialogOkCancel : BaseDialogViewModel
     {
         #region Properties
 

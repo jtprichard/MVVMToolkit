@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using PB.MVVMToolkit.Dialogs;
 using PB.MVVMToolkit.ViewModel;
 
@@ -7,9 +8,21 @@ namespace PB.MVVMToolkit.DialogServices
     /// <summary>
     /// Base View Model Class to be extended by dialogs
     /// </summary>
-    public abstract class DialogViewModelBase : BaseViewModel
+    public abstract class BaseDialogViewModel : BaseViewModel, IDialogRequestClose
     {
+        #region Event Handler
+
+        public event EventHandler<DialogCloseRequestedEventArgs> CloseRequested;
+
+        #endregion
+
+        #region Private Fields
+
         private static readonly string _imagePath = "pack://application:,,,/PB.MVVMToolkit;component/Images/";
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Dialog image
@@ -21,15 +34,14 @@ namespace PB.MVVMToolkit.DialogServices
         /// </summary>
         public string ImageFile => SelectImage(Image);
 
-        //public IDialogService DialogService
-        //{
-        //    get => DialogServices.DialogService.Instance;
-        //}
-
         /// <summary>
         /// Window object
         /// </summary>
         public Window Owner { get; set; }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Closes dialog window
@@ -67,6 +79,7 @@ namespace PB.MVVMToolkit.DialogServices
             }
         }
 
+        #endregion
 
     }
 }

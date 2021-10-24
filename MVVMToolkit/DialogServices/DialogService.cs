@@ -1,23 +1,64 @@
-﻿namespace PB.MVVMToolkit.DialogServices
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Controls;
+
+namespace PB.MVVMToolkit.DialogServices
 {
+    /// <summary>
+    /// Dialog Service Class
+    /// </summary>
     public class DialogService : IDialogService
     {
-        private static IDialogService _instance;
+        //private readonly Owner;
+        private readonly Page _owner;
+        public IDictionary<Type, Type> Mappings { get; }
 
-        public static IDialogService Instance
+        public DialogService(Page owner)
         {
-            get { return _instance ?? new DialogService(); }
-            set { _instance = value; }
+            this._owner = owner;
+            Mappings = new Dictionary<Type, Type>();
+        }
+        public void Register<TViewModel, TView>()
+            where TViewModel : IDialogRequestClose
+            where TView : IDialog
+        {
+            if (Mappings.ContainsKey(typeof(TViewModel)))
+            {
+                throw new ArgumentException($"Type {typeof(TViewModel)} is already mapped to type {typeof(TView)} ");
+            }
+
+            Mappings.Add(typeof(TViewModel), typeof(TView));
         }
 
-        public void ShowDialogModal(DialogViewModelBase vm)
+        public void ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : IDialogRequestClose
         {
-            DialogView v = new DialogView();
-            v.Owner = vm.Owner;
-            v.DataContext = vm;
-            v.ShowDialog();
-            v.Owner = null;
-        }
+            Type viewType = Mappings[typeof(TViewModel)];
 
+            IDialog dialog = (IDialog)Activator.CreateInstance(viewType);
+
+            EventHandler<DialogCloseRequestedEventArgs> handler = null;
+
+            handler = (sender, e) =>
+            {
+                viewModel.CloseRequested -= handler;
+
+                if (e.DialogResult.HasValue)
+                {
+                    dialog.DialogResult = e.DialogResult;
+                }
+                else
+                {
+                    dialog.Close();
+                }
+            };
+
+            viewModel.CloseRequested += handler;
+
+            dialog.DataContext = viewModel;
+            dialog.Owner = _owner;
+
+            dialog.ShowDialog();
+            return;
+        }
     }
 }

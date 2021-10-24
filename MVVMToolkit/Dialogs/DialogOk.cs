@@ -8,7 +8,7 @@ namespace PB.MVVMToolkit.Dialogs
     /// <summary>
     /// A dialog class to provide information
     /// </summary>
-    public class DialogOk : DialogViewModelBase
+    public class DialogOk : BaseDialogViewModel
     {
         #region Properties
 

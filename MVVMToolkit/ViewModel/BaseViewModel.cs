@@ -1,9 +1,17 @@
 ﻿using System.ComponentModel;
+using PB.MVVMToolkit.DialogServices;
+
 
 namespace PB.MVVMToolkit.ViewModel
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        #region Dialog Service
+
+        protected DialogService DialogService => DialogService.Instance?? null;
+
+        #endregion
+
         #region PropertyChanged
         /// <summary>
         /// Occurs when a property value changes

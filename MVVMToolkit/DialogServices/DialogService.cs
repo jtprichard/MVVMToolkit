@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using PB.MVVMToolkit.Dialogs;
 
 namespace PB.MVVMToolkit.DialogServices
 {
@@ -12,11 +13,13 @@ namespace PB.MVVMToolkit.DialogServices
         //private readonly Owner;
         private readonly Page _owner;
         public IDictionary<Type, Type> Mappings { get; }
+        public static DialogService Instance { get; private set; }
 
         public DialogService(Page owner)
         {
             this._owner = owner;
             Mappings = new Dictionary<Type, Type>();
+            Instance = this;
         }
         public void Register<TViewModel, TView>()
             where TViewModel : IDialogRequestClose
@@ -32,32 +35,39 @@ namespace PB.MVVMToolkit.DialogServices
 
         public void ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : IDialogRequestClose
         {
-            Type viewType = Mappings[typeof(TViewModel)];
-
-            IDialog dialog = (IDialog)Activator.CreateInstance(viewType);
-
-            EventHandler<DialogCloseRequestedEventArgs> handler = null;
-
-            handler = (sender, e) =>
+            try
             {
-                viewModel.CloseRequested -= handler;
+                Type viewType = Mappings[typeof(TViewModel)];
 
-                if (e.DialogResult.HasValue)
+                IDialog dialog = (IDialog) Activator.CreateInstance(viewType);
+
+                void handler(object sender, DialogCloseRequestedEventArgs e)
                 {
-                    dialog.DialogResult = e.DialogResult;
+                    viewModel.CloseRequested -= handler;
+
+                    if (e.DialogResult.HasValue)
+                    {
+                        dialog.DialogResult = e.DialogResult;
+                    }
+                    else
+                    {
+                        dialog.Close();
+                    }
                 }
-                else
-                {
-                    dialog.Close();
-                }
-            };
 
-            viewModel.CloseRequested += handler;
+                viewModel.CloseRequested += handler;
 
-            dialog.DataContext = viewModel;
-            dialog.Owner = _owner;
+                dialog.DataContext = viewModel;
+                dialog.Owner = _owner;
 
-            dialog.ShowDialog();
+                dialog.ShowDialog();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                string message = "Dialog Error.  Report error to application provider.\n\nError: \n" + ex.ToString();
+                DialogOk.Show(message, "Dialog Error", DialogImage.Error);
+            }
+
             return;
         }
     }

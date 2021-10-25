@@ -18,7 +18,7 @@ namespace PB.MVVMToolkit.DialogServices
 
         #region Private Fields
 
-        private static readonly string _imagePath = "pack://application:,,,/PB.MVVMToolkit;component/Images/";
+        private static readonly string _imagePath = "pack://application:,,,/PB.MVVMToolkit;component/Resources/Images/";
 
         #endregion
 

@@ -82,6 +82,22 @@
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <None Include="packages.config" />
+    <Resource Include="Resources\Fonts\Charm\Charm-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Charm\Charm-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-BoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-ExtraLight.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-ExtraLightItalic.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-Italic.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-Light.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-LightItalic.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-Medium.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-MediumItalic.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-SemiBold.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-SemiBoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-Thin.ttf" />
+    <Resource Include="Resources\Fonts\Livvic\Livvic-ThinItalic.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -133,15 +149,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\dialog_error_icon.png" />
+    <Resource Include="Resources\Images\dialog_error_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\dialog_information_icon.png" />
-    <Resource Include="Images\dialog_ok_icon.png" />
-    <Resource Include="Images\dialog_warning_icon.png" />
+    <Resource Include="Resources\Images\dialog_information_icon.png" />
+    <Resource Include="Resources\Images\dialog_ok_icon.png" />
+    <Resource Include="Resources\Images\dialog_warning_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\dialog_question_icon.png" />
+    <Resource Include="Resources\Images\dialog_question_icon.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

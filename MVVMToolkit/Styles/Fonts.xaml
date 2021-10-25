@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PB.MVVMToolkit.Styles"
              xmlns:System="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
@@ -18,11 +17,13 @@
     
 
     <!-- Provide Font Family Here -->
-    <!-- Note - Example fonts not included in resources, provided only for example -->
     
-    <!--<FontFamily x:Key="OpenSansLite">pack://application:,,,/FamilyManager.res;Component/Fonts/OpenSans/#Open Sans Light</FontFamily>
-    <FontFamily x:Key="OpenSansLiteItalic">pack://application:,,,/FamilyManager.res;Component/Fonts/OpenSans/#Open Sans Light Italic</FontFamily>
-    <FontFamily x:Key="OpenSansRegular">pack://application:,,,/FamilyManager.res;Component/Fonts/OpenSans/#Open Sans Regular</FontFamily>-->
+    <FontFamily x:Key="PBRegular">pack://application:,,,/PB.MVVMToolkit;Component/Resources/Fonts/Livvic/#Livvic Regular</FontFamily>
+    <FontFamily x:Key="PBMedium">pack://application:,,,/PB.MVVMToolkit;Component/Resources/Fonts/Livvic/#Livvic Medium</FontFamily>
+    <FontFamily x:Key="PBSemiBold">pack://application:,,,/PB.MVVMToolkit;Component/Resources/Fonts/Livvic/#Livvic SemiBold</FontFamily>
+    <FontFamily x:Key="PBBold">pack://application:,,,/PB.MVVMToolkit;Component/Resources/Fonts/Livvic/#Livvic Bold</FontFamily>
+
+    <FontFamily x:Key="CharmRegular">pack://application:,,,/PB.MVVMToolkit;component/Resources/Fonts/Charm/#Charm Bold</FontFamily>
 
 
     <!-- Text block styles. -->

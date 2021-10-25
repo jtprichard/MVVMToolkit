@@ -7,6 +7,9 @@
         <!-- Styles. -->
         <ResourceDictionary Source="Colors.xaml"/>
         <ResourceDictionary Source="Fonts.xaml"/>
+        <ResourceDictionary Source="ButtonBaseStyle.xaml"/>
+        <ResourceDictionary Source="ButtonAnimation.xaml"/>
+        <ResourceDictionary Source="ButtonDialog.xaml"/>
         <ResourceDictionary Source="Buttons.xaml"/>
         <ResourceDictionary Source="Window.xaml"/>
         <ResourceDictionary Source="ButtonExpander.xaml"/>

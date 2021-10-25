@@ -10,6 +10,7 @@
         <ResourceDictionary Source="Buttons.xaml"/>
         <ResourceDictionary Source="Window.xaml"/>
         <ResourceDictionary Source="ButtonExpander.xaml"/>
+        <ResourceDictionary Source="Tooltips.xaml"/>
 
 
         <!-- Converters. -->

@@ -24,12 +24,18 @@
     <FontFamily x:Key="OpenSansLiteItalic">pack://application:,,,/FamilyManager.res;Component/Fonts/OpenSans/#Open Sans Light Italic</FontFamily>
     <FontFamily x:Key="OpenSansRegular">pack://application:,,,/FamilyManager.res;Component/Fonts/OpenSans/#Open Sans Regular</FontFamily>-->
 
-    
+
     <!-- Text block styles. -->
     <Style TargetType="{x:Type TextBlock}" x:Key="BaseTextBlockStyle">
         <!--<Setter Property="FontFamily" Value="{StaticResource OpenSansLite}" />-->
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
         <Setter Property="FontWeight" Value="Normal"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" x:Key="BaseBoldTextBlockStyle">
+        <!--<Setter Property="FontFamily" Value="{StaticResource OpenSansLite}" />-->
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
+        <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="MediumBoldTextBlockStyle">

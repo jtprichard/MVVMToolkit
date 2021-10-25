@@ -9,7 +9,7 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-    <!-- Template style for button. -->
+    <!-- Template style for Dialog button. -->
     <Style x:Key="MainButton" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource DarkGrayFontBrush}" />
@@ -69,15 +69,97 @@
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
-
         </Setter>
-
     </Style>
+
+
+    <!-- Template style for Property Button. -->
+    <Style x:Key="PropertyButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource DarkGrayFontBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1" />
+        <!--<Setter Property="FontFamily" Value="{StaticResource OpenSansLite}" />-->
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Margin" Value="10, 10, 0, 10" />
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+
+
+        <!-- Overide default button content. -->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+
+                    <!-- Button content. -->
+                    <Border x:Name="border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True"
+                            CornerRadius="0"
+                            Width="150">
+
+                        <Grid>
+
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       Focusable="False"
+                                       FontFamily="{TemplateBinding FontFamily}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       Margin="{TemplateBinding Margin}"
+                                       Padding="{TemplateBinding Padding}"
+                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+
+                            <TextBlock Style="{StaticResource BaseTextBlockStyle}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+
+                        </Grid>
+
+                        <!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </ContentPresenter>-->
+                    </Border>
+
+
+                    <!-- Event triggers for styled animation. -->
+                    <ControlTemplate.Triggers>
+
+                        <!-- Change background when mouse hovers over the button. -->
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="{StaticResource ButtonLightBackground}"
+                                                    Duration="0:0:0.3"
+                                                    Storyboard.TargetName="border"
+                                                    Storyboard.TargetProperty="Background.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+
+                        <!-- Change background when mouse leaves the button. -->
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation To="{StaticResource ButtonBackground}"
+                                                    Duration="0:0:0.3"
+                                                    Storyboard.TargetName="border"
+                                                    Storyboard.TargetProperty="Background.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
 
 
     <!-- Template style for rounded button. -->

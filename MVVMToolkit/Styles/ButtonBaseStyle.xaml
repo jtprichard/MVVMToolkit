@@ -21,6 +21,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Border.CornerRadius" Value="0"></Setter>
 
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -29,14 +30,14 @@
                           Margin="0"
                           ClipToBounds="False">
 
-                        <!-- Default template uses border and textblock -->
+                         <!--Default template uses border and textblock--> 
                         <Border x:Name="Border"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="True"
                                 Padding="{TemplateBinding Padding}"
-                                Margin="{TemplateBinding Margin}"                   
+                                Margin="0"                   
                                 Width="{TemplateBinding Width}"
                                 CornerRadius="{TemplateBinding Border.CornerRadius}">
                         </Border>
@@ -78,6 +79,7 @@
                                 <BeginStoryboard Storyboard="{StaticResource ButtonLostFocusDefault}"/>
                             </EventTrigger>
                     </ControlTemplate.Triggers>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

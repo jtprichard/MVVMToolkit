@@ -55,12 +55,12 @@
                         Margin="0,0,20,0">
                 <Button Content="Yes" 
                         IsDefault="True"
-                        Style="{StaticResource MainButton}"
+                        Style="{StaticResource ButtonDialog}"
                         Command="{Binding YesCommand}"   
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
                 <Button Content="No" 
                         IsCancel="True"
-                        Style="{StaticResource MainButton}"
+                        Style="{StaticResource ButtonDialog}"
                         Command="{Binding NoCommand}"  
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
                 </StackPanel>

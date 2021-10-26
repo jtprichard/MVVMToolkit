@@ -104,4 +104,21 @@
     </Storyboard>
 
 
+
+    <!-- DIALOG BUTTON ANIMATIONS -->
+
+    <!-- Default Animation for Mouse Enter -->
+    <Storyboard x:Key="MouseEnterDialog">
+        <ColorAnimation To="Red"
+                        Duration="0:0:0.2"
+                        Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="{StaticResource ButtonAltAnimationBorder}"
+                        Duration="0:0:0.2"
+                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" />
+        <ThicknessAnimation To="{StaticResource ButtonAnimationThickness}"
+                            Duration="0:0:0.2"
+                            Storyboard.TargetProperty="BorderThickness"></ThicknessAnimation>
+    </Storyboard>
+
+
 </ResourceDictionary>

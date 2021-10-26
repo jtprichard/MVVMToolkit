@@ -53,33 +53,6 @@
 
                     </Grid>
 
-                    <!-- Default triggers for styled animation located in ButtonAnimation.xaml. -->
-                        <ControlTemplate.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard Storyboard="{StaticResource MouseEnterDefault}"/>
-                            </EventTrigger>
-                            
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard Storyboard="{StaticResource MouseLeaveDefault}"/>
-                            </EventTrigger>
-
-                            <EventTrigger RoutedEvent="PreviewMouseDown">
-                                <BeginStoryboard Storyboard="{StaticResource PreviewMouseDownDefault}"/>
-                            </EventTrigger>
-
-                            <EventTrigger RoutedEvent="PreviewMouseUp">
-                                <BeginStoryboard Storyboard="{StaticResource PreviewMouseUpDefault}"/>
-                            </EventTrigger>
-
-                            <EventTrigger RoutedEvent="GotFocus">
-                                <BeginStoryboard Storyboard="{StaticResource ButtonGotFocusDefault}"/>
-                            </EventTrigger>
-
-                            <EventTrigger RoutedEvent="LostFocus">
-                                <BeginStoryboard Storyboard="{StaticResource ButtonLostFocusDefault}"/>
-                            </EventTrigger>
-                    </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

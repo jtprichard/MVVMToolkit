@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ButtonBaseStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Button Properties -->
+    <Style x:Key="ButtonDefault" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}">
+
+
+        <!-- Animation Event Triggers -->
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard Storyboard="{StaticResource MouseEnterDefault}"/>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard Storyboard="{StaticResource MouseLeaveDefault}"/>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="PreviewMouseDown">
+                <BeginStoryboard Storyboard="{StaticResource PreviewMouseDownDefault}"/>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="PreviewMouseUp">
+                <BeginStoryboard Storyboard="{StaticResource PreviewMouseUpDefault}"/>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="GotFocus">
+                <BeginStoryboard Storyboard="{StaticResource ButtonGotFocusDefault}"/>
+            </EventTrigger>
+
+            <EventTrigger RoutedEvent="LostFocus">
+                <BeginStoryboard Storyboard="{StaticResource ButtonLostFocusDefault}"/>
+            </EventTrigger>
+        </Style.Triggers>
+
+
+    </Style>
+
+
+
+</ResourceDictionary>

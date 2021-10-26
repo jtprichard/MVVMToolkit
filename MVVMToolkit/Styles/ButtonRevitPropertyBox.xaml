@@ -2,10 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ButtonBaseStyle.xaml"/>
+        <ResourceDictionary Source="ButtonDefault.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="ButtonRevitPropertyBox" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonBaseStyle}">
+    <Style x:Key="ButtonRevitPropertyBox" TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonDefault}">
         <Setter Property="Width" Value="auto"/>
         <Setter Property="Height" Value="auto"/>
 

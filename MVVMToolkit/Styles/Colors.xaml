@@ -71,8 +71,11 @@
     <Color x:Key="BlueBorder">#FF0732A2</Color>
     <SolidColorBrush x:Key="BlueBorderBrush" Color="{StaticResource BlueBorder}"/>
 
-    <Color x:Key="ButtonBorder">#FF0732A2</Color>
+    <Color x:Key="ButtonBorder">#aaa</Color>
     <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource ButtonBorder}"/>
+
+    <Color x:Key="ButtonDialogBorder">#FF0732A2</Color>
+    <SolidColorBrush x:Key="ButtonDialogBorderBrush" Color="{StaticResource ButtonDialogBorder}"/>
 
     <Color x:Key="ButtonAnimationBorder">#0078d7</Color>
     <SolidColorBrush x:Key="ButtonAnimationBorderBrush" Color="{StaticResource ButtonAnimationBorder}"/>

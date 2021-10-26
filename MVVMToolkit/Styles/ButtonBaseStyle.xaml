@@ -8,51 +8,76 @@
         <ResourceDictionary Source="ButtonAnimation.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-
+    <!-- Default Button Styles-->
     <Style x:Key="ButtonBaseStyle" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="Red"/>
-        <Setter Property="Foreground" Value="DarkGreen"></Setter>
-        <Setter Property="BorderBrush" Value="Blue"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Background" Value="{StaticResource ButtonBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource DarkGrayFontBrush}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="{StaticResource NormalThickness}"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource PBMedium}"></Setter>
         <Setter Property="FontSize" Value="12"></Setter>
-        <Setter Property="Padding" Value="1"></Setter>
-        <Setter Property="Margin" Value="10"/>
-        <Setter Property="Height" Value="50"></Setter>
-        <Setter Property="Width" Value="120"></Setter>
-        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="Padding" Value="0"></Setter>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Border.CornerRadius" Value="0"></Setter>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid Width="{TemplateBinding Width}" 
                           Height="{TemplateBinding Height}"
-                          ClipToBounds="True">
+                          Margin="0"
+                          ClipToBounds="False">
 
+                        <!-- Default template uses border and textblock -->
                         <Border x:Name="Border"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="True"
-                                Width="{TemplateBinding Width}">
+                                Padding="{TemplateBinding Padding}"
+                                Margin="{TemplateBinding Margin}"                   
+                                Width="{TemplateBinding Width}"
+                                CornerRadius="{TemplateBinding Border.CornerRadius}">
+                        </Border>
 
-                            <Grid>
-
+                        <Grid>
                                 <TextBlock Text="{TemplateBinding Content}"
+                                           Style="{StaticResource BaseButtonTextBlockStyle}"
                                            Focusable="False"
-                                           FontFamily="{TemplateBinding FontFamily}"
-                                           HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                           TextAlignment="Center"
-                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                           Margin="{TemplateBinding Margin}"
-                                           Padding="{TemplateBinding Padding}"
                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                            Width="{TemplateBinding Width}"
                                 />
+                        </Grid>
 
-                            </Grid>
-                        </Border>
                     </Grid>
+
+                    <!-- Default triggers for styled animation located in ButtonAnimation.xaml. -->
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard Storyboard="{StaticResource MouseEnterDefault}"/>
+                            </EventTrigger>
+                            
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard Storyboard="{StaticResource MouseLeaveDefault}"/>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="PreviewMouseDown">
+                                <BeginStoryboard Storyboard="{StaticResource PreviewMouseDownDefault}"/>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="PreviewMouseUp">
+                                <BeginStoryboard Storyboard="{StaticResource PreviewMouseUpDefault}"/>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="GotFocus">
+                                <BeginStoryboard Storyboard="{StaticResource ButtonGotFocusDefault}"/>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="LostFocus">
+                                <BeginStoryboard Storyboard="{StaticResource ButtonLostFocusDefault}"/>
+                            </EventTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

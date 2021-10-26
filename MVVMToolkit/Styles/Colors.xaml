@@ -5,17 +5,32 @@
              xmlns:local="clr-namespace:PB.MVVMToolkit.Styles"
              >
 
+    <!--PB Standards-->
+    <Color x:Key="PBBlue">#003a70</Color>
+    <SolidColorBrush x:Key="PBBlueBrush" Color="{StaticResource PBBlue}"/>
+
+    <Color x:Key="PBDarkBlue">#1d2b36</Color>
+    <SolidColorBrush x:Key="PBDarkBlueBrush" Color="{StaticResource PBDarkBlue}"/>
+
+    <Color x:Key="PBLightBlue">#5f8fb4</Color>
+    <SolidColorBrush x:Key="PBLightBlueBrush" Color="{StaticResource PBLightBlue}"/>
+
+    <Color x:Key="PBLight">#d9e1ea</Color>
+    <SolidColorBrush x:Key="PBLightBrush" Color="{StaticResource PBLight}"/>
+
+    <Color x:Key="PBLight2">#e7eef4</Color>
+    <SolidColorBrush x:Key="PBLightBrush2" Color="{StaticResource PBLight2}"/>
+
+    <Color x:Key="PBGray">#c8c9c7</Color>
+    <SolidColorBrush x:Key="PBGrayBrush" Color="{StaticResource PBGray}"/>
+
+    <Color x:Key="PBWhite">#ffffff</Color>
+    <SolidColorBrush x:Key="PBWhiteBrush" Color="{StaticResource PBWhite}"/>
+
+    <!--Window / Page Backgrounds-->
+    
     <Color x:Key="MainBackground">White</Color>
     <SolidColorBrush x:Key="MainBackgroundBrush" Color="{StaticResource MainBackground}"/>
-
-    <Color x:Key="ButtonBackground">#ddd</Color>
-    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{StaticResource ButtonBackground}"/>
-
-    <Color x:Key="ButtonDarkBackground">#aaa</Color>
-    <SolidColorBrush x:Key="ButtonDarkBackgroundBrush" Color="{StaticResource ButtonDarkBackground}"/>
-
-    <Color x:Key="ButtonLightBackground">AliceBlue</Color>
-    <SolidColorBrush x:Key="ButtonLightBackgroundBrush" Color="{StaticResource ButtonLightBackground}"/>
 
     <Color x:Key="BlueBackground">#FF82B6B6</Color>
     <SolidColorBrush x:Key="BlueBackgroundBrush" Color="{StaticResource BlueBackground}"/>
@@ -29,11 +44,41 @@
     <Color x:Key="PeachBackground">#FFC1A289</Color>
     <SolidColorBrush x:Key="PeachBackgroundBrush" Color="{StaticResource PeachBackground}"/>
 
+
+    <!--Button Backgrounds-->
+
+    <Color x:Key="ButtonBackground">#ddd</Color>
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{StaticResource ButtonBackground}"/>
+
+    <Color x:Key="ButtonDarkBackground">#aaa</Color>
+    <SolidColorBrush x:Key="ButtonDarkBackgroundBrush" Color="{StaticResource ButtonDarkBackground}"/>
+
+    <Color x:Key="ButtonLightBackground">AliceBlue</Color>
+    <SolidColorBrush x:Key="ButtonLightBackgroundBrush" Color="{StaticResource ButtonLightBackground}"/>
+
+    <Color x:Key="ButtonAnimationBackground">#e5f1fb</Color>
+    <SolidColorBrush x:Key="ButtonAnimationBackgroundBrush" Color="{StaticResource ButtonAnimationBackground}"/>
+
+    <Color x:Key="ButtonClickBackground">#cce4f7</Color>
+    <SolidColorBrush x:Key="ButtonClickBackgroundBrush" Color="{StaticResource ButtonClickBackground}"/>
+
+
+    <!--Borders-->
+
     <Color x:Key="MainBorders">#ddd</Color>
     <SolidColorBrush x:Key="MainBorderBrush" Color="{StaticResource MainBorders}"/>
 
     <Color x:Key="BlueBorder">#FF0732A2</Color>
     <SolidColorBrush x:Key="BlueBorderBrush" Color="{StaticResource BlueBorder}"/>
+
+    <Color x:Key="ButtonBorder">#666666</Color>
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource ButtonBorder}"/>
+
+    <Color x:Key="ButtonAnimationBorder">#0078d7</Color>
+    <SolidColorBrush x:Key="ButtonAnimationBorderBrush" Color="{StaticResource ButtonAnimationBorder}"/>
+
+
+    <!--Fonts-->
 
     <Color x:Key="BlueFont">#b7cccf</Color>
     <SolidColorBrush x:Key="BlueFontBrush" Color="{StaticResource BlueFont}"/>
@@ -44,6 +89,12 @@
     <Color x:Key="DarkGrayFont">#FF272B2F</Color>
     <SolidColorBrush x:Key="DarkGrayFontBrush" Color="{StaticResource DarkGrayFont}"/>
     
+
+    <Thickness x:Key="HeavyThickness" Right="3" Top="3" Left="3" Bottom="3"/>
+    <Thickness x:Key="MediumThickness" Right="2" Top="2" Left="2" Bottom="2"/>
+    <Thickness x:Key="NormalThickness" Right="1" Top="1" Left="1" Bottom="1"/>
+    <Thickness x:Key="ButtonAnimationThickness" Right="1" Top="1" Left="1" Bottom="1"/>
+    <Thickness x:Key="ButtonFocusThickness" Right="2" Top="2" Left="2" Bottom="2"/>
 
 
 </ResourceDictionary>

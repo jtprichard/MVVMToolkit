@@ -7,15 +7,101 @@
         <ResourceDictionary Source="Fonts.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Storyboard x:Key="AnimationStoryBoard">
-        <ColorAnimation To="BlueViolet"
-                        Duration="0:0:0.3"
-                        Storyboard.TargetName="border"
+    <!-- Default Animation for Mouse Enter -->
+    <Storyboard x:Key="MouseEnterDefault">
+        <ColorAnimation To="{StaticResource ButtonAnimationBackground}"
+                        Duration="0:0:0.2"
+                        Storyboard.TargetName="Border"
                         Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="{StaticResource ButtonAnimationBorder}"
+                        Duration="0:0:0.2"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" />
+        <ThicknessAnimation To="{StaticResource ButtonAnimationThickness}"
+                            Duration="0:0:0.2"
+                            Storyboard.TargetName="Border"
+                            Storyboard.TargetProperty="BorderThickness"></ThicknessAnimation>
     </Storyboard>
 
-   
+    <!-- Default Animation for Mouse Leave -->
+    <Storyboard x:Key="MouseLeaveDefault">
+        <ColorAnimation To="{StaticResource ButtonBackground}"
+                        Duration="0:0:0.3"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="{StaticResource ButtonBorder}"
+                        Duration="0:0:0.2"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" />
+        <ThicknessAnimation To="{StaticResource NormalThickness}"
+                            Duration="0:0:0.3"
+                            Storyboard.TargetName="Border"
+                            Storyboard.TargetProperty="BorderThickness"></ThicknessAnimation>
+    </Storyboard>
 
+    <!-- Default Animation for Mouse Down Preview -->
+    <Storyboard x:Key="PreviewMouseDownDefault">
+        <ColorAnimation To="{StaticResource ButtonClickBackground}"
+                        Duration="0:0:0.1"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="{StaticResource ButtonAnimationBorder}"
+                        Duration="0:0:0.1"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" />
+        <ThicknessAnimation To="{StaticResource ButtonAnimationThickness}"
+                            Duration="0:0:0.1"
+                            Storyboard.TargetName="Border"
+                            Storyboard.TargetProperty="BorderThickness"></ThicknessAnimation>
+    </Storyboard>
+
+    <!-- Default Animation for Mouse Up Preview -->
+    <Storyboard x:Key="PreviewMouseUpDefault">
+        <ColorAnimation To="{StaticResource ButtonAnimationBackground}"
+                        Duration="0:0:0.3"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="{StaticResource ButtonAnimationBorder}"
+                        Duration="0:0:0.2"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" />
+        <ThicknessAnimation To="{StaticResource ButtonAnimationThickness}"
+                            Duration="0:0:0.3"
+                            Storyboard.TargetName="Border"
+                            Storyboard.TargetProperty="BorderThickness"></ThicknessAnimation>
+    </Storyboard>
+
+    <!-- Default Animation for Got Focus -->
+    <Storyboard x:Key="ButtonGotFocusDefault">
+        <ColorAnimation To="{StaticResource ButtonBackground}"
+                        Duration="0:0:0.1"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="{StaticResource ButtonAnimationBorder}"
+                        Duration="0:0:0.1"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" />
+        <ThicknessAnimation To="{StaticResource ButtonFocusThickness}"
+                            Duration="0:0:0.1"
+                            Storyboard.TargetName="Border"
+                            Storyboard.TargetProperty="BorderThickness"></ThicknessAnimation>
+    </Storyboard>
+
+    <!-- Default Animation for Lost Focus -->
+    <Storyboard x:Key="ButtonLostFocusDefault">
+        <ColorAnimation To="{StaticResource ButtonBackground}"
+                        Duration="0:0:0.1"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="{StaticResource ButtonBorder}"
+                        Duration="0:0:0.1"
+                        Storyboard.TargetName="Border"
+                        Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)" />
+        <ThicknessAnimation To="{StaticResource NormalThickness}"
+                            Duration="0:0:0.1"
+                            Storyboard.TargetName="Border"
+                            Storyboard.TargetProperty="BorderThickness"></ThicknessAnimation>
+    </Storyboard>
 
 
 </ResourceDictionary>

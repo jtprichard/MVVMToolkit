@@ -21,7 +21,7 @@
     </Window.Resources>
 
     <Window.Style>
-        <StaticResource ResourceKey="Window"/>
+        <StaticResource ResourceKey="DialogWindow"/>
     </Window.Style>
 
     <Grid Margin="10" MinWidth="320" MaxWidth="400">
@@ -57,7 +57,7 @@
                     <Button Content="Ok" 
                         IsDefault="True"
                         IsCancel="True"
-                        Style="{StaticResource ButtonDialog}"
+                        Style="{StaticResource DialogButton}"
                         Command="{Binding OkCommand}"   
                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
                 </StackPanel>

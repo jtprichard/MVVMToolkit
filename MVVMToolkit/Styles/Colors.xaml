@@ -12,8 +12,14 @@
     <Color x:Key="PBDarkBlue">#1d2b36</Color>
     <SolidColorBrush x:Key="PBDarkBlueBrush" Color="{StaticResource PBDarkBlue}"/>
 
-    <Color x:Key="PBLightBlue">#5f8fb4</Color>
+    <Color x:Key="PBMediumBlue">#5f8fb4</Color>
+    <SolidColorBrush x:Key="PBMediumBlueBrush" Color="{StaticResource PBMediumBlue}"/>
+
+    <Color x:Key="PBLightBlue">#cce4f7</Color>
     <SolidColorBrush x:Key="PBLightBlueBrush" Color="{StaticResource PBLightBlue}"/>
+
+    <Color x:Key="PBLightBlueGray">#c3cfd4</Color>
+    <SolidColorBrush x:Key="PBLightBlueGrayBrush" Color="{StaticResource PBLightBlueGray}"/>
 
     <Color x:Key="PBLight">#d9e1ea</Color>
     <SolidColorBrush x:Key="PBLightBrush" Color="{StaticResource PBLight}"/>
@@ -31,6 +37,12 @@
     
     <Color x:Key="MainBackground">White</Color>
     <SolidColorBrush x:Key="MainBackgroundBrush" Color="{StaticResource MainBackground}"/>
+
+    <Color x:Key="PBWhiteBackground">White</Color>
+    <SolidColorBrush x:Key="PBWhiteBackgroundBrush" Color="{StaticResource PBWhiteBackground}"/>
+
+    <Color x:Key="PBLightBackground">#edf1f2</Color>
+    <SolidColorBrush x:Key="PBLightBackgroundBrush" Color="{StaticResource PBLightBackground}"/>
 
     <Color x:Key="BlueBackground">#FF82B6B6</Color>
     <SolidColorBrush x:Key="BlueBackgroundBrush" Color="{StaticResource BlueBackground}"/>

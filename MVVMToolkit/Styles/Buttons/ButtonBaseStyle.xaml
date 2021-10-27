@@ -3,8 +3,8 @@
                     >
     
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Colors.xaml" />
-        <ResourceDictionary Source="Fonts.xaml" />
+        <ResourceDictionary Source="../Colors.xaml" />
+        <ResourceDictionary Source="../Fonts.xaml" />
         <ResourceDictionary Source="ButtonAnimation.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 

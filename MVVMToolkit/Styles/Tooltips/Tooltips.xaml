@@ -4,7 +4,7 @@
                     >
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Colors.xaml" />
+        <ResourceDictionary Source="../Colors.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="ToolTip">
@@ -13,7 +13,8 @@
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock Text="{Binding}"
-                                   Width="200"
+                                   Width="auto"
+                                   MaxWidth="200"
                                    TextWrapping="Wrap"/>
                     </StackPanel>
                 </DataTemplate>

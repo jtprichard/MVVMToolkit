@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PB.MVVMToolkit.Styles"
+                    >
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Colors.xaml" />
+        <ResourceDictionary Source="../Fonts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!-- Template style for window. -->
+    <Style x:Key="DefaultWindow" TargetType="{x:Type Window}">
+        <Setter Property="Background" Value="{StaticResource PBLightBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource DarkGrayFontBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontFamily" Value="{StaticResource PBRegularFont}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <!-- Template style for page. -->
+    <Style x:Key="DefaultPage" TargetType="{x:Type Page}">
+        <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource DarkGrayFontBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource PBRegularFont}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <!-- Template style for window. -->
+    <Style x:Key="DialogWindow" TargetType="{x:Type Window}">
+        <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource DarkGrayFontBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontFamily" Value="{StaticResource PBRegularFont}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+
+
+
+</ResourceDictionary>

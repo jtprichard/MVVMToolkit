@@ -7,14 +7,14 @@
         <!-- Styles. -->
         <ResourceDictionary Source="Colors.xaml"/>
         <ResourceDictionary Source="Fonts.xaml"/>
-        <ResourceDictionary Source="ButtonAnimation.xaml"/>
-        <ResourceDictionary Source="Buttons.xaml"/>
-        <ResourceDictionary Source="ButtonDialog.xaml"/>
-        <ResourceDictionary Source="ButtonDefault.xaml"/>
-        <ResourceDictionary Source="ButtonRevitPropertyBox.xaml"/>
-        <ResourceDictionary Source="Window.xaml"/>
-        <ResourceDictionary Source="ButtonExpander.xaml"/>
-        <ResourceDictionary Source="Tooltips.xaml"/>
+        <ResourceDictionary Source="Buttons/ButtonAnimation.xaml"/>
+        <ResourceDictionary Source="Buttons/DefaultButton.xaml"/>
+        <ResourceDictionary Source="Buttons/DialogButton.xaml"/>
+        <ResourceDictionary Source="Buttons/NormalButton.xaml"/>
+        <ResourceDictionary Source="Buttons/RevitPropertyBoxButton.xaml"/>
+        <ResourceDictionary Source="Windows/Window.xaml"/>
+        <ResourceDictionary Source="ListBox/ListBox.xaml"/>
+        <ResourceDictionary Source="Tooltips/Tooltips.xaml"/>
 
 
         <!-- Converters. -->

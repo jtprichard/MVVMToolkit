@@ -27,7 +27,7 @@
         <Setter Property="FontSize" Value="12"/>
     </Style>
 
-    <!-- Template style for window. -->
+    <!-- Template style for Dialog. -->
     <Style x:Key="DialogWindow" TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource DarkGrayFontBrush}" />
@@ -37,7 +37,11 @@
         <Setter Property="FontSize" Value="12"/>
     </Style>
 
-
-
+    <!-- Template style for page border. -->
+    <Style x:Key="DefaultPageBorder" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BlueBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
 
 </ResourceDictionary>

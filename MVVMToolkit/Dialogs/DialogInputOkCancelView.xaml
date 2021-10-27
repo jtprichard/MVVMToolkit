@@ -40,7 +40,7 @@
 
                 <StackPanel Grid.Column="1" Margin="6">
 				    <TextBlock Text="{Binding Message}"
-                               TextWrapping="WrapWithOverflow" 
+                               Style="{StaticResource DialogMessageTextBlockStyle}"
                                MinHeight="20"
                                MaxWidth="260"
                                Margin="4,0,4,0"/>

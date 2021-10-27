@@ -9,6 +9,7 @@
     <Style x:Key="ListBoxDefault" TargetType="{x:Type ListBox}">
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"></Setter>
         <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalAlignment" Value="Top"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource BlueBorderBrush}"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
         <Setter Property="Background" Value="{StaticResource PBLightBackgroundBrush}"></Setter>

@@ -62,6 +62,17 @@
         <Setter Property="TextWrapping" Value="WrapWithOverflow"></Setter>
     </Style>
 
+    <!-- Dialog Text block styles. -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="DialogMessageTextBlockStyle">
+        <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}" />
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="TextAlignment" Value="Left"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="TextWrapping" Value="WrapWithOverflow"></Setter>
+    </Style>
+
 
 
 </ResourceDictionary>

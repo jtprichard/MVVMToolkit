@@ -42,8 +42,7 @@
 
                 <TextBlock Grid.Column="1"
                         Text="{Binding Message}"
-                        VerticalAlignment="Center"
-                       TextWrapping="WrapWithOverflow" 
+                        Style="{StaticResource DialogMessageTextBlockStyle}"
                        MinHeight="0"
                        MaxWidth="260"
                        Margin="10,0,15,0"/>

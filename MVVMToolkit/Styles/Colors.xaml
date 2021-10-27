@@ -34,8 +34,8 @@
     <SolidColorBrush x:Key="PBWhiteBrush" Color="{StaticResource PBWhite}"/>
 
     <!--Window / Page Backgrounds-->
-    
-    <Color x:Key="MainBackground">White</Color>
+
+    <Color x:Key="MainBackground">#edf1f2</Color>
     <SolidColorBrush x:Key="MainBackgroundBrush" Color="{StaticResource MainBackground}"/>
 
     <Color x:Key="PBWhiteBackground">White</Color>

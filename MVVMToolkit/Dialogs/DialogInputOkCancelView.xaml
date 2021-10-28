@@ -46,6 +46,7 @@
                                Margin="4,0,4,0"/>
 
                     <TextBox Text="{Binding Answer}"
+                             Style="{StaticResource DefaultTextBox}"
                              x:Name="txtAnswer"
                              MinHeight="20"
 

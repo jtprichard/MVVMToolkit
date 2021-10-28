@@ -14,7 +14,9 @@
         <ResourceDictionary Source="Buttons/RevitPropertyBoxButton.xaml"/>
         <ResourceDictionary Source="Windows/Window.xaml"/>
         <ResourceDictionary Source="ListBox/ListBox.xaml"/>
-        <ResourceDictionary Source="ComboBox/ComboBox.xaml"/>
+        <ResourceDictionary Source="ComboBox/DefaultComboBox.xaml"/>
+        <ResourceDictionary Source="Text/TextBox.xaml"/>
+        <ResourceDictionary Source="Text/TextBlock.xaml"/>
         <ResourceDictionary Source="Tooltips/Tooltips.xaml"/>
 
 

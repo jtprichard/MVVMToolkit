@@ -16,63 +16,15 @@
     <System:Double x:Key="ExtraExtraLargeFontSize">24</System:Double>
     
 
-    <!-- Provide Font Family Here -->
+    <!-- PB Font Family Here -->
     
     <FontFamily x:Key="PBRegularFont">pack://application:,,,/PB.MVVMToolkit;Component/Resources/Fonts/Livvic/#Livvic Regular</FontFamily>
     <FontFamily x:Key="PBMediumFont">pack://application:,,,/PB.MVVMToolkit;Component/Resources/Fonts/Livvic/#Livvic Medium</FontFamily>
     <FontFamily x:Key="PBSemiBoldFont">pack://application:,,,/PB.MVVMToolkit;Component/Resources/Fonts/Livvic/#Livvic SemiBold</FontFamily>
     <FontFamily x:Key="PBBoldFont">pack://application:,,,/PB.MVVMToolkit;Component/Resources/Fonts/Livvic/#Livvic Bold</FontFamily>
 
-    <FontFamily x:Key="CharmRegular">pack://application:,,,/PB.MVVMToolkit;component/Resources/Fonts/Charm/#Charm Bold</FontFamily>
-
-
-    <!-- Text block styles. -->
-    <Style TargetType="{x:Type TextBlock}" x:Key="BaseTextBlockStyle">
-        <Setter Property="FontFamily" Value="{StaticResource PBRegularFont}" />
-        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
-        <Setter Property="FontWeight" Value="Normal"/>
-    </Style>
-
-    <Style TargetType="{x:Type TextBlock}" x:Key="BaseBoldTextBlockStyle">
-        <Setter Property="FontFamily" Value="{StaticResource PBBoldFont}" />
-        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
-        <Setter Property="FontWeight" Value="Bold"/>
-    </Style>
-
-    <Style TargetType="{x:Type TextBlock}" x:Key="MediumBoldTextBlockStyle">
-        <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}" />
-        <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
-        <Setter Property="FontWeight" Value="Bold"/>
-    </Style>
-
-    <Style TargetType="{x:Type TextBlock}" x:Key="LargeBoldTextBlockStyle">
-        <Setter Property="FontFamily" Value="{StaticResource PBBoldFont}" />
-        <Setter Property="FontSize" Value="{StaticResource ExtraExtraLargeFontSize}" />
-        <Setter Property="FontWeight" Value="Bold"/>
-    </Style>
-
-    <!-- Button Text block styles. -->
-    <Style TargetType="{x:Type TextBlock}" x:Key="BaseButtonTextBlockStyle">
-        <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}" />
-        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="TextAlignment" Value="Center"></Setter>
-        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-        <Setter Property="VerticalAlignment" Value="Center"></Setter>
-        <Setter Property="TextWrapping" Value="WrapWithOverflow"></Setter>
-    </Style>
-
-    <!-- Dialog Text block styles. -->
-    <Style TargetType="{x:Type TextBlock}" x:Key="DialogMessageTextBlockStyle">
-        <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}" />
-        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="TextAlignment" Value="Left"></Setter>
-        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
-        <Setter Property="VerticalAlignment" Value="Center"></Setter>
-        <Setter Property="TextWrapping" Value="WrapWithOverflow"></Setter>
-    </Style>
-
+    <!-- Font Family for Testing-->
+    <FontFamily x:Key="PBTestFont">pack://application:,,,/PB.MVVMToolkit;component/Resources/Fonts/Charm/#Charm Bold</FontFamily>
 
 
 </ResourceDictionary>

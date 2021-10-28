@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Colors.xaml"/>
         <ResourceDictionary Source="../Fonts.xaml"/>
+        <ResourceDictionary Source="../Text/TextBlock.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="ToggleButtonTemplate" 
@@ -17,7 +18,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
-                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="15" />
                     </Grid.ColumnDefinitions>
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroup x:Name="CommonStates">
@@ -28,7 +29,7 @@
                     (GradientBrush.GradientStops)[1].(GradientStop.Color)"
                                               Storyboard.TargetName="Border">
                                         <EasingColorKeyFrame KeyTime="0"
-                                       Value="{StaticResource ButtonAnimationBackground}" />
+                                       Value="{StaticResource PBDarkBlue}" />
                                     </ColorAnimationUsingKeyFrames>
                                 </Storyboard>
                             </VisualState>
@@ -39,19 +40,19 @@
                     (GradientBrush.GradientStops)[1].(GradientStop.Color)"
                                               Storyboard.TargetName="Border">
                                         <EasingColorKeyFrame KeyTime="0"
-                                       Value="{StaticResource ButtonBackground}" />
+                                       Value="{StaticResource PBGray}" />
                                     </ColorAnimationUsingKeyFrames>
                                     <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).
                     (SolidColorBrush.Color)"
                                               Storyboard.TargetName="Arrow">
                                         <EasingColorKeyFrame KeyTime="0"
-                                       Value="{StaticResource ButtonBackground}" />
+                                       Value="{StaticResource PBLightBackground}" />
                                     </ColorAnimationUsingKeyFrames>
                                     <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).
                     (GradientBrush.GradientStops)[1].(GradientStop.Color)"
                                               Storyboard.TargetName="Border">
                                         <EasingColorKeyFrame KeyTime="0"
-                                       Value="{StaticResource PBBlue}" />
+                                       Value="{StaticResource PBLightBlueGray}" />
                                     </ColorAnimationUsingKeyFrames>
                                 </Storyboard>
                             </VisualState>
@@ -63,7 +64,7 @@
                     (GradientBrush.GradientStops)[1].(GradientStop.Color)"
                                               Storyboard.TargetName="Border">
                                         <EasingColorKeyFrame KeyTime="0"
-                                       Value="{StaticResource ButtonClickBackground}" />
+                                       Value="{StaticResource PBDarkBlue}" />
                                     </ColorAnimationUsingKeyFrames>
                                 </Storyboard>
                             </VisualState>
@@ -72,13 +73,13 @@
                         </VisualStateGroup>
                     </VisualStateManager.VisualStateGroups>
                     <Border x:Name="Border"
-                Grid.ColumnSpan="2"
-                CornerRadius="2"
-                BorderThickness="1">
+                            Grid.ColumnSpan="2"
+                            CornerRadius="2"
+                            BorderThickness="1">
                         <Border.BorderBrush>
                             <LinearGradientBrush EndPoint="0,1"
                                  StartPoint="0,0">
-                                <GradientStop Color="{DynamicResource PBLight}"
+                                <GradientStop Color="{DynamicResource PBLightBlueGray}"
                             Offset="0" />
                                 <GradientStop Color="{DynamicResource PBBlue}"
                             Offset="1" />
@@ -103,7 +104,7 @@
                 CornerRadius="2,0,0,2"
                 Margin="1" >
                         <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource PBLight}"/>
+                            <SolidColorBrush Color="{DynamicResource ButtonBackground}"/>
                         </Border.Background>
                     </Border>
                     <Path x:Name="Arrow"

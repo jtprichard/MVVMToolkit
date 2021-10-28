@@ -10,6 +10,7 @@
            TargetType="{x:Type TextBox}">
 
         <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource PBDarkBlueBrush}"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource PBBlueBrush}"/>
         <Setter Property="SelectionBrush" Value="{StaticResource PBMediumBlueBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}"/>
@@ -21,9 +22,10 @@
            TargetType="{x:Type TextBox}">
 
         <Setter Property="Background" Value="{StaticResource PBLightBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource PBDarkBlueBrush}"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource PBBlueBrush}"/>
         <Setter Property="SelectionBrush" Value="{StaticResource PBMediumBlueBrush}"/>
-        <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}"/>
+        <Setter Property="FontFamily" Value="{StaticResource PBRegularFont}"/>
         <Setter Property="BorderThickness" Value="1"></Setter>
         <Setter Property="Padding" Value="3"></Setter>
         <Setter Property="Margin" Value="2,0,2,0"></Setter>

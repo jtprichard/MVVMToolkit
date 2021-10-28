@@ -84,6 +84,11 @@
     <SolidColorBrush x:Key="ButtonClickBackgroundBrush" Color="{StaticResource ButtonClickBackground}"/>
 
 
+    <!--Grid Border Backgrounds-->
+    <Color x:Key="RevitPropertyHeaderBackground">#c8c9c7</Color>
+    <SolidColorBrush x:Key="RevitPropertyHeaderBackgroundBrush" Color="{StaticResource RevitPropertyHeaderBackground}"/>
+
+
     <!--Borders-->
 
     <Color x:Key="MainBorders">#ddd</Color>
@@ -104,6 +109,8 @@
     <Color x:Key="ButtonAltAnimationBorder">Red</Color>
     <SolidColorBrush x:Key="ButtonAltAnimationBorderBrush" Color="{StaticResource ButtonAltAnimationBorder}"/>
 
+    <Color x:Key="RevitPropertyBoxBorder">#FF0732A2</Color>
+    <SolidColorBrush x:Key="RevitPropertyBoxBorderBrush" Color="{StaticResource RevitPropertyBoxBorder}"/>
 
     <!--Fonts-->
 

@@ -100,10 +100,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\DialogInputOkCancelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,15 +182,15 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\dialog_error_icon.png" />
+    <Resource Include="Resources\Images\dialog_error_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\dialog_information_icon.png" />
-    <EmbeddedResource Include="Resources\Images\dialog_ok_icon.png" />
-    <EmbeddedResource Include="Resources\Images\dialog_warning_icon.png" />
+    <Resource Include="Resources\Images\dialog_information_icon.png" />
+    <Resource Include="Resources\Images\dialog_ok_icon.png" />
+    <Resource Include="Resources\Images\dialog_warning_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\dialog_question_icon.png" />
+    <Resource Include="Resources\Images\dialog_question_icon.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

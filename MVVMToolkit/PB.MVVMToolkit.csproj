@@ -76,9 +76,9 @@
     </Compile>
     <Compile Include="Dialogs\DialogYesNo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReferenceClass.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
-    <None Include="packages.config" />
     <EmbeddedResource Include="Resources\Fonts\Charm\Charm-Bold.ttf" />
     <EmbeddedResource Include="Resources\Fonts\Charm\Charm-Regular.ttf" />
     <Resource Include="Resources\Fonts\Livvic\Livvic-Bold.ttf" />

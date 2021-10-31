@@ -18,7 +18,7 @@
         <Setter Property="BorderThickness" Value="{StaticResource NormalThickness}"></Setter>
         <Setter Property="FontFamily" Value="{StaticResource PBMedium}"></Setter>
         <Setter Property="FontSize" Value="12"></Setter>
-        <Setter Property="Padding" Value="0"></Setter>
+        <Setter Property="Padding" Value="10,0,10,0"></Setter>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Border.CornerRadius" Value="0"></Setter>
@@ -38,9 +38,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"
                                 SnapsToDevicePixels="True"
-                                Padding="{TemplateBinding Padding}"
                                 Margin="0"                   
-                                Width="{TemplateBinding Width}"
                                 CornerRadius="{TemplateBinding Border.CornerRadius}">
                         </Border>
 
@@ -48,8 +46,8 @@
                                 <TextBlock Text="{TemplateBinding Content}"
                                            Style="{StaticResource BaseButtonTextBlockStyle}"
                                            Focusable="False"
+                                           Margin="{TemplateBinding Padding}"
                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                           Width="{TemplateBinding Width}"
                                 />
                         </Grid>
 

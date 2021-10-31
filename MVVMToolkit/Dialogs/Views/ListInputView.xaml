@@ -1,0 +1,138 @@
+﻿<Window x:Class="PB.MVVMToolkit.Dialogs.ListInputView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ds="clr-namespace:PB.MVVMToolkit.DialogServices;assembly=PB.MVVMToolkit"
+        mc:Ignorable="d"
+        Width="400"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+                <!-- Converters. -->
+                <ResourceDictionary Source="../Converters/Converters.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Style>
+        <StaticResource ResourceKey="DialogWindow"/>
+    </Window.Style>
+
+    <Window.Title>
+        <Binding Path="Title" Mode="OneTime"/>
+    </Window.Title>
+
+    <StackPanel Margin="10,0,10,0">
+
+        <TextBlock Style="{StaticResource DialogMessageTextBlockStyle}"
+                Margin="10 20 10 10"
+                Width="auto"
+                Text="{Binding Path=Message}"
+                >
+        </TextBlock>
+
+        <Grid Margin="10 10 10 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ListBox x:Name="ItemList" 
+                         MinHeight="130"
+                         MinWidth="200"
+                         SelectionMode="Single" 
+                         ScrollViewer.VerticalScrollBarVisibility="Visible"
+                         ItemsSource="{Binding Path=ListItems, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="Description"
+                         ItemContainerStyle="{StaticResource ListBoxItem}"
+                         SelectedItem="{Binding Path=SelectedListItem, Mode=TwoWay}"
+                         >
+                <ListBox.Style>
+                    <StaticResource ResourceKey="ListBoxDefault"/>
+                </ListBox.Style>
+            </ListBox>
+
+            <Grid Column="1">
+                <StackPanel HorizontalAlignment="Right" Margin="10,0,0,0">
+                    <Button Content="Add..." 
+                                x:Name="AddItem" 
+                                ToolTip="Add a new item"
+                                Style="{StaticResource DialogButton}"
+                                Command="{Binding OpenDialogAddCommand}"
+                                />
+                    <Button Content="Modify..." 
+                                x:Name="ModifyItem" 
+                                ToolTip="Edit an item name"
+                                Style="{StaticResource DialogButton}"
+                                Command="{Binding OpenDialogEditCommand}"
+                                />
+                    <Button Content="Delete"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                x:Name="DeleteItem" 
+                                ToolTip="Delete the item"
+                                Style="{StaticResource DialogButton}"
+                                Command="{Binding OpenDialogDeleteCommand}"/>
+
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBlock Style="{StaticResource DialogMessageTextBlockStyle}"
+                           Margin="0,10,15,0"
+                           Text="{Binding Path=ComboMessage}"
+                           Visibility="{Binding Path=ComboEnabled, Converter={StaticResource VisibilityConverter}}"
+                />
+                <ComboBox Grid.Column="1"
+                          Margin="0,10,0,0"
+                          MinWidth="100"
+                          ItemsSource="{Binding Path=ComboboxItems}"
+                          DisplayMemberPath="Description"
+                          SelectedValue="{Binding Path=SelectedComboboxItem}"
+                          Visibility="{Binding Path=ComboEnabled, Converter={StaticResource VisibilityConverter}}"
+                          Style="{StaticResource DefaultComboBox}"/>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Margin="0,0,10,10" VerticalAlignment="Bottom">
+            <WrapPanel Grid.ColumnSpan="2" 
+                           HorizontalAlignment="Right" 
+                           VerticalAlignment="Bottom"
+                           Margin="0,15,0,0">
+                <Button Content="Ok"
+                            IsDefault="True" 
+                            Name="BtnDialogOk" 
+                            Style="{StaticResource DialogButton}"
+                            Command="{Binding OkCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+
+                <Button Content="Cancel"
+                            IsCancel="True" 
+                            Name="BtnDialogCancel" 
+                            Style="{StaticResource DialogButton}"
+                            Command="{Binding CancelCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+
+
+                <Button Content="Help"
+                            Name="BtnDialogHelp" 
+                            Style="{StaticResource DialogButton}"/>
+
+            </WrapPanel>
+        </Grid>
+
+
+    </StackPanel>
+</Window>

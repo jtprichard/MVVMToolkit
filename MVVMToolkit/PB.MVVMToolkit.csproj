@@ -57,24 +57,30 @@
     <Compile Include="DialogServices\IDialog.cs" />
     <Compile Include="DialogServices\IDialogRequestClose.cs" />
     <Compile Include="DialogServices\IDialogService.cs" />
-    <Compile Include="Dialogs\DialogInputOkCancel.cs" />
-    <Compile Include="Dialogs\DialogOk.cs" />
-    <Compile Include="Dialogs\DialogOkCancel.cs" />
-    <Compile Include="Dialogs\DialogOkCancelView.xaml.cs">
+    <Compile Include="Dialogs\Converters\VisibilityValueConverter.cs" />
+    <Compile Include="Dialogs\ViewModels\DialogInputOkCancel.cs" />
+    <Compile Include="Dialogs\ViewModels\DialogOk.cs" />
+    <Compile Include="Dialogs\ViewModels\DialogOkCancel.cs" />
+    <Compile Include="Dialogs\Data\ListItem.cs" />
+    <Compile Include="Dialogs\ViewModels\ListInputViewModel.cs" />
+    <Compile Include="Dialogs\Views\DialogOkCancelView.xaml.cs">
       <DependentUpon>DialogOkCancelView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\DialogOkView.xaml.cs">
+    <Compile Include="Dialogs\Views\DialogOkView.xaml.cs">
       <DependentUpon>DialogOkView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\Enumerations\DialogImage.cs" />
-    <Compile Include="Dialogs\DialogInputOkCancelView.xaml.cs">
+    <Compile Include="Dialogs\Views\DialogInputOkCancelView.xaml.cs">
       <DependentUpon>DialogInputOkCancelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\Enumerations\DialogResult.cs" />
-    <Compile Include="Dialogs\DialogYesNoView.xaml.cs">
+    <Compile Include="Dialogs\Views\DialogYesNoView.xaml.cs">
       <DependentUpon>DialogYesNoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\DialogYesNo.cs" />
+    <Compile Include="Dialogs\ViewModels\DialogYesNo.cs" />
+    <Compile Include="Dialogs\Views\ListInputView.xaml.cs">
+      <DependentUpon>ListInputView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceClass.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
@@ -100,21 +106,29 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Dialogs\DialogInputOkCancelView.xaml">
+    <Page Include="Dialogs\Converters\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\Views\DialogInputOkCancelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\DialogOkCancelView.xaml">
+    <Page Include="Dialogs\Views\DialogOkCancelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\DialogOkView.xaml">
+    <Page Include="Dialogs\Views\DialogOkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\DialogYesNoView.xaml">
+    <Page Include="Dialogs\Views\DialogYesNoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\Views\ListInputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Buttons\ButtonAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>

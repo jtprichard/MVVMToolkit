@@ -1,4 +1,4 @@
-﻿<Window x:Class="PB.MVVMToolkit.Dialogs.DialogOkView"  
+﻿<Window x:Class="PB.MVVMToolkit.Dialogs.DialogYesNoView"  
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
@@ -11,11 +11,12 @@
              ResizeMode="NoResize"
              Title="{Binding Caption}"
              >
+
     <!-- Resource Dictionary Reference-->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/Styles.xaml"/>
+                <ResourceDictionary Source="../../Styles/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -34,32 +35,35 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0"  Width="auto" 
-                   VerticalAlignment="Stretch"
-                   Height="40" 
-                   Margin ="10,0,10,0" 
-                   Source="{Binding ImageFile}"
-            />
+                       VerticalAlignment="Stretch"
+                       Height="40" 
+                       Margin ="10,0,10,0" 
+                       Source="{Binding ImageFile}"
+                />
 
                 <TextBlock Grid.Column="1"
-                        Text="{Binding Message}"
-                        Style="{StaticResource DialogMessageTextBlockStyle}"
-                       MinHeight="0"
-                       MaxWidth="260"
-                       Margin="10,0,15,0"/>
-
+                           Text="{Binding Message}"
+                           Style="{StaticResource DialogMessageTextBlockStyle}"
+                           MinHeight="0"
+                           MaxWidth="260"
+                           Margin="10,10,15,0"/>
             </Grid>
 
             <Grid>
                 <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Margin="0,0,20,0">
-                    <Button Content="Ok" 
-                        IsDefault="True"
-                        IsCancel="True"
-                        Style="{StaticResource DialogButton}"
-                        Command="{Binding OkCommand}"   
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-                </StackPanel>
+                            HorizontalAlignment="Right"
+                            Margin="0,0,20,0">
+                    <Button Content="Yes" 
+                            IsDefault="True"
+                            Style="{StaticResource DialogButton}"
+                            Command="{Binding YesCommand}"   
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="No" 
+                            IsCancel="True"
+                            Style="{StaticResource DialogButton}"
+                            Command="{Binding NoCommand}"  
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    </StackPanel>
             </Grid>
         </StackPanel>
     </Grid>

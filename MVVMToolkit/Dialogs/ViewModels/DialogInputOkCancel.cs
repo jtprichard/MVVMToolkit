@@ -134,11 +134,6 @@ namespace PB.MVVMToolkit.Dialogs
             return vm.Result;
         }
 
-
-
-        #endregion
-
-        #region Private Methods
         /// <summary>
         /// Show dialog
         /// </summary>
@@ -148,6 +143,11 @@ namespace PB.MVVMToolkit.Dialogs
             view.ShowDialog();
             return Result;
         }
+
+        #endregion
+
+        #region Private Methods
+
         /// <summary>
         /// Yes clicked command event
         /// </summary>

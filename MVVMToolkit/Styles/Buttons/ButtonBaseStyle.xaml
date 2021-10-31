@@ -55,6 +55,13 @@
 
                     </Grid>
 
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="TextElement.Foreground" Value="{StaticResource PBGrayBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource PBLightBackgroundBrush}"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

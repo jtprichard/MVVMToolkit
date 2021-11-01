@@ -203,7 +203,10 @@ namespace PB.MVVMToolkit.Dialogs
             SelectedListItem = ListItems.FirstOrDefault();
 
             //Store the maximum list id
-            _listId = items.Max(x => x.Id);
+            if (items.Count == 0)
+                _listId = 1;
+            else
+                _listId = items.Max(x => x.Id);
 
             //Store the original item list to confirm at the end
             _originalItemList = items;

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 
@@ -75,8 +76,21 @@ namespace PB.MVVMToolkit.Dialogs
             return items;
         }
 
-        #endregion
+        public static ObservableCollection<ListItem> Clone(ObservableCollection<ListItem> items)
+        {
+            var clonedItems = new ObservableCollection<ListItem>();
+            foreach (var item in items)
+            {
+                var newItem = new ListItem(item.Description, item.Id, item.IsLocked);
+                newItem.Dependency = item.Dependency;
+                clonedItems.Add(newItem);
+            }
 
+            return clonedItems;
+
+        }
+
+        #endregion
 
         #region Property Changed
 

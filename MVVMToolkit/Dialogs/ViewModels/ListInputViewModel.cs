@@ -14,6 +14,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private readonly ObservableCollection<ListItem> _originalItemList = null;
         private int _listId;
+        private ObservableCollection<ListItem> _allListItems;
 
         #endregion
 
@@ -158,6 +159,7 @@ namespace PB.MVVMToolkit.Dialogs
             {
                 _selectedComboboxItem = value;
                 OnPropertyChanged(nameof(SelectedComboboxItem));
+                UpdateListItems();
             }
         }
         /// <summary>
@@ -198,9 +200,14 @@ namespace PB.MVVMToolkit.Dialogs
             //Add window title
             Title = "Edit " + ItemType;
 
+            //Store the full item list regardless of dependency
+            _allListItems = ListItem.Clone(items);
+
             //Populate the list and select the first item as default
-            PopulateListItems(items);
-            SelectedListItem = ListItems.FirstOrDefault();
+            if (ComboEnabled)
+                PopulateListItemsWithDependency();
+            else
+                PopulateListItems();
 
             //Store the maximum list id
             if (items.Count == 0)
@@ -285,9 +292,7 @@ namespace PB.MVVMToolkit.Dialogs
 
             if (result == DialogResult.Ok)
             {
-                SelectedListItem.Description = answer;
-                OnPropertyChanged(nameof(ListItems));
-                OnPropertyChanged(nameof(SelectedListItem));
+                EditItemOnList(SelectedListItem,answer);
             }
 
         }
@@ -319,18 +324,16 @@ namespace PB.MVVMToolkit.Dialogs
 
             if (result == DialogResult.Yes)
             {
-                //Look for the selected item in the list and remove ite
-                ListItems.Remove(GetSelectedListItem(SelectedListItem));
-                //Adjust the default selecteditem
-                if (ListItems.Count > 0)
-                    SelectedListItem = ListItems.FirstOrDefault();
-                else
-                    SelectedListItem = null;
-
-                //Initiate property changed for view
-                OnPropertyChanged(nameof(ListItems));
-                OnPropertyChanged(nameof(SelectedListItem));
+                RemoveItemFromList(SelectedListItem);
             }
+        }
+
+        private void RemoveItemFromList(ListItem item)
+        {
+            //Look for the selected item in the list and remove it
+            _allListItems.Remove(GetSelectedListItem(SelectedListItem));
+
+            UpdateListItems();
         }
 
         /// <summary>
@@ -339,7 +342,18 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="item"></param>
         private void AddItemToList(string item, int id)
         {
-            ListItems.Add(new ListItem(item, id));
+            var newItem = new ListItem(item, id);
+            if (ComboEnabled)
+                newItem.Dependency = SelectedComboboxItem;
+            _allListItems.Add(newItem);
+            UpdateListItems();
+        }
+
+        private void EditItemOnList(ListItem item, string description)
+        {
+            var selectedItem = GetSelectedListItem(item);
+            selectedItem.Description = description;
+            UpdateListItems();
         }
 
         /// <summary>
@@ -349,7 +363,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <returns></returns>
         private ListItem GetSelectedListItem(ListItem item)
         {
-            return ListItems.FirstOrDefault(x => x.Description == item.Description);
+            return _allListItems.FirstOrDefault(x => x.Id == item.Id);
 
         }
 
@@ -357,14 +371,50 @@ namespace PB.MVVMToolkit.Dialogs
         /// Populate the list at startup
         /// </summary>
         /// <param name="listItems"></param>
-        private void PopulateListItems(ObservableCollection<ListItem> listItems)
+        private void PopulateListItems()
         {
             var items = new ObservableCollection<ListItem>();
-            foreach (var item in listItems)
+            foreach (var item in _allListItems)
                 items.Add(new ListItem(item.Description, item.Id, item.IsLocked));
 
             ListItems = items;
+
+            //Adjust the default selecteditem
+            if (ListItems.Count > 0)
+                SelectedListItem = ListItems.FirstOrDefault();
+            else
+                SelectedListItem = null;
+
         }
+
+        /// <summary>
+        /// Populate the list at startup
+        /// </summary>
+        /// <param name="listItems"></param>
+        private void PopulateListItemsWithDependency()
+        {
+            var items = new ObservableCollection<ListItem>();
+            foreach (var item in _allListItems)
+                if(item.Dependency.Id == SelectedComboboxItem.Id)
+                    items.Add(new ListItem(item.Description, item.Id, item.IsLocked));
+
+            ListItems = items;
+
+            //Adjust the default selecteditem
+            if (ListItems.Count > 0)
+                SelectedListItem = ListItems.FirstOrDefault();
+            else
+                SelectedListItem = null;
+        }
+
+        private void UpdateListItems()
+        {
+            if(ComboEnabled)
+                PopulateListItemsWithDependency();
+            else
+                PopulateListItems();
+        }
+
 
         /// <summary>
         /// Command for clicking Ok on dialog

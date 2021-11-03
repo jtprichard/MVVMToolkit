@@ -53,7 +53,7 @@
                          MinWidth="200"
                          SelectionMode="Single" 
                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                         ItemsSource="{Binding Path=ListItems, UpdateSourceTrigger=PropertyChanged}"
+                         ItemsSource="{Binding Path=VisibleListItems, UpdateSourceTrigger=PropertyChanged}"
                          DisplayMemberPath="Description"
                          ItemContainerStyle="{StaticResource ListBoxItem}"
                          SelectedItem="{Binding Path=SelectedListItem, Mode=TwoWay}"

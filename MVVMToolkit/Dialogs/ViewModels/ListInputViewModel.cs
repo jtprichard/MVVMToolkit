@@ -14,7 +14,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private readonly ObservableCollection<ListItem> _originalItemList = null;
         private int _listId;
-        private ObservableCollection<ListItem> _allListItems;
+
 
         #endregion
 
@@ -81,17 +81,23 @@ namespace PB.MVVMToolkit.Dialogs
 
         #region Properties
         /// <summary>
+        /// List items as observable collection that may be retrieved following edits.
+        /// </summary>
+        public ObservableCollection<ListItem> ListItems { get; private set; }
+        /// <summary>
         /// Instance of viewmodel for databinding
         /// </summary>
         internal static ListInputViewModel Instance { get; set; }
-        private ObservableCollection<ListItem> _listItems;
+        private ObservableCollection<ListItem> _visibleListItems;
         /// <summary>
-        /// List items as Observable Collection
+        /// List items used in the listbox user inteface.  Note that while these list items may be retrieved outside of the interface,
+        /// if there are dependencies, you will only retrieve the list items that are dependent on the combobox when the retrieval is initiated.
+        /// List items should generally be retrieved from the ListItems property, which holds all items regardless of dependencies.
         /// </summary>
-        public ObservableCollection<ListItem> ListItems
+        public ObservableCollection<ListItem> VisibleListItems
         {
-            get { return _listItems; }
-            set { _listItems = value; OnPropertyChanged(nameof(ListItems)); }
+            get { return _visibleListItems; }
+            set { _visibleListItems = value; OnPropertyChanged(nameof(VisibleListItems)); }
         }
 
         private ListItem _selectedListItem;
@@ -201,7 +207,7 @@ namespace PB.MVVMToolkit.Dialogs
             Title = "Edit " + ItemType;
 
             //Store the full item list regardless of dependency
-            _allListItems = ListItem.Clone(items);
+            ListItems = ListItem.Clone(items);
 
             //Populate the list and select the first item as default
             if (ComboEnabled)
@@ -261,7 +267,7 @@ namespace PB.MVVMToolkit.Dialogs
             }
             else
             {
-                bool answerDuplicated = ListItems.Any(x => x.Description == answer);
+                bool answerDuplicated = VisibleListItems.Any(x => x.Description == answer);
                 if (!answerDuplicated)
                 {
                     _listId++;
@@ -312,7 +318,7 @@ namespace PB.MVVMToolkit.Dialogs
             }
 
             //Confirm there are at least 2 items on the list
-            if (ListItems.Count <= 1)
+            if (VisibleListItems.Count <= 1)
             {
                 string dialogMessage = "You must always have one " + ItemType + " item in your list";
                 var deleteErrorResult = DialogOk.Show(dialogMessage, "Error", DialogImage.Error);
@@ -331,7 +337,7 @@ namespace PB.MVVMToolkit.Dialogs
         private void RemoveItemFromList(ListItem item)
         {
             //Look for the selected item in the list and remove it
-            _allListItems.Remove(GetSelectedListItem(SelectedListItem));
+            ListItems.Remove(GetSelectedListItem(SelectedListItem));
 
             UpdateListItems();
         }
@@ -345,7 +351,7 @@ namespace PB.MVVMToolkit.Dialogs
             var newItem = new ListItem(item, id);
             if (ComboEnabled)
                 newItem.Dependency = SelectedComboboxItem;
-            _allListItems.Add(newItem);
+            ListItems.Add(newItem);
             UpdateListItems();
         }
 
@@ -363,7 +369,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <returns></returns>
         private ListItem GetSelectedListItem(ListItem item)
         {
-            return _allListItems.FirstOrDefault(x => x.Id == item.Id);
+            return ListItems.FirstOrDefault(x => x.Id == item.Id);
 
         }
 
@@ -374,14 +380,14 @@ namespace PB.MVVMToolkit.Dialogs
         private void PopulateListItems()
         {
             var items = new ObservableCollection<ListItem>();
-            foreach (var item in _allListItems)
+            foreach (var item in ListItems)
                 items.Add(new ListItem(item.Description, item.Id, item.IsLocked));
 
-            ListItems = items;
+            VisibleListItems = items;
 
             //Adjust the default selecteditem
-            if (ListItems.Count > 0)
-                SelectedListItem = ListItems.FirstOrDefault();
+            if (VisibleListItems.Count > 0)
+                SelectedListItem = VisibleListItems.FirstOrDefault();
             else
                 SelectedListItem = null;
 
@@ -394,15 +400,15 @@ namespace PB.MVVMToolkit.Dialogs
         private void PopulateListItemsWithDependency()
         {
             var items = new ObservableCollection<ListItem>();
-            foreach (var item in _allListItems)
+            foreach (var item in ListItems)
                 if(item.Dependency.Id == SelectedComboboxItem.Id)
                     items.Add(new ListItem(item.Description, item.Id, item.IsLocked));
 
-            ListItems = items;
+            VisibleListItems = items;
 
             //Adjust the default selecteditem
-            if (ListItems.Count > 0)
-                SelectedListItem = ListItems.FirstOrDefault();
+            if (VisibleListItems.Count > 0)
+                SelectedListItem = VisibleListItems.FirstOrDefault();
             else
                 SelectedListItem = null;
         }
@@ -445,13 +451,13 @@ namespace PB.MVVMToolkit.Dialogs
 
         private bool VerifyItemsChanged()
         {
-            if (_originalItemList.Count == 0 || ListItems.Count == 0)
+            if (_originalItemList.Count == 0 || VisibleListItems.Count == 0)
                 return true;
-            if (_originalItemList.Count != ListItems.Count)
+            if (_originalItemList.Count != VisibleListItems.Count)
                 return true;
-            for (int i = 0; i < ListItems.Count; i++)
+            for (int i = 0; i < VisibleListItems.Count; i++)
             {
-                if (ListItems[i].Description != _originalItemList[i].Description)
+                if (VisibleListItems[i].Description != _originalItemList[i].Description)
                     return true;
             }
 

@@ -176,6 +176,11 @@ namespace PB.MVVMToolkit.Dialogs
         /// Dialog window title
         /// </summary>
         public string Title { get; set; }
+        /// <summary>
+        /// Property to determine whether you must always have one item in the list.
+        /// The default is false;
+        /// </summary>
+        public bool ItemRequired { get; set; }
 
 
         #endregion
@@ -226,6 +231,9 @@ namespace PB.MVVMToolkit.Dialogs
 
             //Default to no combobox
             ComboEnabled = false;
+
+            //Default ItemRequired to false;
+            ItemRequired = false;
 
             //Set instance
             Instance = this;
@@ -318,7 +326,7 @@ namespace PB.MVVMToolkit.Dialogs
             }
 
             //Confirm there are at least 2 items on the list
-            if (VisibleListItems.Count <= 1)
+            if (VisibleListItems.Count <= 1 && ItemRequired)
             {
                 string dialogMessage = "You must always have one " + ItemType + " item in your list";
                 var deleteErrorResult = DialogOk.Show(dialogMessage, "Error", DialogImage.Error);

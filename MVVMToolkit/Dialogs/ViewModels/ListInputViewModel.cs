@@ -222,7 +222,7 @@ namespace PB.MVVMToolkit.Dialogs
 
             //Store the maximum list id
             if (items.Count == 0)
-                _listId = 1;
+                _listId = 1000;
             else
                 _listId = items.Max(x => x.Id);
 
@@ -459,13 +459,11 @@ namespace PB.MVVMToolkit.Dialogs
 
         private bool VerifyItemsChanged()
         {
-            if (_originalItemList.Count == 0 || VisibleListItems.Count == 0)
+            if (_originalItemList.Count != ListItems.Count)
                 return true;
-            if (_originalItemList.Count != VisibleListItems.Count)
-                return true;
-            for (int i = 0; i < VisibleListItems.Count; i++)
+            for (int i = 0; i < ListItems.Count; i++)
             {
-                if (VisibleListItems[i].Description != _originalItemList[i].Description)
+                if (ListItems[i].Description != _originalItemList[i].Description)
                     return true;
             }
 

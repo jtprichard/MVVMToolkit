@@ -27,6 +27,14 @@
         <Setter Property="FontSize" Value="12"/>
     </Style>
 
+    <!-- Template style for page. -->
+    <Style x:Key="DefaultUserControl" TargetType="{x:Type UserControl}">
+        <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource DarkGrayFontBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource PBRegularFont}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
     <!-- Template style for Dialog. -->
     <Style x:Key="DialogWindow" TargetType="{x:Type Window}">
         <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
@@ -22,6 +23,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         public event EventHandler OkClicked = delegate { };
         public event EventHandler CancelClicked = delegate { };
+        public event EventHandler HelpClicked = delegate { };
 
         #endregion
 
@@ -45,6 +47,16 @@ namespace PB.MVVMToolkit.Dialogs
         {
             get { return _cancelCommand; }
             set { _cancelCommand = value; }
+        }
+
+        private ICommand _helpCommand = null;
+        /// <summary>
+        /// Command for Help Button
+        /// </summary>
+        public ICommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set { _helpCommand = value; }
         }
 
         private ICommand _openDialogAddCommand = null;
@@ -124,6 +136,26 @@ namespace PB.MVVMToolkit.Dialogs
             set { _comboEnabled = value; OnPropertyChanged(nameof(ComboEnabled)); }
         }
 
+        private bool _helpEnabled;
+        /// <summary>
+        /// Enables or disables Help button visibilithy
+        /// </summary>
+        public bool HelpEnabled
+        {
+            get { return _helpEnabled; }
+            set { _helpEnabled = value; OnPropertyChanged(nameof(HelpEnabled)); }
+        }
+
+        /// <summary>
+        /// File path for help file
+        /// </summary>
+        public string HelpFilePath { get; set; }
+
+        /// <summary>
+        /// The URL for the help topic
+        /// </summary>
+        public string HelpTopic { get; set; }
+
         private string _message;
         /// <summary>
         /// Dialog Message
@@ -181,7 +213,10 @@ namespace PB.MVVMToolkit.Dialogs
         /// The default is false;
         /// </summary>
         public bool ItemRequired { get; set; }
-
+        /// <summary>
+        /// View's Owner
+        /// </summary>
+        public Window Owner { get; set; }
 
         #endregion
 
@@ -198,9 +233,10 @@ namespace PB.MVVMToolkit.Dialogs
             _openDialogAddCommand = new RelayCommand(OnOpenDialogAdd);
             _openDialogEditCommand = new RelayCommand(OnOpenDialogEdit);
             _openDialogDeleteCommand = new RelayCommand(OnOpenDialogDelete);
-
+            
             this._okCommand = new RelayCommand(OnOkClicked);
             this._cancelCommand = new RelayCommand(OnCancelClicked);
+            this._helpCommand = new RelayCommand(OnHelpClicked);
 
             //Add Message
             Message = message;
@@ -231,6 +267,9 @@ namespace PB.MVVMToolkit.Dialogs
 
             //Default to no combobox
             ComboEnabled = false;
+
+            //Default to no Help button
+            HelpEnabled = false;
 
             //Default ItemRequired to false;
             ItemRequired = false;
@@ -455,6 +494,14 @@ namespace PB.MVVMToolkit.Dialogs
 
             this.CancelClicked(this, EventArgs.Empty);
             CloseDialog(parameter as Window);
+        }
+
+        private void OnHelpClicked(object parameter)
+        {
+            if (System.IO.File.Exists(HelpFilePath))
+            {
+                Help.ShowHelp(null, HelpFilePath,HelpTopic);
+            }
         }
 
         private bool VerifyItemsChanged()

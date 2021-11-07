@@ -35,7 +35,7 @@
 
                             <ContentPresenter x:Name="ContentSite" Margin="5, 3, 23, 3" 
                                                 IsHitTestVisible="False"
-                                                HorizontalAlignment="Left" 
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                                 VerticalAlignment="Center"  
                                                 Content="{TemplateBinding SelectionBoxItem}" 
                                                 ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"

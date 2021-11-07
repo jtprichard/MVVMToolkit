@@ -54,6 +54,20 @@
         <Setter Property="TextWrapping" Value="WrapWithOverflow"></Setter>
     </Style>
 
+    <!-- Dialog Item Property Text block styles. -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="DialogItemTextBlockStyle">
+        <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}" />
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{StaticResource PBDarkBlueBrush}"/>
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="Margin" Value="10,3,10,3"/>
+    </Style>
+
+    <!-- Revit Properties Dockpanel Header Text block styles. -->
     <Style TargetType="{x:Type TextBlock}" x:Key="RevitPropertyHeaderBlock">
         <Setter Property="FontFamily" Value="{StaticResource PBSemiBoldFont}" />
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
@@ -64,6 +78,7 @@
         <Setter Property="TextAlignment" Value="Left"></Setter>
     </Style>
 
+    <!-- Revit Properties Dockpanel Item Text block styles. -->
     <Style TargetType="{x:Type TextBlock}" x:Key="RevitPropertyDescriptionBlock">
         <Setter Property="FontFamily" Value="{StaticResource PBRegularFont}" />
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />

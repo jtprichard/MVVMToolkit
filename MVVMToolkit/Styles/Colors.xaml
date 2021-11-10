@@ -33,6 +33,9 @@
     <Color x:Key="PBGray">#c8c9c7</Color>
     <SolidColorBrush x:Key="PBGrayBrush" Color="{StaticResource PBGray}"/>
 
+    <Color x:Key="PBDarkGray">#88898a</Color>
+    <SolidColorBrush x:Key="PBDarkGrayBrush" Color="{StaticResource PBDarkGray}"/>
+
     <Color x:Key="PBWhite">#ffffff</Color>
     <SolidColorBrush x:Key="PBWhiteBrush" Color="{StaticResource PBWhite}"/>
 

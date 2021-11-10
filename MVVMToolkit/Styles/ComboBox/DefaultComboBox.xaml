@@ -85,7 +85,7 @@
                             <Setter Property="MinHeight" TargetName="DropDownBorder" Value="95"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="TextElement.Foreground" Value="{StaticResource PBGrayBrush}"/>
+                            <Setter Property="TextElement.Foreground" Value="{StaticResource PBDarkGrayBrush}"/>
                         </Trigger>
                         <Trigger Property="IsGrouping" Value="True">
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>

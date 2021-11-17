@@ -86,6 +86,9 @@
     <Color x:Key="ButtonClickBackground">#cce4f7</Color>
     <SolidColorBrush x:Key="ButtonClickBackgroundBrush" Color="{StaticResource ButtonClickBackground}"/>
 
+    <Color x:Key="ButtonDisabledBackground">#eee</Color>
+    <SolidColorBrush x:Key="ButtonDisabledBackgroundBrush" Color="{StaticResource ButtonDisabledBackground}"/>
+
 
     <!--Grid Border Backgrounds-->
     <Color x:Key="RevitPropertyHeaderBackground">#c8c9c7</Color>

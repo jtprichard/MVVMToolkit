@@ -56,7 +56,8 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="TextElement.Foreground" Value="{StaticResource PBGrayBrush}"/>
-                            <Setter Property="Background" Value="{StaticResource PBLightBackgroundBrush}"></Setter>
+                            <Setter Property="Background" Value="{StaticResource ButtonDisabledBackgroundBrush}"></Setter>
+                            <Setter Property="BorderBrush" Value="{StaticResource PBLightBlueGrayBrush}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
 

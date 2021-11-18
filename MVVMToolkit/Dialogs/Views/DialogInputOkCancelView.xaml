@@ -25,7 +25,7 @@
         <StaticResource ResourceKey="DialogWindow"/>
     </Window.Style>
 
-    <Grid Margin="10" MinWidth="320" MaxWidth="400">
+    <Grid Margin="10" MinWidth="320" MaxWidth="500">
         <StackPanel>
             <Grid VerticalAlignment="Center" Margin="10">
                 <Grid.ColumnDefinitions>
@@ -34,7 +34,7 @@
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Width="Auto" 
                        Height="40" 
-                       Margin="10, 0, 10, 0" 
+                       Margin="0, 0, 0, 0" 
                        VerticalAlignment="Stretch"
                        Source="{Binding ImageFile}" />
 
@@ -42,7 +42,7 @@
 				    <TextBlock Text="{Binding Message}"
                                Style="{StaticResource DialogMessageTextBlockStyle}"
                                MinHeight="20"
-                               MaxWidth="260"
+                               MaxWidth="360"
                                Margin="4,0,4,0"/>
 
                     <TextBox Text="{Binding Answer}"

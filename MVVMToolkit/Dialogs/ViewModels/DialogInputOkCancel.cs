@@ -97,6 +97,18 @@ namespace PB.MVVMToolkit.Dialogs
             Instance = this;
         }
 
+        public DialogInputOkCancel(string message, string caption, DialogImage image)
+        {
+            Message = message;
+            Caption = caption;
+            Answer = "";
+            Image = image;
+
+            this._okCommand = new RelayCommand(OnOkClicked);
+            this._cancelCommand = new RelayCommand(OnCancelClicked);
+            Instance = this;
+        }
+
 
 
         #endregion

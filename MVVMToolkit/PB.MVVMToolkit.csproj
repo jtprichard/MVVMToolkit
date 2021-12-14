@@ -62,6 +62,7 @@
     <Compile Include="Dialogs\ViewModels\DialogOk.cs" />
     <Compile Include="Dialogs\ViewModels\DialogOkCancel.cs" />
     <Compile Include="Dialogs\Data\ListItem.cs" />
+    <Compile Include="Dialogs\ViewModels\DialogYesNoCancel.cs" />
     <Compile Include="Dialogs\ViewModels\ListInputViewModel.cs" />
     <Compile Include="Dialogs\Views\DialogOkCancelView.xaml.cs">
       <DependentUpon>DialogOkCancelView.xaml</DependentUpon>
@@ -74,6 +75,9 @@
       <DependentUpon>DialogInputOkCancelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\Enumerations\DialogResult.cs" />
+    <Compile Include="Dialogs\Views\DialogYesNoCancelView.xaml.cs">
+      <DependentUpon>DialogYesNoCancelView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\Views\DialogYesNoView.xaml.cs">
       <DependentUpon>DialogYesNoView.xaml</DependentUpon>
     </Compile>
@@ -121,6 +125,10 @@
     <Page Include="Dialogs\Views\DialogOkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\Views\DialogYesNoCancelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\Views\DialogYesNoView.xaml">
       <SubType>Designer</SubType>

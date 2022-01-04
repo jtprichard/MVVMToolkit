@@ -502,6 +502,10 @@ namespace PB.MVVMToolkit.Dialogs
             {
                 Help.ShowHelp(null, HelpFilePath,HelpTopic);
             }
+            else
+            {
+                DialogOk.Show("No Help File Found", "Error", DialogImage.Error);
+            }
         }
 
         private bool VerifyItemsChanged()

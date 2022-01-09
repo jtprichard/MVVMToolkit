@@ -85,6 +85,10 @@
     <Compile Include="Dialogs\Views\ListInputView.xaml.cs">
       <DependentUpon>ListInputView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProgressForms\ViewModels\ProgressForm.cs" />
+    <Compile Include="ProgressForms\Views\ProgressFormView.xaml.cs">
+      <DependentUpon>ProgressFormView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceClass.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
@@ -135,6 +139,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\Views\ListInputView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ProgressForms\Views\ProgressFormView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

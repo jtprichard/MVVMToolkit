@@ -89,6 +89,9 @@
     <Compile Include="ProgressForms\Views\ProgressFormView.xaml.cs">
       <DependentUpon>ProgressFormView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProgressForms\Views\ProgressView2.xaml.cs">
+      <DependentUpon>ProgressView2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReferenceClass.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
@@ -145,6 +148,10 @@
     <Page Include="ProgressForms\Views\ProgressFormView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ProgressForms\Views\ProgressView2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Buttons\ButtonAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using PB.MVVMToolkit.Dialogs;
@@ -19,6 +20,9 @@ namespace PB.MVVMToolkit.ProgressForms
         private bool _abortFlag;
         private ProgressFormView _view;
         private BackgroundWorker _worker;
+
+        public bool IsClosed { get; private set; }
+        private Task taskDoEvent { get; set; }
 
         #endregion
 
@@ -123,26 +127,47 @@ namespace PB.MVVMToolkit.ProgressForms
 
         public ProgressForm(string caption, string message, int max)
         {
+            Instance = this;
             Caption = caption;
             Message = message;
             ButtonText = "Abort";
             _abortFlag = false;
-
             PBMinimum = 0;
             PBMaximum = max;
-            PBValue = 0;
-            Progress = 0;
-            Show();
-            //Application.DoEvents();
 
-            this._cancelCommand = new RelayCommand(OnCancelClicked);
-            Instance = this;
 
-            _worker = new BackgroundWorker();
-            _worker.WorkerReportsProgress = true;
-            _worker.DoWork += worker_DoWork;
-            _worker.ProgressChanged += worker_ProgressChanged;
-            _worker.RunWorkerAsync();
+            _view = new ProgressFormView();
+            _view.Show();
+            DoEvents();
+
+            _view.Closed += (s, e) =>
+            {
+                IsClosed = true;
+            };
+
+
+
+
+            //Caption = caption;
+            //Message = message;
+            //ButtonText = "Abort";
+            //_abortFlag = false;
+
+            //PBMinimum = 0;
+            //PBMaximum = max;
+            //PBValue = 0;
+            //Progress = 0;
+            //Show();
+            ////Application.DoEvents();
+
+            //this._cancelCommand = new RelayCommand(OnCancelClicked);
+            //Instance = this;
+
+            //_worker = new BackgroundWorker();
+            //_worker.WorkerReportsProgress = true;
+            //_worker.DoWork += worker_DoWork;
+            //_worker.ProgressChanged += worker_ProgressChanged;
+            //_worker.RunWorkerAsync();
 
         }
 
@@ -165,16 +190,23 @@ namespace PB.MVVMToolkit.ProgressForms
         /// <summary>
         /// Increments progress bar
         /// </summary>
-        public void Increment()
+        public bool Increment(int value = 1)
         {
-            ++Progress;
-            _worker.ReportProgress(50);
+            PBValue += value;
 
-            //if (null != Message)
+            UpdateTaskDoEvent();
+
+            return IsClosed;
+
+            //if (PBValue + value >= PBMaximum)
             //{
-            //    label1.Text = string.Format(_format, progressBar1.Value);
+            //    PBMaximum += value;
             //}
-            //Application.DoEvents();
+
+            //PBValue += value;
+
+            //return IsClosed;
+
         }
 
 
@@ -197,6 +229,26 @@ namespace PB.MVVMToolkit.ProgressForms
             return (100.0 / PBMaximum) * value;
         }
 
+        private void UpdateTaskDoEvent()
+        {
+            if (taskDoEvent == null) taskDoEvent = GetTaskUpdateEvent();
+            if (taskDoEvent.IsCompleted)
+            {
+                DoEvents();
+                taskDoEvent = null;
+            }
+        }
+
+        private Task GetTaskUpdateEvent()
+        {
+            return Task.Run(async () => { await Task.Delay(10); });
+        }
+
+        private void DoEvents()
+        {
+            System.Windows.Forms.Application.DoEvents();
+            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+        }
 
         /// <summary>
         /// Cancel clicked command event
@@ -226,21 +278,22 @@ namespace PB.MVVMToolkit.ProgressForms
 
         public void Dispose()
         {
-            CloseDialog(_view);
+            if (!IsClosed) 
+                _view.Close();
         }
 
-        void worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                (sender as BackgroundWorker).ReportProgress(i);
-                Thread.Sleep(100);
-            }
-        }
+        //void worker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    for (int i = 0; i < 100; i++)
+        //    {
+        //        (sender as BackgroundWorker).ReportProgress(i);
+        //        Thread.Sleep(10);
+        //    }
+        //}
 
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            PBValue = e.ProgressPercentage;
-        }
+        //void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //{
+        //    PBValue = e.ProgressPercentage;
+        //}
     }
 }

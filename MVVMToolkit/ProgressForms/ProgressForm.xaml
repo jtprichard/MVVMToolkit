@@ -5,9 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PB.MVVMToolkit.ProgressForms"
-            WindowStartupLocation="CenterOwner"
-            SizeToContent="WidthAndHeight"
-            ResizeMode="NoResize"
+             WindowStartupLocation="CenterOwner"
+             SizeToContent="WidthAndHeight"
+             ResizeMode="NoResize"
              mc:Ignorable="d" >
 
     <!-- Resource Dictionary Reference-->
@@ -33,23 +33,22 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="1" Margin="6">
-                    <TextBlock x:Name="groupMessage"
+                    <TextBlock x:Name="GroupMessage"
                                Style="{StaticResource DialogMessageTextBlockStyle}"
                                Margin="4,0,4,4"/>
 
-                    <TextBlock x:Name="message"
+                    <TextBlock x:Name="Message"
                                Text="Message"
                                Style="{StaticResource DialogMessageTextBlockStyle}"
                                MinHeight="20"
                                MaxWidth="360"
                                Margin="4,0,4,4"/>
 
-                    <ProgressBar x:Name="progressBar" 
+                    <ProgressBar x:Name="ProgressBar" 
                                  Height="20"
                                  Width="250"
                                  Margin="0,5,0,0"
                     />
-
                 </StackPanel>
             </Grid>
 
@@ -58,7 +57,7 @@
                             HorizontalAlignment="Right"
                             Margin="0,0,20,0">
 
-                    <Button x:Name="abortButton"
+                    <Button x:Name="AbortButton"
                             Content="Abort"
                             IsCancel="True"
                             Style="{StaticResource DialogButton}"
@@ -68,7 +67,5 @@
             </Grid>
 
         </StackPanel>
-
     </Grid>
-
 </Window>

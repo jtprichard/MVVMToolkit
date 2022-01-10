@@ -4,12 +4,13 @@ using System.Windows;
 
 namespace PB.MVVMToolkit.ProgressForms
 {
-    public partial class ProgressView2 : Window, IDisposable
+    public partial class ProgressForm : Window, IDisposable
     {
         public bool IsClosed { get; private set; }
         private Task taskDoEvent { get; set; }
+        private bool _abortFlag = false;
 
-        public ProgressView2(string title = "", double maximum = 100)
+        public ProgressForm(string title = "", double maximum = 100)
         {
             InitializeComponent();
             InitializeSize();
@@ -38,6 +39,19 @@ namespace PB.MVVMToolkit.ProgressForms
             return IsClosed;
         }
 
+        public void Reset(double maximum = 100, string message = "")
+        {
+            this.progressBar.Maximum = maximum;
+            this.message.Text = message;
+            progressBar.Value = 0;
+        }
+
+        public void SetGroupMessage(string message)
+        {
+            this.groupMessage.Text = message;
+            this.groupMessage.Height = 20;
+        }
+
         private void UpdateTaskDoEvent()
         {
             if (taskDoEvent == null) taskDoEvent = GetTaskUpdateEvent();
@@ -51,13 +65,13 @@ namespace PB.MVVMToolkit.ProgressForms
 
         private Task GetTaskUpdateEvent()
         {
-            return Task.Run(async () => { await Task.Delay(500); });
+            return Task.Run(async () => { await Task.Delay(50); });
         }
 
         private void DoEvents()
         {
             System.Windows.Forms.Application.DoEvents();
-            System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
+            //System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
         }
 
         private void InitializeSize()
@@ -67,6 +81,17 @@ namespace PB.MVVMToolkit.ProgressForms
             this.ShowInTaskbar = false;
             this.ResizeMode = ResizeMode.NoResize;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        }
+
+        private void AbortButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.message.Text = "Aborting...";
+            _abortFlag = true;
+        }
+
+        public bool GetAbortFlag()
+        {
+            return _abortFlag;
         }
     }
 }

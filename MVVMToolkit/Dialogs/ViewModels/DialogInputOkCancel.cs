@@ -36,6 +36,20 @@ namespace PB.MVVMToolkit.Dialogs
 
         }
         /// <summary>
+        /// Determines if the window should use a multiline textbox for entry
+        /// </summary>
+        public bool UseMultilineResponseBox { get; set; }
+
+        /// <summary>
+        /// The height of the response text box
+        /// </summary>
+        public int TextBoxHeight => GetTextBoxHeight();
+        /// <summary>
+        /// The width of the response text box
+        /// </summary>
+        public string TextBoxWidth => GetTextBoxWidth();
+
+        /// <summary>
         /// Dialog Result
         /// Dialog will return Yes or No
         /// </summary>
@@ -71,8 +85,11 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// A dialog asks a question and return a DialogResult of Yes or No
         /// </summary>
-        /// <param name="message">Dialog message as string</param>
-        /// <param name="caption">Dialog window caption as string</param>
+        /// <param name="message">Input message</param>
+        /// <param name="caption">Window caption</param>
+        /// <param name="defaultAnswer">The default answer to place in the response textbox</param>
+        /// <param name="image">Dialog Image Object</param>
+        /// <param name="multiLineResponseBox">Set whether this should be a multi-line response text box.  False by default</param>
         public DialogInputOkCancel(string message, string caption, string defaultAnswer = "", DialogImage image = DialogImage.None)
         {
             Message = message;
@@ -177,6 +194,20 @@ namespace PB.MVVMToolkit.Dialogs
         {
             Result = DialogResult.Cancel;
             CloseDialog(parameter as Window);
+        }
+
+        private int GetTextBoxHeight()
+        {
+            if (UseMultilineResponseBox)
+                return 80;
+            return 20;
+        }
+
+        private string GetTextBoxWidth()
+        {
+            if (UseMultilineResponseBox)
+                return "320";
+            return "320";
         }
 
         #endregion

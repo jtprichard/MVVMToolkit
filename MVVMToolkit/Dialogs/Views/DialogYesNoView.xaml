@@ -27,11 +27,15 @@
         <StaticResource ResourceKey="DialogWindow"/>
     </Window.Style>
 
-    <Grid Margin="10" MinWidth="320" MaxWidth="400">
+    <Grid Margin="10" MinWidth="320" MaxWidth="460">
         <StackPanel>
 
             <Grid VerticalAlignment="Center" Margin="10">
 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -47,51 +51,65 @@
                            Text="{Binding Message}"
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            MinHeight="0"
-                           MaxWidth="260"
+                           MaxWidth="320"
                            Margin="10,10,15,0"/>
+
+                <Grid Row="1" Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="{Binding ShowDisableFuture, Converter={StaticResource RowVisibleConverter}}"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0"
+                               Text="Do Not Show This Again"
+                               Style="{StaticResource DialogMessageTextBlockStyle}"
+                               MinHeight="0"
+                               Margin="10,30,15,0"
+                    />
+                    <CheckBox Grid.Column="1"
+                              Width="20"
+                              IsEnabled="True"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Margin="0,30,0,0"
+                              IsChecked="{Binding DisableFuture}"
+                    />
+
+                </Grid>
             </Grid>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="{Binding ShowDisableFuture, Converter={StaticResource RowVisibleConverter}}"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="20"/>
-                </Grid.ColumnDefinitions>
-                
-                <TextBlock Grid.Column="0"
-                           Text="Do Not Show This Again for This Project"
-                           Style="{StaticResource DialogMessageTextBlockStyle}"
-                           MinHeight="0"
-                           Margin="10,10,15,10"
-                />
-                <CheckBox Grid.Column="1"
-                          Width="20"
-                          IsEnabled="True"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center"
-                          IsChecked="{Binding DisableFuture}"
-                />
 
-            </Grid>
+            <Grid Margin="0,0,10,10" VerticalAlignment="Bottom">
+                <WrapPanel Grid.ColumnSpan="2" 
+                           HorizontalAlignment="Right" 
+                           VerticalAlignment="Bottom"
+                           Margin="0,15,0,0">
 
-            <Grid>
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,20,0">
                     <Button Content="Yes" 
                             IsDefault="True"
                             Style="{StaticResource DialogButton}"
                             Command="{Binding YesCommand}"   
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    
                     <Button Content="No" 
-                            IsCancel="True"
+                            IsCancel="False"
                             Style="{StaticResource DialogButton}"
                             Command="{Binding NoCommand}"  
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-                    </StackPanel>
+
+                    <Button Content="Help"
+                            Name="BtnDialogHelp" 
+                            Style="{StaticResource DialogButton}"
+                            Visibility="{Binding Path=HelpEnabled, Converter={StaticResource VisibilityConverter}}"
+                            Command="{Binding HelpCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                    />
+                </WrapPanel>
             </Grid>
+
         </StackPanel>
     </Grid>
 </Window>

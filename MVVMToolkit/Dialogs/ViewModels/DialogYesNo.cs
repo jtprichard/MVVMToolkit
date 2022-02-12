@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
@@ -70,6 +71,41 @@ namespace PB.MVVMToolkit.Dialogs
             set { noCommand = value; }
         }
 
+        private ICommand _helpCommand = null;
+        /// <summary>
+        /// Command for Help Button
+        /// </summary>
+        public ICommand HelpCommand
+        {
+            get { return _helpCommand; }
+            set { _helpCommand = value; }
+        }
+
+        #endregion
+
+        #region Properties
+
+        private bool _helpEnabled;
+        /// <summary>
+        /// Enables or disables Help button visibilithy
+        /// </summary>
+        public bool HelpEnabled
+        {
+            get { return _helpEnabled; }
+            set { _helpEnabled = value; OnPropertyChanged(nameof(HelpEnabled)); }
+        }
+
+        /// <summary>
+        /// File path for help file
+        /// </summary>
+        public string HelpFilePath { get; set; }
+
+        /// <summary>
+        /// The URL for the help topic
+        /// </summary>
+        public string HelpTopic { get; set; }
+
+
         #endregion
 
         #region Constructors
@@ -86,6 +122,8 @@ namespace PB.MVVMToolkit.Dialogs
 
             this.yesCommand = new RelayCommand(OnYesClicked);
             this.noCommand = new RelayCommand(OnNoClicked);
+            this._helpCommand = new RelayCommand(OnHelpClicked);
+
             Instance = this;
         }
         #endregion
@@ -136,6 +174,19 @@ namespace PB.MVVMToolkit.Dialogs
             Result = DialogResult.No;
             CloseDialog(parameter as Window);
         }
+
+        private void OnHelpClicked(object parameter)
+        {
+            if (System.IO.File.Exists(HelpFilePath))
+            {
+                Help.ShowHelp(null, HelpFilePath, HelpTopic);
+            }
+            else
+            {
+                DialogOk.Show("No Help File Found", "Error", DialogImage.Error);
+            }
+        }
+
 
         #endregion
 

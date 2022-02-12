@@ -17,6 +17,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+                <!-- Converters. -->
+                <ResourceDictionary Source="../Converters/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -47,6 +49,31 @@
                            MinHeight="0"
                            MaxWidth="260"
                            Margin="10,10,15,0"/>
+            </Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="{Binding ShowDisableFuture, Converter={StaticResource RowVisibleConverter}}"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0"
+                           Text="Do Not Show This Again for This Project"
+                           Style="{StaticResource DialogMessageTextBlockStyle}"
+                           MinHeight="0"
+                           Margin="10,10,15,10"
+                />
+                <CheckBox Grid.Column="1"
+                          Width="20"
+                          IsEnabled="True"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          IsChecked="{Binding DisableFuture}"
+                />
+
             </Grid>
 
             <Grid>

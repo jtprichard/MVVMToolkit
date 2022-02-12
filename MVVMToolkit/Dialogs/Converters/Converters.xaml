@@ -4,5 +4,7 @@
                     xmlns:local="clr-namespace:PB.MVVMToolkit.Dialogs">
 
     <local:VisibilityValueConverter x:Key="VisibilityConverter"/>
+    <local:RowVisibleValueConverter x:Key="RowVisibleConverter" />
+
 
 </ResourceDictionary>

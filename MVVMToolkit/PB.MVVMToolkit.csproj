@@ -76,6 +76,7 @@
     <Compile Include="DialogServices\IDialog.cs" />
     <Compile Include="DialogServices\IDialogRequestClose.cs" />
     <Compile Include="DialogServices\IDialogService.cs" />
+    <Compile Include="Dialogs\Converters\RowVisibleValueConverter.cs" />
     <Compile Include="Dialogs\Converters\VisibilityValueConverter.cs" />
     <Compile Include="Dialogs\ViewModels\DialogInputOkCancel.cs" />
     <Compile Include="Dialogs\ViewModels\DialogOk.cs" />

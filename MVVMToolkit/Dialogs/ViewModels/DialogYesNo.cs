@@ -26,6 +26,21 @@ namespace PB.MVVMToolkit.Dialogs
         public string Caption { get; private set; }
 
         /// <summary>
+        /// Notes whether dialog should say "Do Not Show Me Again" checkbox
+        /// </summary>
+        public bool ShowDisableFuture { get; set; }
+
+        private bool _disableFuture;
+        /// <summary>
+        /// Value for user to determine whether the DisableFuture flag should be set
+        /// </summary>
+        public bool DisableFuture
+        {
+            get => _disableFuture;
+            set { _disableFuture = value; OnPropertyChanged(nameof(DisableFuture)); }
+        }
+
+        /// <summary>
         /// Dialog Result
         /// Dialog will return Yes or No
         /// </summary>
@@ -63,7 +78,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="message">Dialog message as string</param>
         /// <param name="caption">Dialog window caption as string</param>
-        private DialogYesNo(string message, string caption, DialogImage image = DialogImage.None)
+        public DialogYesNo(string message, string caption, DialogImage image = DialogImage.None)
         {
             Message = message;
             Caption = caption;
@@ -89,17 +104,20 @@ namespace PB.MVVMToolkit.Dialogs
             return vm.Result;
         }
 
-        #endregion
-
-        #region Private Methods
         /// <summary>
         /// Show dialog
         /// </summary>
-        private void Show()
+        public DialogResult Show()
         {
             var view = new DialogYesNoView();
             view.ShowDialog();
+            return Result;
         }
+
+
+        #endregion
+
+        #region Private Methods
         /// <summary>
         /// Yes clicked command event
         /// </summary>

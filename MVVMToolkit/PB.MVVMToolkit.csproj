@@ -78,12 +78,16 @@
     <Compile Include="DialogServices\IDialogService.cs" />
     <Compile Include="Dialogs\Converters\RowVisibleValueConverter.cs" />
     <Compile Include="Dialogs\Converters\VisibilityValueConverter.cs" />
+    <Compile Include="Dialogs\ViewModels\About.cs" />
     <Compile Include="Dialogs\ViewModels\DialogInputOkCancel.cs" />
     <Compile Include="Dialogs\ViewModels\DialogOk.cs" />
     <Compile Include="Dialogs\ViewModels\DialogOkCancel.cs" />
     <Compile Include="Dialogs\Data\ListItem.cs" />
     <Compile Include="Dialogs\ViewModels\DialogYesNoCancel.cs" />
     <Compile Include="Dialogs\ViewModels\ListInputViewModel.cs" />
+    <Compile Include="Dialogs\Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\Views\DialogOkCancelView.xaml.cs">
       <DependentUpon>DialogOkCancelView.xaml</DependentUpon>
     </Compile>
@@ -136,6 +140,10 @@
     <Page Include="Dialogs\Converters\Converters.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\Views\DialogInputOkCancelView.xaml">
       <SubType>Designer</SubType>
@@ -241,6 +249,8 @@
   <ItemGroup>
     <Resource Include="Resources\Images\dialog_question_icon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\pb_logo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

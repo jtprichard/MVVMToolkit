@@ -17,6 +17,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+                <!-- Converters. -->
+                <ResourceDictionary Source="../Converters/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -59,8 +61,8 @@
                            IsEnabled="True"
                            HorizontalAlignment="Center"
                            Margin="0 30 0 20"
-                           FontSize="36">
-                    PERFORMANCE SEATING
+                           FontSize="36"
+                           Text="{Binding Path=ProductName}">
                 </TextBlock>
             </Grid>
 
@@ -83,7 +85,8 @@
                            IsEnabled="True"
                            HorizontalAlignment="Left"
                            Margin="0 0 20 10"
-                           FontSize="14">
+                           FontSize="14"
+                           >
                     Version Number:
                 </TextBlock>
                 <TextBlock Grid.Row="0"
@@ -92,8 +95,9 @@
                            IsEnabled="True"
                            HorizontalAlignment="Left"
                            Margin="0 0 10 10"
-                           FontSize="14">
-                    Version
+                           FontSize="14"
+                           Text="{Binding Path=VersionNumber}"
+                           >
                 </TextBlock>
 
                 <TextBlock Grid.Row="1"
@@ -103,7 +107,7 @@
                            HorizontalAlignment="Left"
                            Margin="0 0 20 10"
                            FontSize="14">
-                    License To:
+                    License:
                 </TextBlock>
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
@@ -111,8 +115,9 @@
                            IsEnabled="True"
                            HorizontalAlignment="Left"
                            Margin="0 0 10 10"
-                           FontSize="14">
-                    License
+                           FontSize="14"
+                           Text="{Binding Path=Licensee}"
+                           >
                 </TextBlock>
 
                 <TextBlock Grid.Row="2"
@@ -121,8 +126,10 @@
                            IsEnabled="True"
                            HorizontalAlignment="Left"
                            Margin="0 0 20 10"
-                           FontSize="14">
-                    Minimum Family Version:
+                           FontSize="14"
+                           Text="{Binding Path=CustomTag1}"
+                           Visibility="{Binding Path=Custom1Visible, Converter={StaticResource VisibilityConverter}}"
+                           >
                 </TextBlock>
                 <TextBlock Grid.Row="2"
                            Grid.Column="1"
@@ -130,8 +137,10 @@
                            IsEnabled="True"
                            HorizontalAlignment="Left"
                            Margin="0 0 10 10"
-                           FontSize="14">
-                    Family Version
+                           FontSize="14"
+                           Text="{Binding Path=CustomValue1}"
+                           Visibility="{Binding Path=Custom1Visible, Converter={StaticResource VisibilityConverter}}"
+                           >
                 </TextBlock>
 
                 <TextBlock Grid.Row="3"
@@ -140,8 +149,10 @@
                            IsEnabled="True"
                            HorizontalAlignment="Left"
                            Margin="0 0 20 10"
-                           FontSize="14">
-                    Minimum Focus Point Version:
+                           FontSize="14"
+                           Text="{Binding Path=CustomTag2}"
+                           Visibility="{Binding Path=Custom2Visible, Converter={StaticResource VisibilityConverter}}"
+                           >
                 </TextBlock>
                 <TextBlock Grid.Row="3"
                            Grid.Column="1"
@@ -149,9 +160,35 @@
                            IsEnabled="True"
                            HorizontalAlignment="Left"
                            Margin="0 0 10 10"
-                           FontSize="14">
-                    Focus Point Version
+                           FontSize="14"
+                           Text="{Binding Path=CustomValue2}"
+                           Visibility="{Binding Path=Custom2Visible, Converter={StaticResource VisibilityConverter}}"
+                >
                 </TextBlock>
+
+                <TextBlock Grid.Row="4"
+                           Grid.Column="0"
+                           Style="{StaticResource DialogMessageTextBlockStyle}"
+                           IsEnabled="True"
+                           HorizontalAlignment="Left"
+                           Margin="0 0 20 10"
+                           FontSize="14"
+                           Text="{Binding Path=CustomTag3}"
+                           Visibility="{Binding Path=Custom3Visible, Converter={StaticResource VisibilityConverter}}"
+                >
+                </TextBlock>
+                <TextBlock Grid.Row="4"
+                           Grid.Column="1"
+                           Style="{StaticResource DialogMessageTextBlockStyle}"
+                           IsEnabled="True"
+                           HorizontalAlignment="Left"
+                           Margin="0 0 10 10"
+                           FontSize="14"
+                           Text="{Binding Path=CustomValue3}"
+                           Visibility="{Binding Path=Custom3Visible, Converter={StaticResource VisibilityConverter}}"
+                >
+                </TextBlock>
+
 
             </Grid>
 

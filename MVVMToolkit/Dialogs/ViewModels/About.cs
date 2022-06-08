@@ -20,39 +20,54 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Product Name as string
         /// </summary>
-        public string ProductName { get; private set; }
+        public string ProductName { get; }
         /// <summary>
         /// Version Number as string
         /// </summary>
-        public string VersionNumber { get; private set; }
+        public string VersionNumber { get; }
         /// <summary>
         /// License holder as string
         /// </summary>
-        public string Licensee { get; private set; }
+        public string Licensee { get; set; }
         /// <summary>
         /// Custom Entry #1 Tag
         /// </summary>
-        public string CustomTag1 { get; private set; }
+        public string CustomTag1 { get; set; }
         /// <summary>
         /// Custom Entry #1 Value
         /// </summary>
-        public string CustomValue1 { get; private set; }
+        public string CustomValue1 { get; set; }
         /// <summary>
         /// Custom Entry #2 Tag
         /// </summary>
-        public string CustomTag2 { get; private set; }
+        public string CustomTag2 { get; set; }
         /// <summary>
         /// Custom Entry #2 Value
         /// </summary>
-        public string CustomValue2 { get; private set; }
+        public string CustomValue2 { get; set; }
         /// <summary>
         /// Custom Entry #3 Tag
         /// </summary>
-        public string CustomTag3 { get; private set; }
+        public string CustomTag3 { get; set; }
         /// <summary>
         /// Custom Entry #3 Value
         /// </summary>
-        public string CustomValue3 { get; private set; }
+        public string CustomValue3 { get; set; }
+
+        /// <summary>
+        /// Sets the visibility of the Custom1 Tag and Value
+        /// </summary>
+        public bool Custom1Visible => ConfirmVisibility(CustomTag1);
+
+        /// <summary>
+        /// Sets the visibility of the Custom2 Tag and Value
+        /// </summary>
+        public bool Custom2Visible => ConfirmVisibility(CustomTag2);
+
+        /// <summary>
+        /// Sets the visibility of the Custom3 Tag and Value
+        /// </summary>
+        public bool Custom3Visible => ConfirmVisibility(CustomTag3);
 
         /// <summary>
         /// Dialog Result
@@ -89,6 +104,7 @@ namespace PB.MVVMToolkit.Dialogs
 
             this._okCommand = new RelayCommand(OnOkClicked);
             Instance = this;
+
         }
 
         #endregion
@@ -131,6 +147,11 @@ namespace PB.MVVMToolkit.Dialogs
         {
             Result = DialogResult.Ok;
             CloseDialog(parameter as Window);
+        }
+
+        private bool ConfirmVisibility(string value)
+        {
+            return value != "";
         }
 
 

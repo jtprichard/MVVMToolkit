@@ -6,8 +6,8 @@ namespace PB.MVVMToolkit.Dialogs
 {
     [ValueConversion(typeof(bool), typeof(String))]
     /// <summary>
-    /// Value Converter for Main WPF Page Navigation
-    /// Adjust Page Enumerations to Match Page XMAL documents
+    /// Value Converter intended for rows that return a height o 0
+    /// if the input is false.
     /// </summary>
     public class RowVisibleValueConverter : IValueConverter
     {

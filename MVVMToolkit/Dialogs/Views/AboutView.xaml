@@ -75,16 +75,16 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="{Binding Path=Custom1Visible, Converter={StaticResource RowVisibleConverter}}"/>
+                    <RowDefinition Height="{Binding Path=Custom2Visible, Converter={StaticResource RowVisibleConverter}}"/>
+                    <RowDefinition Height="{Binding Path=Custom3Visible, Converter={StaticResource RowVisibleConverter}}"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 20 10"
+                           Margin="0 0 20 5"
                            FontSize="14"
                            >
                     Version Number:
@@ -94,7 +94,7 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 10 10"
+                           Margin="0 0 10 5"
                            FontSize="14"
                            Text="{Binding Path=VersionNumber}"
                            >
@@ -105,7 +105,7 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 20 10"
+                           Margin="0 0 20 5"
                            FontSize="14">
                     License:
                 </TextBlock>
@@ -114,7 +114,7 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 10 10"
+                           Margin="0 0 10 5"
                            FontSize="14"
                            Text="{Binding Path=Licensee}"
                            >
@@ -125,10 +125,9 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 20 10"
+                           Margin="0 0 20 5"
                            FontSize="14"
                            Text="{Binding Path=CustomTag1}"
-                           Visibility="{Binding Path=Custom1Visible, Converter={StaticResource VisibilityConverter}}"
                            >
                 </TextBlock>
                 <TextBlock Grid.Row="2"
@@ -136,10 +135,9 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 10 10"
+                           Margin="0 0 10 5"
                            FontSize="14"
                            Text="{Binding Path=CustomValue1}"
-                           Visibility="{Binding Path=Custom1Visible, Converter={StaticResource VisibilityConverter}}"
                            >
                 </TextBlock>
 
@@ -148,10 +146,9 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 20 10"
+                           Margin="0 0 20 5"
                            FontSize="14"
                            Text="{Binding Path=CustomTag2}"
-                           Visibility="{Binding Path=Custom2Visible, Converter={StaticResource VisibilityConverter}}"
                            >
                 </TextBlock>
                 <TextBlock Grid.Row="3"
@@ -159,10 +156,9 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 10 10"
+                           Margin="0 0 10 5"
                            FontSize="14"
                            Text="{Binding Path=CustomValue2}"
-                           Visibility="{Binding Path=Custom2Visible, Converter={StaticResource VisibilityConverter}}"
                 >
                 </TextBlock>
 
@@ -171,10 +167,9 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 20 10"
+                           Margin="0 0 20 5"
                            FontSize="14"
                            Text="{Binding Path=CustomTag3}"
-                           Visibility="{Binding Path=Custom3Visible, Converter={StaticResource VisibilityConverter}}"
                 >
                 </TextBlock>
                 <TextBlock Grid.Row="4"
@@ -182,10 +177,9 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 10 10"
+                           Margin="0 0 10 5"
                            FontSize="14"
                            Text="{Binding Path=CustomValue3}"
-                           Visibility="{Binding Path=Custom3Visible, Converter={StaticResource VisibilityConverter}}"
                 >
                 </TextBlock>
 
@@ -198,9 +192,10 @@
                            Style="{StaticResource DialogMessageTextBlockStyle}"
                            IsEnabled="True"
                            HorizontalAlignment="Left"
-                           Margin="0 0 10 10"
-                           FontSize="14">
-                    Copyright Information
+                           Margin="0 0 10 5"
+                           FontSize="14"
+                           Text="{Binding Path=Copyright}"
+                           >
                 </TextBlock>
             </Grid>
 

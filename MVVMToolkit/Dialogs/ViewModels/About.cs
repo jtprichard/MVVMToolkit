@@ -30,6 +30,14 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public string Licensee { get; set; }
         /// <summary>
+        /// The copyright year(s)
+        /// </summary>
+        public string CopyrightYear { get; }
+        /// <summary>
+        /// The copyright string for the form
+        /// </summary>
+        public string Copyright => GetCopyright();
+        /// <summary>
         /// Custom Entry #1 Tag
         /// </summary>
         public string CustomTag1 { get; set; }
@@ -97,10 +105,11 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="productName">Input productName</param>
         /// <param name="versionNumber">Window caption</param>
-        public About(string productName, string versionNumber)
+        public About(string productName, string versionNumber, string copyrightYear)
         {
             ProductName = productName;
             VersionNumber = versionNumber;
+            CopyrightYear = copyrightYear;
 
             this._okCommand = new RelayCommand(OnOkClicked);
             Instance = this;
@@ -117,9 +126,9 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="productName">Product Name as string</param>
         /// <param name="versionNumber">Version Number as string</param>
         /// <returns></returns>
-        public static DialogResult Show(string productName, string versionNumber)
+        public static DialogResult Show(string productName, string versionNumber, string copyrightYear)
         {
-            var vm = new About(productName, versionNumber);
+            var vm = new About(productName, versionNumber, copyrightYear);
             vm.Show();
             return vm.Result;
         }
@@ -152,6 +161,12 @@ namespace PB.MVVMToolkit.Dialogs
         private bool ConfirmVisibility(string value)
         {
             return value != "";
+        }
+
+        private string GetCopyright()
+        {
+            var language = "Copyright © " + CopyrightYear + " Performance BIM.  All Rights Reserved";
+            return language;
         }
 
 

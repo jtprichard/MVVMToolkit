@@ -73,6 +73,7 @@
     <Compile Include="DialogServices\BaseDialogWindow.cs" />
     <Compile Include="DialogServices\DialogCloseRequestedEventArgs.cs" />
     <Compile Include="DialogServices\DialogService.cs" />
+    <Compile Include="DialogServices\IDialogWindow.cs" />
     <Compile Include="DialogServices\IDialog.cs" />
     <Compile Include="DialogServices\IDialogRequestClose.cs" />
     <Compile Include="DialogServices\IDialogService.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using PB.MVVMToolkit.Dialogs;
 
@@ -12,6 +13,10 @@ namespace PB.MVVMToolkit.DialogServices
     {
         //private readonly Owner;
         private readonly Page _owner;
+
+        //NEW
+        private readonly Window _ownerWindow;
+
         public IDictionary<Type, Type> Mappings { get; }
         public static DialogService Instance { get; private set; }
 
@@ -21,9 +26,17 @@ namespace PB.MVVMToolkit.DialogServices
             Mappings = new Dictionary<Type, Type>();
             Instance = this;
         }
+
+        public DialogService(Window owner)
+        {
+            this._ownerWindow = owner;
+            Mappings = new Dictionary<Type, Type>();
+            Instance = this;
+        }
         public void Register<TViewModel, TView>()
             where TViewModel : IDialogRequestClose
-            where TView : IDialog
+            where TView : IDialogWindow
+            //where TView : IDialog
         {
             if (Mappings.ContainsKey(typeof(TViewModel)))
             {
@@ -39,7 +52,9 @@ namespace PB.MVVMToolkit.DialogServices
             {
                 Type viewType = Mappings[typeof(TViewModel)];
 
-                IDialog dialog = (IDialog) Activator.CreateInstance(viewType);
+                //IDialog dialog = (IDialog) Activator.CreateInstance(viewType);
+
+                IDialogWindow dialog = (IDialogWindow)Activator.CreateInstance(viewType);
 
                 void handler(object sender, DialogCloseRequestedEventArgs e)
                 {
@@ -58,7 +73,10 @@ namespace PB.MVVMToolkit.DialogServices
                 viewModel.CloseRequested += handler;
 
                 dialog.DataContext = viewModel;
-                dialog.Owner = _owner;
+
+                //dialog.Owner = _owner;
+                dialog.Owner = _ownerWindow;
+
 
                 dialog.ShowDialog();
             }

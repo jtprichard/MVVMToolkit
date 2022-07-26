@@ -6,7 +6,8 @@
     public interface IDialogService
     {
         void Register<TViewModel, TView>() where TViewModel : IDialogRequestClose
-            where TView : IDialog;
+            //where TView : IDialog
+            where TView : IDialogWindow;
         void ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : IDialogRequestClose;
     }
 }

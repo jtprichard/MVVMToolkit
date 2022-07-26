@@ -7,11 +7,12 @@ namespace PB.MVVMToolkit.DialogServices
     /// Base class for dialog window views
     /// Class inherits IDialog for DialogServices
     /// </summary>
-    public class BaseDialogWindow:Window, IDialog
+    public class BaseDialogWindow:Window, IDialogWindow
     {
         /// <summary>
         /// Page Owner
         /// </summary>
-        public new Page Owner { get; set; }
+        //public new Page Owner { get; set; }
+        public new Window Owner { get; set; }
     }
 }

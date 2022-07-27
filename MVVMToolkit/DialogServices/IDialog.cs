@@ -10,7 +10,7 @@ namespace PB.MVVMToolkit.DialogServices
     {
         object DataContext { get; set; }
         bool? DialogResult { get; set; }
-        Page Owner { get; set; }
+        Window Owner { get; set; }
         void Close();
         bool? ShowDialog();
     }

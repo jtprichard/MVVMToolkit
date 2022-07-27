@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace PB.MVVMToolkit.DialogServices
 {
@@ -7,7 +6,7 @@ namespace PB.MVVMToolkit.DialogServices
     /// Base class for dialog window views
     /// Class inherits IDialog for DialogServices
     /// </summary>
-    public class BaseDialogWindow:Window, IDialogWindow
+    public class BaseDialogWindow:Window, IDialog
     {
         /// <summary>
         /// Page Owner

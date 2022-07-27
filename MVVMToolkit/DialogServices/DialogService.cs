@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using PB.MVVMToolkit.Dialogs;
 
 namespace PB.MVVMToolkit.DialogServices
@@ -11,32 +10,24 @@ namespace PB.MVVMToolkit.DialogServices
     /// </summary>
     public class DialogService : IDialogService
     {
-        //private readonly Owner;
-        private readonly Page _owner;
-
-        //NEW
-        private readonly Window _ownerWindow;
+        private readonly Window _owner;
 
         public IDictionary<Type, Type> Mappings { get; }
         public static DialogService Instance { get; private set; }
 
-        public DialogService(Page owner)
+        /// <summary>
+        /// Dialog Service Object Constructor
+        /// </summary>
+        /// <param name="owner">Window Owner as Window</param>
+        public DialogService(Window owner)
         {
             this._owner = owner;
             Mappings = new Dictionary<Type, Type>();
             Instance = this;
         }
-
-        public DialogService(Window owner)
-        {
-            this._ownerWindow = owner;
-            Mappings = new Dictionary<Type, Type>();
-            Instance = this;
-        }
         public void Register<TViewModel, TView>()
             where TViewModel : IDialogRequestClose
-            where TView : IDialogWindow
-            //where TView : IDialog
+            where TView : IDialog
         {
             if (Mappings.ContainsKey(typeof(TViewModel)))
             {
@@ -54,7 +45,7 @@ namespace PB.MVVMToolkit.DialogServices
 
                 //IDialog dialog = (IDialog) Activator.CreateInstance(viewType);
 
-                IDialogWindow dialog = (IDialogWindow)Activator.CreateInstance(viewType);
+                IDialog dialog = (IDialog)Activator.CreateInstance(viewType);
 
                 void handler(object sender, DialogCloseRequestedEventArgs e)
                 {
@@ -75,7 +66,7 @@ namespace PB.MVVMToolkit.DialogServices
                 dialog.DataContext = viewModel;
 
                 //dialog.Owner = _owner;
-                dialog.Owner = _ownerWindow;
+                dialog.Owner = _owner;
 
 
                 dialog.ShowDialog();

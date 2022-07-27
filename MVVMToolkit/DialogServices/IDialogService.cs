@@ -7,7 +7,7 @@
     {
         void Register<TViewModel, TView>() where TViewModel : IDialogRequestClose
             //where TView : IDialog
-            where TView : IDialogWindow;
+            where TView : IDialog;
         void ShowDialog<TViewModel>(TViewModel viewModel) where TViewModel : IDialogRequestClose;
     }
 }

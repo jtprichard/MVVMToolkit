@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -128,7 +129,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private bool _comboEnabled;
         /// <summary>
-        /// Enables or disables combobox element visibilithy
+        /// Enables or disables combobox element visibility
         /// </summary>
         public bool ComboEnabled
         {
@@ -138,7 +139,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private bool _helpEnabled;
         /// <summary>
-        /// Enables or disables Help button visibilithy
+        /// Enables or disables Help button visibility
         /// </summary>
         public bool HelpEnabled
         {
@@ -158,7 +159,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private string _message;
         /// <summary>
-        /// Dialog Message
+        /// The message to be displayed as part of the dialog window.
         /// </summary>
         public string Message
         {
@@ -168,7 +169,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private string _comboMessage;
         /// <summary>
-        /// Combobox Message
+        /// The message to be displayed next to the combobox list
         /// </summary>
         public string ComboMessage
         {
@@ -178,7 +179,8 @@ namespace PB.MVVMToolkit.Dialogs
 
         private ObservableCollection<ListItem> _comboboxItems;
         /// <summary>
-        /// List items as Observable Collection
+        /// A list of items for the combobox as an Observable Collection.  To be of use, the list items
+        /// must include a dependency parameter to associate with this list.
         /// </summary>
         public ObservableCollection<ListItem> ComboboxItems
         {
@@ -188,7 +190,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private ListItem _selectedComboboxItem;
         /// <summary>
-        /// The selected list item
+        /// The selected combobox item.
         /// </summary>
         public ListItem SelectedComboboxItem
         {
@@ -201,7 +203,7 @@ namespace PB.MVVMToolkit.Dialogs
             }
         }
         /// <summary>
-        /// Item type that the dialog is working with
+        /// Item type description that the dialog is working with
         /// </summary>
         public string ItemType { get;}
         /// <summary>
@@ -227,7 +229,9 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="items">List Items as observable collection</param>
         /// <param name="message">Dialog message</param>
         /// <param name="itemType">Item type to use in response dialogs</param>
-        public ListInputViewModel(ObservableCollection<ListItem> items, string message, string itemType)
+        /// <param name="defaultId">Optional - set the default Id to start with</param>
+
+        public ListInputViewModel(ObservableCollection<ListItem> items, string message, string itemType, int defaultId = 0)
         {
             // Initiate commands
             _openDialogAddCommand = new RelayCommand(OnOpenDialogAdd);
@@ -257,10 +261,28 @@ namespace PB.MVVMToolkit.Dialogs
                 PopulateListItems();
 
             //Store the maximum list id
-            if (items.Count == 0)
-                _listId = 1000;
-            else
-                _listId = items.Max(x => x.Id);
+            
+            //Check if default Id was added, and if so, that it doesn't conflict with existing
+            if (defaultId != 0)
+            {
+                if (items.Count != 0 && items.All(x => x.Id != defaultId))
+                {
+                    _listId = defaultId - 1;
+                }
+                else
+                {
+                    throw new DuplicateNameException("DefaultId value " + defaultId + " is a duplicate of existing ids.");
+                }
+            }
+
+            //If no defaultId was provided, provide default or locate the maximum
+            if (_listId == 0)
+            {
+                if (items.Count == 0)
+                    _listId = 1000;
+                else
+                    _listId = items.Max(x => x.Id);
+            }
 
             //Store the original item list to confirm at the end
             _originalItemList = items;
@@ -278,6 +300,7 @@ namespace PB.MVVMToolkit.Dialogs
             Instance = this;
 
         }
+
 
         #endregion
 
@@ -318,6 +341,10 @@ namespace PB.MVVMToolkit.Dialogs
                 if (!answerDuplicated)
                 {
                     _listId++;
+                    if (VisibleListItems.Any(x => x.Id == _listId))
+                    {
+                        throw new DuplicateNameException("The Id " + _listId + " is duplicated.");
+                    }
                     AddItemToList(answer, _listId);
                 }
                 else

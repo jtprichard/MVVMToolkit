@@ -79,7 +79,9 @@
     <Compile Include="DialogServices\IDialogService.cs" />
     <Compile Include="Dialogs\Converters\RowVisibleValueConverter.cs" />
     <Compile Include="Dialogs\Converters\VisibilityValueConverter.cs" />
+    <Compile Include="Dialogs\Data\DialogInput.cs" />
     <Compile Include="Dialogs\ViewModels\About.cs" />
+    <Compile Include="Dialogs\ViewModels\DialogMultiInputOkCancel.cs" />
     <Compile Include="Dialogs\ViewModels\DialogInputOkCancel.cs" />
     <Compile Include="Dialogs\ViewModels\DialogOk.cs" />
     <Compile Include="Dialogs\ViewModels\DialogOkCancel.cs" />
@@ -88,6 +90,9 @@
     <Compile Include="Dialogs\ViewModels\ListInputViewModel.cs" />
     <Compile Include="Dialogs\Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Views\DialogMultiInputOkCancelView.xaml.cs">
+      <DependentUpon>DialogMultiInputOkCancelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\Views\DialogOkCancelView.xaml.cs">
       <DependentUpon>DialogOkCancelView.xaml</DependentUpon>
@@ -145,6 +150,10 @@
     <Page Include="Dialogs\Views\AboutView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\Views\DialogMultiInputOkCancelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\Views\DialogInputOkCancelView.xaml">
       <SubType>Designer</SubType>

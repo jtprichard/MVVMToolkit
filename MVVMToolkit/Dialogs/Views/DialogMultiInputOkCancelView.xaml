@@ -1,0 +1,128 @@
+﻿<Window x:Class="PB.MVVMToolkit.Dialogs.DialogMultiInputOkCancelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PB.MVVMToolkit.Dialogs"
+             mc:Ignorable="d"  
+             x:ClassModifier="internal"
+             ContentRendered="Window_ContentRendered"
+             WindowStartupLocation="CenterOwner"
+             SizeToContent="WidthAndHeight"
+             ResizeMode="NoResize"
+             Title="{Binding Caption}"
+>
+    <!-- Resource Dictionary Reference-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Style>
+        <StaticResource ResourceKey="DialogWindow"/>
+    </Window.Style>
+
+    <Grid Margin="10" MinWidth="320" MaxWidth="500">
+        <StackPanel>
+            <Grid VerticalAlignment="Center" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Width="Auto" 
+                       Height="40" 
+                       Margin="0, 0, 0, 0" 
+                       VerticalAlignment="Stretch"
+                       Source="{Binding ImageFile}" />
+
+                <StackPanel Grid.Column="1" Margin="6">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ListView ItemsSource="{Binding InputCollection}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Caption}"/>
+                                        <TextBox Text="{Binding Answer}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <!--
+                        <TextBlock Grid.Column="0" Grid.Row="0"
+                                   Text="{Binding Message1}"
+                                   Style="{StaticResource DialogMessageTextBlockStyle}"
+                                   MinHeight="20"
+                                   MaxWidth="100"
+                                   Margin="4,0,4,0"/>
+
+                        <TextBox Grid.Column="1" Grid.Row="0"
+                                 Text="{Binding Answer1}"
+                                 Style="{StaticResource DefaultTextBox}"
+                                 x:Name="txtAnswer1"
+                                 Height="{Binding TextBoxHeight}"
+                                 Width="{Binding TextBoxWidth}"
+                                 MinWidth="200"
+                                 TextWrapping="WrapWithOverflow"
+                                 HorizontalAlignment="Left"
+                                 Margin="4,15,4,0"/>
+
+                        <TextBlock Grid.Column="0" Grid.Row="1"
+                                   Text="{Binding Message2}"
+                                   Style="{StaticResource DialogMessageTextBlockStyle}"
+                                   MinHeight="20"
+                                   MaxWidth="100"
+                                   Margin="4,0,4,0"/>
+
+                        <TextBox Grid.Column="1" Grid.Row="1"
+                                 Text="{Binding Answer2}"
+                                 Style="{StaticResource DefaultTextBox}"
+                                 x:Name="txtAnswer2"
+                                 Height="{Binding TextBoxHeight}"
+                                 Width="{Binding TextBoxWidth}"
+                                 MinWidth="200"
+                                 TextWrapping="WrapWithOverflow"
+                                 HorizontalAlignment="Left"
+                                 Margin="4,15,4,0"/>-->
+
+
+                    </Grid>
+
+                </StackPanel>
+            </Grid>
+
+            <Grid>
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right"
+                            Margin="0,0,20,0">
+                <Button Content="Ok"
+                        IsDefault="True"
+                        Style="{StaticResource DialogButton}"
+                        Command="{Binding OkCommand}"   
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                />
+                <Button Content="Cancel"
+                        IsCancel="True"
+                        Style="{StaticResource DialogButton}"
+                        Command="{Binding CancelCommand}"   
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        />
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
@@ -7,6 +8,8 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
+using PB.MVVMToolkit.Dialogs.Data;
+using System.Collections.Generic;
 
 namespace PB.MVVMToolkit.Dialogs
 {
@@ -14,8 +17,9 @@ namespace PB.MVVMToolkit.Dialogs
     {
         #region Private Fields
 
-        private readonly ObservableCollection<ListItem> _originalItemList = null;
+        private readonly ObservableCollection<NewListItem> _originalItemList = null;
         private int _listId;
+        private List<ListItemProperty> _itemProperties = null;
 
 
         #endregion
@@ -96,28 +100,28 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// List items as observable collection that may be retrieved following edits.
         /// </summary>
-        public ObservableCollection<ListItem> ListItems { get; private set; }
+        public ObservableCollection<NewListItem> ListItems { get; private set; }
         /// <summary>
         /// Instance of viewmodel for databinding
         /// </summary>
         internal static ListInputViewModel Instance { get; set; }
-        private ObservableCollection<ListItem> _visibleListItems;
+        private ObservableCollection<NewListItem> _visibleListItems;
         /// <summary>
         /// List items used in the listbox user inteface.  Note that while these list items may be retrieved outside of the interface,
         /// if there are dependencies, you will only retrieve the list items that are dependent on the combobox when the retrieval is initiated.
         /// List items should generally be retrieved from the ListItems property, which holds all items regardless of dependencies.
         /// </summary>
-        public ObservableCollection<ListItem> VisibleListItems
+        public ObservableCollection<NewListItem> VisibleListItems
         {
             get { return _visibleListItems; }
             set { _visibleListItems = value; OnPropertyChanged(nameof(VisibleListItems)); }
         }
 
-        private ListItem _selectedListItem;
+        private NewListItem _selectedListItem;
         /// <summary>
         /// The selected list item
         /// </summary>
-        public ListItem SelectedListItem
+        public NewListItem SelectedListItem
         {
             get { return _selectedListItem; }
             set
@@ -177,22 +181,22 @@ namespace PB.MVVMToolkit.Dialogs
             set { _comboMessage = value; OnPropertyChanged(nameof(ComboMessage)); }
         }
 
-        private ObservableCollection<ListItem> _comboboxItems;
+        private ObservableCollection<NewListItem> _comboboxItems;
         /// <summary>
         /// A list of items for the combobox as an Observable Collection.  To be of use, the list items
         /// must include a dependency parameter to associate with this list.
         /// </summary>
-        public ObservableCollection<ListItem> ComboboxItems
+        public ObservableCollection<NewListItem> ComboboxItems
         {
             get { return _comboboxItems; }
             set { _comboboxItems = value; OnPropertyChanged(nameof(ComboboxItems)); }
         }
 
-        private ListItem _selectedComboboxItem;
+        private NewListItem _selectedComboboxItem;
         /// <summary>
         /// The selected combobox item.
         /// </summary>
-        public ListItem SelectedComboboxItem
+        public NewListItem SelectedComboboxItem
         {
             get { return _selectedComboboxItem; }
             set
@@ -231,7 +235,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="itemType">Item type to use in response dialogs</param>
         /// <param name="defaultId">Optional - set the default Id to start with</param>
 
-        public ListInputViewModel(ObservableCollection<ListItem> items, string message, string itemType, int defaultId = 0)
+        public ListInputViewModel(ObservableCollection<NewListItem> items, string message, string itemType, int defaultId = 0, List<ListItemProperty> properties = null)
         {
             // Initiate commands
             _openDialogAddCommand = new RelayCommand(OnOpenDialogAdd);
@@ -241,6 +245,10 @@ namespace PB.MVVMToolkit.Dialogs
             this._okCommand = new RelayCommand(OnOkClicked);
             this._cancelCommand = new RelayCommand(OnCancelClicked);
             this._helpCommand = new RelayCommand(OnHelpClicked);
+
+            //Store custom properties if used
+            if (properties != null)
+                _itemProperties = properties;
 
             //Add Message
             Message = message;
@@ -252,7 +260,7 @@ namespace PB.MVVMToolkit.Dialogs
             Title = "Edit " + ItemType;
 
             //Store the full item list regardless of dependency
-            ListItems = ListItem.Clone(items);
+            ListItems = NewListItem.Clone(items);
 
             //Populate the list and select the first item as default
             if (ComboEnabled)
@@ -324,10 +332,18 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="parameter"></param>
         private void OnOpenDialogAdd(object parameter)
         {
-            string message = "What " + ItemType +" item do you want to add?";
+            if(_itemProperties == null)
+                AddSinglePropertyDialog();
+            else
+                AddMultiPropertyDialog();
+        }
+
+        private void AddSinglePropertyDialog()
+        {
+            string message = "What " + ItemType + " item do you want to add?";
             var dialog = new DialogInputOkCancel(message, "Add Item");
             dialog.Image = DialogImage.Question;
-            dialog.Answer = "Default " + ItemType + " Item";
+            //dialog.Answer = "Default " + ItemType + " Item";
             var result = dialog.Show();
             string answer = dialog.Answer;
 
@@ -352,15 +368,45 @@ namespace PB.MVVMToolkit.Dialogs
                     string errorMsg = ItemType + " name must be unique";
                     DialogOk.Show(errorMsg, "Error", DialogImage.Error);
                 }
-
             }
         }
 
-        /// <summary>
-        /// Open the dialog to edit an item
-        /// </summary>
-        /// <param name="parameter"></param>
-        private void OnOpenDialogEdit(object parameter)
+        private void AddMultiPropertyDialog()
+        {
+            //Create Inputs
+            var inputs = new ObservableCollection<DialogInput>();
+            var properties = _itemProperties;
+            foreach (var property in properties)
+            {
+                inputs.Add(new DialogInput(property.Name, property.Value));
+            }
+
+            string message = "What " + ItemType + " item do you want to add?";
+            var dialog = new DialogMultiInputOkCancel(message, inputs);
+
+            var result = dialog.Show();
+
+            if (result == DialogResult.Cancel)
+            {
+                DialogOk.Show("No " + ItemType + " item was added", "Cancel", DialogImage.Info);
+            }
+            else
+            {
+                _listId++;
+                if (VisibleListItems.Any(x => x.Id == _listId))
+                {
+                    throw new DuplicateNameException("The Id " + _listId + " is duplicated.");
+                }
+                AddItemToList(inputs, _listId);
+            }
+
+        }
+
+            /// <summary>
+            /// Open the dialog to edit an item
+            /// </summary>
+            /// <param name="parameter"></param>
+            private void OnOpenDialogEdit(object parameter)
         {
             string message = "Edit the current " + ItemType +" item";
 
@@ -408,7 +454,7 @@ namespace PB.MVVMToolkit.Dialogs
             }
         }
 
-        private void RemoveItemFromList(ListItem item)
+        private void RemoveItemFromList(NewListItem item)
         {
             //Look for the selected item in the list and remove it
             ListItems.Remove(GetSelectedListItem(SelectedListItem));
@@ -422,14 +468,29 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="item"></param>
         private void AddItemToList(string item, int id)
         {
-            var newItem = new ListItem(item, id);
+            var newItem = new NewListItem(item, id);
             if (ComboEnabled)
                 newItem.Dependency = SelectedComboboxItem;
             ListItems.Add(newItem);
             UpdateListItems();
         }
 
-        private void EditItemOnList(ListItem item, string description)
+        private void AddItemToList(ObservableCollection<DialogInput> inputs, int id)
+        {
+            IList<ListItemProperty> properties = new List<ListItemProperty>();
+            foreach (var input in inputs)
+            {
+                properties.Add(new ListItemProperty(input.Caption, input.Answer));
+            }
+
+            var description = properties.FirstOrDefault(x => x.Name == nameof(NewListItem.Description));
+            var newItem = new NewListItem(description.Name, id, properties);
+
+            ListItems.Add(newItem);
+            UpdateListItems();
+        }
+
+        private void EditItemOnList(NewListItem item, string description)
         {
             var selectedItem = GetSelectedListItem(item);
             selectedItem.Description = description;
@@ -439,9 +500,9 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Locates the item in the itemlist
         /// </summary>
-        /// <param name="item">Item as ListItem</param>
+        /// <param name="item">Item as NewListItem</param>
         /// <returns></returns>
-        private ListItem GetSelectedListItem(ListItem item)
+        private NewListItem GetSelectedListItem(NewListItem item)
         {
             return ListItems.FirstOrDefault(x => x.Id == item.Id);
 
@@ -453,9 +514,9 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="listItems"></param>
         private void PopulateListItems()
         {
-            var items = new ObservableCollection<ListItem>();
+            var items = new ObservableCollection<NewListItem>();
             foreach (var item in ListItems)
-                items.Add(new ListItem(item.Description, item.Id, item.IsLocked));
+                items.Add(new NewListItem(item.Description, item.Id, item.IsLocked));
 
             VisibleListItems = items;
 
@@ -473,10 +534,10 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="listItems"></param>
         private void PopulateListItemsWithDependency()
         {
-            var items = new ObservableCollection<ListItem>();
+            var items = new ObservableCollection<NewListItem>();
             foreach (var item in ListItems)
                 if(item.Dependency.Id == SelectedComboboxItem.Id)
-                    items.Add(new ListItem(item.Description, item.Id, item.IsLocked));
+                    items.Add(new NewListItem(item.Description, item.Id, item.IsLocked));
 
             VisibleListItems = items;
 

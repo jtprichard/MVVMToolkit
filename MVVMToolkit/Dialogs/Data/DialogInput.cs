@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Drawing;
 
 namespace PB.MVVMToolkit.Dialogs.Data
 {
@@ -27,6 +28,14 @@ namespace PB.MVVMToolkit.Dialogs.Data
             get { return _answer; }
             set { _answer = value; OnPropertyChanged(nameof(Answer)); }
 
+        }
+
+        public DialogInput(){}
+
+        public DialogInput(string caption, string defaultAnswer = "")
+        {
+            Caption = caption;
+            Answer = defaultAnswer;
         }
 
         #endregion

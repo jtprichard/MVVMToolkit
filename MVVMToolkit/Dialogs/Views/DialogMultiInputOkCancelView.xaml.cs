@@ -16,8 +16,8 @@ namespace PB.MVVMToolkit.Dialogs
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            txtAnswer1.SelectAll();
-            txtAnswer1.Focus();
+            //txtAnswer.SelectAll();
+            //txtAnswer.Focus();
         }
     }
 }

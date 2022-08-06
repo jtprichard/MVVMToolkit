@@ -26,7 +26,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private ObservableCollection<DialogInput> _inputCollection;
         /// <summary>
-        /// A collection of DialogInput objects for captino and answers 
+        /// A collection of DialogInput objects for caption and answers 
         /// </summary>
         public ObservableCollection<DialogInput> InputCollection
         {

@@ -29,7 +29,13 @@ namespace PB.MVVMToolkit.Dialogs.Data
 
         #region Public Methods
 
-
+        public static ListItemProperty Create(string name, string value, bool isLocked = false, bool isVisible = false)
+        {
+            var property = new ListItemProperty(name, value);
+            property.IsLocked = isLocked;
+            property.IsVisible = isVisible;
+            return property;
+        }
 
 
         #endregion

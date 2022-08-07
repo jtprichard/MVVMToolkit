@@ -9,7 +9,7 @@ namespace PB.MVVMToolkit.Dialogs
     /// <summary>
     /// Data class for list items used in list related dialogs
     /// </summary>
-    public class ListItem : INotifyPropertyChanged, IListItem
+    public class CustomListItem : INotifyPropertyChanged, IListItem
     {
         #region Properties
         /// <summary>
@@ -38,13 +38,15 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public IListItem Dependency { get; set; }
 
+        public ListItemProperty Hex { get; set; }
+
         #endregion
 
         #region Constructors
         /// <summary>
         /// Private empty constructor
         /// </summary>
-        private ListItem() { }
+        private CustomListItem() { }
 
         /// <summary>
         /// Default constructor
@@ -52,7 +54,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="description">Item Description</param>
         /// <param name="id">Item id</param>
         /// <param name="isLocked">Locked for deletion that defaults as false</param>
-        public ListItem(string description, int id, bool isLocked = false)
+        public CustomListItem(string description, int id, bool isLocked = false)
         {
             Description = description;
             Id = id;
@@ -66,12 +68,12 @@ namespace PB.MVVMToolkit.Dialogs
         /// Population method used for testing
         /// </summary>
         /// <returns></returns>
-        public static ObservableCollection<ListItem> Populate()
+        public static ObservableCollection<CustomListItem> Populate()
         {
-            ObservableCollection<ListItem> items = new ObservableCollection<ListItem>
+            ObservableCollection<CustomListItem> items = new ObservableCollection<CustomListItem>
             {
-                new ListItem {Id = 0, Description = "List Item 1"},
-                new ListItem {Id = 1, Description = "List Item 2"},
+                new CustomListItem {Id = 0, Description = "List Item 1"},
+                new CustomListItem {Id = 1, Description = "List Item 2"},
 
             };
             return items;

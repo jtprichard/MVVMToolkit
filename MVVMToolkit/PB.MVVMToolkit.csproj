@@ -80,6 +80,8 @@
     <Compile Include="Dialogs\Converters\RowVisibleValueConverter.cs" />
     <Compile Include="Dialogs\Converters\VisibilityValueConverter.cs" />
     <Compile Include="Dialogs\Data\DialogInput.cs" />
+    <Compile Include="Dialogs\Data\IListItem.cs" />
+    <Compile Include="Dialogs\Data\CustomListItem.cs" />
     <Compile Include="Dialogs\Data\ListItemProperty.cs" />
     <Compile Include="Dialogs\Data\NewListItem.cs" />
     <Compile Include="Dialogs\ViewModels\About.cs" />

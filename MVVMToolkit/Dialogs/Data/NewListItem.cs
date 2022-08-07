@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 
 namespace PB.MVVMToolkit.Dialogs.Data
@@ -11,7 +12,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
     /// <summary>
     /// Data class for list items used in list related dialogs
     /// </summary>
-    public class NewListItem : INotifyPropertyChanged
+    public class NewListItem : INotifyPropertyChanged, IListItem
     {
         #region Properties
         /// <summary>
@@ -47,7 +48,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// <summary>
         /// Determines if item is dependent on another listitem
         /// </summary>
-        public NewListItem Dependency { get; set; }
+        public IListItem Dependency { get; set; }
 
         #endregion
 
@@ -102,16 +103,37 @@ namespace PB.MVVMToolkit.Dialogs.Data
             return items;
         }
 
-        public static ObservableCollection<NewListItem> Clone(ObservableCollection<NewListItem> items)
+        public static ObservableCollection<NewListItem> Clone(ObservableCollection<IListItem> items)
         {
             var clonedItems = new ObservableCollection<NewListItem>();
             foreach (var item in items)
             {
                 var newItem = new NewListItem(item.Description, item.Id, item.IsLocked);
                 newItem.Dependency = item.Dependency;
+
+                //Get Custom Properties
+                newItem.Properties = new ObservableCollection<ListItemProperty>();
+                var props = item.GetType().GetProperties();
+                var filteredProps = props.Where(x => x.PropertyType == typeof(ListItemProperty)).ToList();
+
+                foreach (var prop in filteredProps)
+                {
+                    var property = item.GetType().GetProperty(prop.Name);
+                    var propertyValue = property.GetValue(item, null) as ListItemProperty;
+                    newItem.Properties.Add(propertyValue);
+
+                }
+
                 clonedItems.Add(newItem);
             }
             return clonedItems;
+        }
+
+        private List<PropertyInfo> GetCustomProperties()
+        {
+            var props = this.GetType().GetProperties().ToList();
+            var filteredProps = props.Where(x => x.PropertyType == typeof(ListItemProperty)).ToList();
+            return filteredProps;
         }
 
         /// <summary>

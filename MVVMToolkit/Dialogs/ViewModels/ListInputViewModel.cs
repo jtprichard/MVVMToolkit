@@ -17,7 +17,7 @@ namespace PB.MVVMToolkit.Dialogs
     {
         #region Private Fields
 
-        private readonly ObservableCollection<NewListItem> _originalItemList = null;
+        private readonly ObservableCollection<IListItem> _originalItemList = null;
         private int _listId;
         private List<ListItemProperty> _itemProperties = null;
 
@@ -235,8 +235,17 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="itemType">Item type to use in response dialogs</param>
         /// <param name="defaultId">Optional - set the default Id to start with</param>
 
-        public ListInputViewModel(ObservableCollection<NewListItem> items, string message, string itemType, int defaultId = 0, List<ListItemProperty> properties = null)
+        public ListInputViewModel(IEnumerable<IListItem> listItems, string message, string itemType, int defaultId = 0)
         {
+            //var items = listItems as ObservableCollection<IListItem>;
+            //var items = (ObservableCollection<IListItem>)listItems;
+
+            var items = new ObservableCollection<IListItem>();
+            foreach (var listItem in listItems)
+            {
+                items.Add(listItem as IListItem);
+            }
+
             // Initiate commands
             _openDialogAddCommand = new RelayCommand(OnOpenDialogAdd);
             _openDialogEditCommand = new RelayCommand(OnOpenDialogEdit);
@@ -246,9 +255,9 @@ namespace PB.MVVMToolkit.Dialogs
             this._cancelCommand = new RelayCommand(OnCancelClicked);
             this._helpCommand = new RelayCommand(OnHelpClicked);
 
-            //Store custom properties if used
-            if (properties != null)
-                _itemProperties = properties;
+            ////Store custom properties if used
+            //if (properties != null)
+            //    _itemProperties = properties;
 
             //Add Message
             Message = message;
@@ -309,10 +318,35 @@ namespace PB.MVVMToolkit.Dialogs
 
         }
 
+        public ListInputViewModel(IEnumerable<IListItem> listItems)
+        {
+            ObservableCollection<ListItem> items = new ObservableCollection<ListItem>();
+
+            var item = listItems.FirstOrDefault();
+            var property = item.GetType().GetProperties().ToList();
+
+        }
+
 
         #endregion
 
         #region Public Methods
+
+        public static void CreateViewModel<T>(T listItems) where T : IEnumerable<IListItem>
+        {
+            ObservableCollection<ListItem> items = new ObservableCollection<ListItem>();
+
+            var item = listItems.FirstOrDefault();
+            var property = item.GetType().GetProperties().ToList();
+
+
+            //foreach (var listItem in listItems)
+            //{
+            //    items.Add(new ListItem(listItem.Description, listItem.Id, listItem.IsLocked));
+
+            //}
+
+        }
 
         /// <summary>
         /// Show dialog
@@ -326,6 +360,15 @@ namespace PB.MVVMToolkit.Dialogs
         #endregion
 
         #region Private Methods
+
+        private static void GetProperties<T>(T items) where T : ObservableCollection<IListItem>
+        {
+            var item = items.FirstOrDefault();
+            var property = item.GetType().GetProperties().ToList();
+
+        }
+
+
         /// <summary>
         /// Open the dialog window to add an item
         /// </summary>

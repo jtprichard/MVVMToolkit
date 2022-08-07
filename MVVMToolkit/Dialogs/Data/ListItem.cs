@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using PB.MVVMToolkit.Dialogs.Data;
 
 
@@ -38,6 +41,8 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public IListItem Dependency { get; set; }
 
+        internal ObservableCollection<ListItemProperty> CustomProperties { get; set; }
+
         #endregion
 
         #region Constructors
@@ -61,7 +66,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         #endregion
 
-        #region Methods
+        #region Public Methods
         /// <summary>
         /// Population method used for testing
         /// </summary>
@@ -77,19 +82,34 @@ namespace PB.MVVMToolkit.Dialogs
             return items;
         }
 
-        public static ObservableCollection<ListItem> Clone(ObservableCollection<ListItem> items)
+        public static ObservableCollection<ListItem> Clone(IEnumerable<IListItem> items)
         {
             var clonedItems = new ObservableCollection<ListItem>();
             foreach (var item in items)
             {
                 var newItem = new ListItem(item.Description, item.Id, item.IsLocked);
                 newItem.Dependency = item.Dependency;
+
+                //Get Custom Properties
+                newItem.CustomProperties = new ObservableCollection<ListItemProperty>();
+                var props = item.GetType().GetProperties();
+                var filteredProps = props.Where(x => x.PropertyType == typeof(ListItemProperty)).ToList();
+
+                foreach (var prop in filteredProps)
+                {
+                    var property = item.GetType().GetProperty(prop.Name);
+                    var propertyValue = property.GetValue(item, null) as ListItemProperty;
+                    newItem.CustomProperties.Add(propertyValue);
+                }
+
                 clonedItems.Add(newItem);
             }
-
             return clonedItems;
-
         }
+
+        #region Private Methods
+
+        #endregion
 
         #endregion
 

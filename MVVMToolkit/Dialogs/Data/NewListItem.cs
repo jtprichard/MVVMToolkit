@@ -103,7 +103,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
             return items;
         }
 
-        public static ObservableCollection<NewListItem> Clone(ObservableCollection<IListItem> items)
+        public static IEnumerable<IListItem> Clone(ObservableCollection<IListItem> items)
         {
             var clonedItems = new ObservableCollection<NewListItem>();
             foreach (var item in items)

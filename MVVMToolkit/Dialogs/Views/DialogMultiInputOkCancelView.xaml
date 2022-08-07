@@ -39,6 +39,13 @@
                        Source="{Binding ImageFile}" />
 
                 <StackPanel Grid.Column="1" Margin="6">
+                    <TextBlock Grid.Column="1" Grid.Row="0"
+                               Text="{Binding Message}"
+                               Style="{StaticResource DialogMessageTextBlockStyle}"
+                               MinHeight="20"
+                               MaxWidth="300"
+                               Margin="4,0,4,10"/>
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -50,13 +57,29 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <ListView ItemsSource="{Binding InputCollection}">
+
+                        <ListView Grid.Row="1"
+                                  ItemsSource="{Binding InputCollection}"
+                                  Background="{StaticResource MainBackgroundBrush}"
+                                  BorderThickness="0"
+                                  Grid.IsSharedSizeScope="True">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Caption}"/>
-                                        <TextBox Text="{Binding Answer}"/>
-                                    </StackPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width ="Auto" SharedSizeGroup="A"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0"
+                                                       MinWidth="100"
+                                                       Style="{StaticResource DialogMessageTextBlockStyle}"
+                                                       MinHeight="20"
+                                                       Text="{Binding Caption}"/>
+                                            <TextBox Grid.Column="1"
+                                                     MinWidth="150"
+                                                     Text="{Binding Answer}"/>
+                                        </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

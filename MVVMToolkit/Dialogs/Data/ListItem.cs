@@ -41,7 +41,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public IListItem Dependency { get; set; }
 
-        internal ObservableCollection<ListItemProperty> CustomProperties { get; set; }
+        public ObservableCollection<ListItemProperty> CustomProperties { get; set; }
 
         #endregion
 
@@ -99,7 +99,8 @@ namespace PB.MVVMToolkit.Dialogs
                 {
                     var property = item.GetType().GetProperty(prop.Name);
                     var propertyValue = property.GetValue(item, null) as ListItemProperty;
-                    newItem.CustomProperties.Add(propertyValue);
+                    if(propertyValue != null)
+                        newItem.CustomProperties.Add(propertyValue);
                 }
 
                 clonedItems.Add(newItem);

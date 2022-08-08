@@ -1,4 +1,6 @@
-﻿namespace PB.MVVMToolkit.Dialogs.Data
+﻿using System.Collections.ObjectModel;
+
+namespace PB.MVVMToolkit.Dialogs.Data
 {
     /// <summary>
     /// Interface that defines a ListItem object for use in the Revit Dialog ListInput View and Viewmodel.  

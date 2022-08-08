@@ -58,7 +58,8 @@
                         </Grid.RowDefinitions>
 
 
-                        <ListView Grid.Row="1"
+                        <ListView Name="lstListView"
+                                  Grid.Row="1"
                                   ItemsSource="{Binding InputCollection}"
                                   Background="{StaticResource MainBackgroundBrush}"
                                   BorderThickness="0"
@@ -76,7 +77,8 @@
                                                        Style="{StaticResource DialogMessageTextBlockStyle}"
                                                        MinHeight="20"
                                                        Text="{Binding Caption}"/>
-                                            <TextBox Grid.Column="1"
+                                            <TextBox Name="txtTextBox"
+                                                     Grid.Column="1"
                                                      MinWidth="150"
                                                      Text="{Binding Answer}"/>
                                         </Grid>

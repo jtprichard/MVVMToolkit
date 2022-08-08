@@ -49,7 +49,7 @@
             </Grid.RowDefinitions>
 
             <ListBox x:Name="ItemList" 
-                         MinHeight="130"
+                         Height="130"
                          MinWidth="200"
                          SelectionMode="Single" 
                          ScrollViewer.VerticalScrollBarVisibility="Visible"

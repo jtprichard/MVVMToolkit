@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using PB.MVVMToolkit.Annotations;
+﻿using System.ComponentModel;
 
 namespace PB.MVVMToolkit.Dialogs.Data
 {
@@ -16,24 +9,17 @@ namespace PB.MVVMToolkit.Dialogs.Data
         public bool IsLocked { get; set; }
         public bool IsVisible { get; set; }
 
-        public ListItemProperty(string name)
-        {
-            Name = name;
-        }
-
-        public ListItemProperty(string name, string value)
-        {
-            Name = name;
-            Value = value;
-        }
-
         #region Public Methods
 
         public static ListItemProperty Create(string name, string value, bool isLocked = false, bool isVisible = false)
         {
-            var property = new ListItemProperty(name, value);
-            property.IsLocked = isLocked;
-            property.IsVisible = isVisible;
+            var property = new ListItemProperty()
+            {
+                Name = name,
+                Value = value,
+                IsLocked = isLocked,
+                IsVisible = isVisible
+            };
             return property;
         }
 

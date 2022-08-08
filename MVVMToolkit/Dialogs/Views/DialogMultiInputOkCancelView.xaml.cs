@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace PB.MVVMToolkit.Dialogs
 {
@@ -16,8 +18,14 @@ namespace PB.MVVMToolkit.Dialogs
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            //txtAnswer.SelectAll();
-            //txtAnswer.Focus();
+            VirtualizingStackPanel.SetIsVirtualizing(lstListView, false);
+            ListViewItem item = lstListView.ItemContainerGenerator.ContainerFromIndex(0) as ListViewItem;
+            //item.Focus();
+            Keyboard.Focus(item);
+
+            //lstListView.SelectAll();
+            //lstListView.Focus();
+
         }
     }
 }

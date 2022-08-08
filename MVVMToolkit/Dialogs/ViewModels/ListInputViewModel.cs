@@ -102,6 +102,10 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public ObservableCollection<ListItem> ListItems { get; private set; }
         /// <summary>
+        /// The collection that is returned as an Interface List Item to gain access to custom properties
+        /// </summary>
+        public ObservableCollection<object> ReturnedCollection => new ObservableCollection<object>(ListItems);
+        /// <summary>
         /// Instance of viewmodel for databinding
         /// </summary>
         internal static ListInputViewModel Instance { get; set; }
@@ -181,22 +185,22 @@ namespace PB.MVVMToolkit.Dialogs
             set { _comboMessage = value; OnPropertyChanged(nameof(ComboMessage)); }
         }
 
-        private ObservableCollection<ListItem> _comboboxItems;
+        private IEnumerable<IListItem> _comboboxItems;
         /// <summary>
         /// A list of items for the combobox as an Observable Collection.  To be of use, the list items
         /// must include a dependency parameter to associate with this list.
         /// </summary>
-        public ObservableCollection<ListItem> ComboboxItems
+        public IEnumerable<IListItem> ComboboxItems
         {
             get { return _comboboxItems; }
             set { _comboboxItems = value; OnPropertyChanged(nameof(ComboboxItems)); }
         }
 
-        private ListItem _selectedComboboxItem;
+        private IListItem _selectedComboboxItem;
         /// <summary>
         /// The selected combobox item.
         /// </summary>
-        public ListItem SelectedComboboxItem
+        public IListItem SelectedComboboxItem
         {
             get { return _selectedComboboxItem; }
             set
@@ -259,7 +263,7 @@ namespace PB.MVVMToolkit.Dialogs
             Title = "Edit " + ItemType;
 
             //Store the full item list regardless of dependency
-            ListItems = ListItem.Clone(items);
+            ListItems = ListItem.Clone(listItems);
 
             //Populate the list and select the first item as default
             if (ComboEnabled)
@@ -347,7 +351,10 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="parameter"></param>
         private void OnOpenDialogAdd(object parameter)
         {
-            if(ListItems.FirstOrDefault().CustomProperties == null || ListItems.FirstOrDefault().CustomProperties.Count == 0)
+            //If there are custom properties, then open multi-property box.
+            var items = new ObservableCollection<ListItem>(ListItems);
+
+            if(items.FirstOrDefault().CustomProperties == null || ListItems.FirstOrDefault().CustomProperties.Count == 0)
                 AddSinglePropertyDialog();
             else
                 AddMultiPropertyDialog();
@@ -395,12 +402,12 @@ namespace PB.MVVMToolkit.Dialogs
             
 
             //Add Id and Description to Inputs
-            inputs.Add(new DialogInput(ItemType + " Name: "));
+            inputs.Add(new DialogInput(nameof(ListItem.Description), ItemType + " Name: "));
 
             foreach (var property in customProperties)
             {
                 if(property.IsLocked != true)
-                    inputs.Add(new DialogInput(property.Name + ": "));
+                    inputs.Add(new DialogInput(property.Name, property.Name + ": "));
             }
 
             string message = "What " + ItemType + " item do you want to add?";
@@ -501,14 +508,23 @@ namespace PB.MVVMToolkit.Dialogs
 
         private void AddItemToList(ObservableCollection<DialogInput> inputs, int id)
         {
-            IList<ListItemProperty> properties = new List<ListItemProperty>();
-            foreach (var input in inputs)
+            ObservableCollection<ListItemProperty> properties = new ObservableCollection<ListItemProperty>();
+            //foreach (var input in inputs)
+            //{
+            //    properties.Add(ListItemProperty.Create(input.Description, input.Answer));
+            //}
+
+            //var description = properties.FirstOrDefault(x => x.Name == nameof(ListItem.Description));
+
+            var answer = inputs.FirstOrDefault(x => x.Description == nameof(ListItem.Description)).Answer;
+            var customPropertyInputs = inputs.Where(x => x.Description != nameof(ListItem.Description));
+            foreach (var input in customPropertyInputs)
             {
-                properties.Add(new ListItemProperty(input.Caption, input.Answer));
+                properties.Add(ListItemProperty.Create(input.Description, input.Answer));
             }
 
-            var description = properties.FirstOrDefault(x => x.Name == nameof(ListItem.Description));
-            var newItem = new ListItem(description.Name, id);
+            var newItem = new ListItem(answer, id);
+            newItem.CustomProperties = properties;
 
             ListItems.Add(newItem);
             UpdateListItems();
@@ -540,7 +556,12 @@ namespace PB.MVVMToolkit.Dialogs
         {
             var items = new ObservableCollection<ListItem>();
             foreach (var item in ListItems)
-                items.Add(new ListItem(item.Description, item.Id, item.IsLocked));
+            {
+                var newItem = new ListItem(item.Description, item.Id, item.IsLocked);
+                newItem.CustomProperties = item.CustomProperties;
+
+                items.Add(newItem);
+            }
 
             VisibleListItems = items;
 

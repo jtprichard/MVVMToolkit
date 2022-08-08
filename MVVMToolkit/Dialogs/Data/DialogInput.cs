@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
+using System.Security.Cryptography;
 
 namespace PB.MVVMToolkit.Dialogs.Data
 {
@@ -7,6 +8,10 @@ namespace PB.MVVMToolkit.Dialogs.Data
     {
 
         #region Properties
+        /// <summary>
+        /// Input Parameter Description
+        /// </summary>
+        public string Description { get; set; }
 
         private string _caption;
         /// <summary>
@@ -32,8 +37,16 @@ namespace PB.MVVMToolkit.Dialogs.Data
 
         public DialogInput(){}
 
-        public DialogInput(string caption, string defaultAnswer = "")
+        //public DialogInput(string caption, string defaultAnswer = "")
+        //{
+        //    Caption = caption;
+        //    Answer = defaultAnswer;
+        //}
+
+
+        public DialogInput(string description, string caption, string defaultAnswer = "")
         {
+            Description = description;
             Caption = caption;
             Answer = defaultAnswer;
         }

@@ -41,7 +41,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public IListItem Dependency { get; set; }
 
-        public ObservableCollection<ListItemProperty> CustomProperties { get; set; }
+        public ObservableCollection<ListItemProperty> CustomProperties { get; private set; }
 
         #endregion
 
@@ -106,6 +106,15 @@ namespace PB.MVVMToolkit.Dialogs
                 clonedItems.Add(newItem);
             }
             return clonedItems;
+        }
+
+        /// <summary>
+        /// Add custom properties to the ListItem
+        /// </summary>
+        /// <param name="properties"></param>
+        public void AddCustomProperties(ObservableCollection<ListItemProperty> properties)
+        {
+            CustomProperties = properties;
         }
 
         #region Private Methods

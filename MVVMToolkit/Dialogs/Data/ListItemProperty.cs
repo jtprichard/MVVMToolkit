@@ -8,6 +8,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
         public string Value { get; set; }
         public bool IsLocked { get; set; }
         public bool IsVisible { get; set; }
+        public bool DuplicateAllowed { get; set; }
 
         #region Public Methods
 
@@ -18,7 +19,8 @@ namespace PB.MVVMToolkit.Dialogs.Data
                 Name = name,
                 Value = value,
                 IsLocked = isLocked,
-                IsVisible = isVisible
+                IsVisible = isVisible,
+                DuplicateAllowed = true
             };
             return property;
         }

@@ -35,20 +35,19 @@ namespace PB.MVVMToolkit.Dialogs.Data
 
         }
 
+        /// <summary>
+        /// Sets whether the input item can be a duplicate
+        /// </summary>
+        public bool DuplicateAllowed { get; set; }
+
         public DialogInput(){}
-
-        //public DialogInput(string caption, string defaultAnswer = "")
-        //{
-        //    Caption = caption;
-        //    Answer = defaultAnswer;
-        //}
-
 
         public DialogInput(string description, string caption, string defaultAnswer = "")
         {
             Description = description;
             Caption = caption;
             Answer = defaultAnswer;
+            DuplicateAllowed = true;
         }
 
         #endregion

@@ -17,6 +17,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+                <ResourceDictionary>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -26,7 +28,7 @@
     </Window.Style>
 
     <Grid Margin="10" MinWidth="320" MaxWidth="500">
-        <StackPanel>
+        <StackPanel FocusManager.FocusedElement="{Binding ElementName=lstListView}">
             <Grid VerticalAlignment="Center" Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -58,17 +60,27 @@
                         </Grid.RowDefinitions>
 
 
-                        <ListView Name="lstListView"
+                        <ListView x:Name="lstListView"
                                   Grid.Row="1"
                                   ItemsSource="{Binding InputCollection}"
                                   Background="{StaticResource MainBackgroundBrush}"
                                   BorderThickness="0"
-                                  Grid.IsSharedSizeScope="True">
+                                  Grid.IsSharedSizeScope="True"
+                                  SelectedIndex="0"
+                                  SelectionChanged="LstListView_OnSelectionChanged"
+                                  >
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="IsTabStop"
+                                            Value="False"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
                             <ListView.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:Name="lstTemplate">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width ="Auto" SharedSizeGroup="A"/>
+                                                <ColumnDefinition Width ="Auto" SharedSizeGroup="TBGroup"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
 
@@ -76,54 +88,18 @@
                                                        MinWidth="100"
                                                        Style="{StaticResource DialogMessageTextBlockStyle}"
                                                        MinHeight="20"
-                                                       Text="{Binding Caption}"/>
-                                            <TextBox Name="txtTextBox"
+                                                       Text="{Binding Caption}"
+                                                       />
+                                            <TextBox x:Name="txtTextBox"
                                                      Grid.Column="1"
                                                      MinWidth="150"
-                                                     Text="{Binding Answer}"/>
+                                                     Text="{Binding Answer}"
+                                                     KeyDown="TextBox_KeyDown"
+                                                     />
                                         </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-
-                        <!--
-                        <TextBlock Grid.Column="0" Grid.Row="0"
-                                   Text="{Binding Message1}"
-                                   Style="{StaticResource DialogMessageTextBlockStyle}"
-                                   MinHeight="20"
-                                   MaxWidth="100"
-                                   Margin="4,0,4,0"/>
-
-                        <TextBox Grid.Column="1" Grid.Row="0"
-                                 Text="{Binding Answer1}"
-                                 Style="{StaticResource DefaultTextBox}"
-                                 x:Name="txtAnswer1"
-                                 Height="{Binding TextBoxHeight}"
-                                 Width="{Binding TextBoxWidth}"
-                                 MinWidth="200"
-                                 TextWrapping="WrapWithOverflow"
-                                 HorizontalAlignment="Left"
-                                 Margin="4,15,4,0"/>
-
-                        <TextBlock Grid.Column="0" Grid.Row="1"
-                                   Text="{Binding Message2}"
-                                   Style="{StaticResource DialogMessageTextBlockStyle}"
-                                   MinHeight="20"
-                                   MaxWidth="100"
-                                   Margin="4,0,4,0"/>
-
-                        <TextBox Grid.Column="1" Grid.Row="1"
-                                 Text="{Binding Answer2}"
-                                 Style="{StaticResource DefaultTextBox}"
-                                 x:Name="txtAnswer2"
-                                 Height="{Binding TextBoxHeight}"
-                                 Width="{Binding TextBoxWidth}"
-                                 MinWidth="200"
-                                 TextWrapping="WrapWithOverflow"
-                                 HorizontalAlignment="Left"
-                                 Margin="4,15,4,0"/>-->
-
-
                     </Grid>
 
                 </StackPanel>

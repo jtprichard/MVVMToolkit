@@ -102,16 +102,12 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public ObservableCollection<ListItem> ListItems { get; private set; }
         /// <summary>
-        /// The collection that is returned as an Interface List Item to gain access to custom properties
-        /// </summary>
-        public ObservableCollection<object> ReturnedCollection => new ObservableCollection<object>(ListItems);
-        /// <summary>
         /// Instance of viewmodel for databinding
         /// </summary>
         internal static ListInputViewModel Instance { get; set; }
         private ObservableCollection<ListItem> _visibleListItems;
         /// <summary>
-        /// List items used in the listbox user inteface.  Note that while these list items may be retrieved outside of the interface,
+        /// List items used in the listbox user interface.  Note that while these list items may be retrieved outside of the interface,
         /// if there are dependencies, you will only retrieve the list items that are dependent on the combobox when the retrieval is initiated.
         /// List items should generally be retrieved from the ListItems property, which holds all items regardless of dependencies.
         /// </summary>
@@ -231,10 +227,12 @@ namespace PB.MVVMToolkit.Dialogs
         #endregion
 
         #region Constructors
+        public ListInputViewModel(){}
+
         /// <summary>
         /// Default Constructor
         /// </summary>
-        /// <param name="items">List Items as observable collection</param>
+        /// <param name="listItems">List Items as IEnumerable/param>
         /// <param name="message">Dialog message</param>
         /// <param name="itemType">Item type to use in response dialogs</param>
         /// <param name="defaultId">Optional - set the default Id to start with</param>
@@ -272,7 +270,6 @@ namespace PB.MVVMToolkit.Dialogs
                 PopulateListItems();
 
             //Store the maximum list id
-            
             //Check if default Id was added, and if so, that it doesn't conflict with existing
             if (defaultId != 0)
             {
@@ -316,22 +313,6 @@ namespace PB.MVVMToolkit.Dialogs
 
         #region Public Methods
 
-        public static void CreateViewModel<T>(T listItems) where T : IEnumerable<IListItem>
-        {
-            ObservableCollection<ListItem> items = new ObservableCollection<ListItem>();
-
-            var item = listItems.FirstOrDefault();
-            var property = item.GetType().GetProperties().ToList();
-
-
-            //foreach (var listItem in listItems)
-            //{
-            //    items.Add(new ListItem(listItem.Description, listItem.Id, listItem.IsLocked));
-
-            //}
-
-        }
-
         /// <summary>
         /// Show dialog
         /// </summary>
@@ -354,18 +335,20 @@ namespace PB.MVVMToolkit.Dialogs
             //If there are custom properties, then open multi-property box.
             var items = new ObservableCollection<ListItem>(ListItems);
 
-            if(items.FirstOrDefault().CustomProperties == null || ListItems.FirstOrDefault().CustomProperties.Count == 0)
+            if(items.FirstOrDefault()?.CustomProperties == null || ListItems.FirstOrDefault().CustomProperties.Count == 0)
                 AddSinglePropertyDialog();
             else
                 AddMultiPropertyDialog();
         }
 
+        /// <summary>
+        /// Open the dialog window to add a property with a single parameter
+        /// </summary>
         private void AddSinglePropertyDialog()
         {
             string message = "What " + ItemType + " item do you want to add?";
             var dialog = new DialogInputOkCancel(message, "Add Item");
             dialog.Image = DialogImage.Question;
-            //dialog.Answer = "Default " + ItemType + " Item";
             var result = dialog.Show();
             string answer = dialog.Answer;
 
@@ -393,27 +376,36 @@ namespace PB.MVVMToolkit.Dialogs
             }
         }
 
+        /// <summary>
+        /// Open the dialog window to add a property with more than one parameter
+        /// </summary>
         private void AddMultiPropertyDialog()
         {
             //Create Inputs
             var inputs = new ObservableCollection<DialogInput>();
             var properties = ListItems.FirstOrDefault();
             var customProperties = ListItems.FirstOrDefault().CustomProperties;
-            
 
             //Add Id and Description to Inputs
-            inputs.Add(new DialogInput(nameof(ListItem.Description), ItemType + " Name: "));
+            inputs.Add(new DialogInput(nameof(ListItem.Description), ItemType + " Name: ")
+            {
+                DuplicateAllowed = false
+            });
 
             foreach (var property in customProperties)
             {
-                if(property.IsLocked != true)
-                    inputs.Add(new DialogInput(property.Name, property.Name + ": "));
+                if (property.IsLocked != true)
+                {
+                    inputs.Add(new DialogInput(property.Name, property.Name + ": ")
+                    {
+                        DuplicateAllowed = property.DuplicateAllowed
+                    });
+                }
             }
 
             string message = "What " + ItemType + " item do you want to add?";
             var dialog = new DialogMultiInputOkCancel(message, inputs);
             dialog.Image = DialogImage.Question;
-
 
             var result = dialog.Show();
 
@@ -423,14 +415,44 @@ namespace PB.MVVMToolkit.Dialogs
             }
             else
             {
-                _listId++;
-                if (VisibleListItems.Any(x => x.Id == _listId))
-                {
-                    throw new DuplicateNameException("The Id " + _listId + " is duplicated.");
-                }
-                AddItemToList(inputs, _listId);
-            }
+                //Check for duplicate descriptions
+                var descriptionAnswer = inputs.FirstOrDefault(x => x.Description == nameof(ListItem.Description))?.Answer;
+                var descriptionDuplicated = VisibleListItems.Any(x => x.Description == descriptionAnswer);
 
+                //Check for duplicate properties
+                string dupItem = string.Empty;
+                var dupRestrictedProps = inputs.Where(x => x.DuplicateAllowed == false).ToList();
+                
+                foreach (var prop in dupRestrictedProps)
+                {
+                    if (VisibleListItems.Any(y => y.CustomProperties.Any(z => z.Value == prop.Answer)))
+                    {
+                        dupItem = prop.Answer;
+                        break;
+                    }
+                }
+
+                if (descriptionDuplicated)
+                {
+                    string errorMsg = "Item must be unique";
+                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+                }
+
+                else if (dupItem != string.Empty)
+                {
+                    string errorMsg = "Item must be unique";
+                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+                }
+                else
+                {
+                    _listId++;
+                    if (VisibleListItems.Any(x => x.Id == _listId))
+                    {
+                        throw new DuplicateNameException("The Id " + _listId + " is duplicated.");
+                    }
+                    AddItemToList(inputs, _listId);
+                }
+            }
         }
 
             /// <summary>
@@ -516,7 +538,7 @@ namespace PB.MVVMToolkit.Dialogs
 
             //var description = properties.FirstOrDefault(x => x.Name == nameof(ListItem.Description));
 
-            var answer = inputs.FirstOrDefault(x => x.Description == nameof(ListItem.Description)).Answer;
+            var answer = inputs.FirstOrDefault(x => x.Description == nameof(ListItem.Description))?.Answer;
             var customPropertyInputs = inputs.Where(x => x.Description != nameof(ListItem.Description));
             foreach (var input in customPropertyInputs)
             {
@@ -524,7 +546,7 @@ namespace PB.MVVMToolkit.Dialogs
             }
 
             var newItem = new ListItem(answer, id);
-            newItem.CustomProperties = properties;
+            newItem.AddCustomProperties(properties);
 
             ListItems.Add(newItem);
             UpdateListItems();
@@ -558,7 +580,7 @@ namespace PB.MVVMToolkit.Dialogs
             foreach (var item in ListItems)
             {
                 var newItem = new ListItem(item.Description, item.Id, item.IsLocked);
-                newItem.CustomProperties = item.CustomProperties;
+                newItem.AddCustomProperties(item.CustomProperties);
 
                 items.Add(newItem);
             }

@@ -94,29 +94,68 @@ namespace PB.MVVMToolkit.Dialogs
         {
 
             try
+                {
+                    if (e.Key == Key.A)
                     {
-                    if (e.Key == Key.Tab)
-                    {
+
                     // Locate current item.
-                    int current = lstListView.Items.IndexOf(sender);
+                    var currentLstView = ((sender as TextBox).TemplatedParent as ContentPresenter).Content;
+                    int currentIndex = lstListView.Items.IndexOf(currentLstView);
 
-                    var parent = ((sender as TextBox).TemplatedParent) as ContentPresenter;
-                    var supparent = parent.Content;
-                    var supparentlst = supparent as ListViewItem;
+                    //Locate the next item
+                    int next = currentIndex + 1;
 
-                    var items = lstListView.Items;
+                    if (next > lstListView.Items.Count - 1)
+                    {
+                        BtnOk.Focus();
+                        return;
 
-                    int x = lstListView.Items.IndexOf(supparent);
-                    // Find the next item, or give up if we are at the end.
-                    int next = x + 1;
+                    }
 
-                    var child = FindVisualChild<TextBox>(lstListView.Items[x + 1]);
+                    // Focus the item.
+                    //(lstListView.Items[next] as TextBox).Focus();
 
-                    if (next > lstListView.Items.Count - 1) { return; }
+                    var nextLstView = lstListView.Items[next];
 
-                        // Focus the item.
-                        (lstListView.Items[next] as TextBox).Focus();
-                }
+                    ListViewItem myListViewItem =
+                        (ListViewItem)lstListView.ItemContainerGenerator.ContainerFromItem(nextLstView);
+
+
+                    // Getting the currently selected ListBoxItem
+                    // Note that the ListBox must have
+                    // IsSynchronizedWithCurrentItem set to True for this to work
+                    //ListViewItem myListViewItem =
+                    //    (ListViewItem)lstListView.ItemContainerGenerator.ContainerFromItem(currentLstView);
+
+
+
+                    // Getting the ContentPresenter of myListBoxItem
+                    ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListViewItem);
+
+                    // Finding textBlock from the DataTemplate that is set on that ContentPresenter
+                    DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
+                    TextBox myTextBox = (TextBox)myDataTemplate.FindName("txtTextBox", myContentPresenter);
+                    var success = myTextBox.Focus();
+
+
+                    // Do something to the DataTemplate-generated TextBlock
+                    //MessageBox.Show("The text of the TextBlock of the selected list item: "
+                    //                + myTextBox.Text);
+
+
+
+
+
+                    //// Locate current item.
+                    //int current = lstListView.Items.IndexOf(sender);
+
+                    //var parent = ((sender as TextBox).TemplatedParent) as ContentPresenter;
+                    //var supparent = parent.Content;
+                    //var supparentlst = supparent as ListViewItem;
+
+                    //var items = lstListView.Items;
+
+                    }
             }
             catch (Exception ex)
             {
@@ -139,39 +178,22 @@ namespace PB.MVVMToolkit.Dialogs
         }
 
         private static childItem FindVisualChild<childItem>(DependencyObject obj)
-
             where childItem : DependencyObject
-
         {
-
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-
             {
-
                 DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-
                 if (child != null && child is childItem)
-
                     return (childItem)child;
-
                 else
-
                 {
-
                     childItem childOfChild = FindVisualChild<childItem>(child);
-
                     if (childOfChild != null)
-
                         return childOfChild;
-
                 }
-
             }
-
             return null;
-
         }
-
     }
 
 }

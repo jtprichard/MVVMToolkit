@@ -68,6 +68,7 @@
                                   Grid.IsSharedSizeScope="True"
                                   SelectedIndex="0"
                                   SelectionChanged="LstListView_OnSelectionChanged"
+                                  IsSynchronizedWithCurrentItem="True"
                                   >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListViewItem}">
@@ -109,7 +110,8 @@
                 <StackPanel Orientation="Horizontal" 
                             HorizontalAlignment="Right"
                             Margin="0,0,20,0">
-                <Button Content="Ok"
+                <Button Name="BtnOk"
+                        Content="Ok"
                         IsDefault="True"
                         Style="{StaticResource DialogButton}"
                         Command="{Binding OkCommand}"   

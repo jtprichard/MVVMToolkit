@@ -11,101 +11,56 @@ namespace PB.MVVMToolkit.Dialogs
     /// </summary>
     internal partial class DialogMultiInputOkCancelView : Window
     {
+        #region Constructor
+
         internal DialogMultiInputOkCancelView()
         {
             InitializeComponent();
             DataContext = DialogMultiInputOkCancel.Instance;
         }
 
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Startup.  Focuses first TextBox for entry
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            //VirtualizingStackPanel.SetIsVirtualizing(lstListBox, false);
-            //ListViewItem item = lstListBox.ItemContainerGenerator.ContainerFromIndex(0) as ListViewItem;
-            ////item.Focus();
-            //Keyboard.Focus(item);
+            var lstViewItem = lstListBox.Items[0];
 
-            //lstListBox.SelectAll();
-            //lstListBox.Focus();
-            
-            //ListBoxItem item = (ListBoxItem)(this.lstListView.ItemContainerGenerator.ContainerFromItem(c));
+            ListBoxItem myListBoxItem =
+                (ListBoxItem)lstListBox.ItemContainerGenerator.ContainerFromItem(lstViewItem);
 
-
-
-            //if (item.IsLoaded)
-
-            //    FocusItem(item);
-
-            //else
-
-            //    item.Loaded += new RoutedEventHandler(item_Loaded);
-
+            FocusTextBoxItem(myListBoxItem, "txtTextBox");
         }
 
-        private void item_Loaded(object sender, RoutedEventArgs e)
-
-        {
-
-            ListViewItem item = (ListViewItem)e.Source;
-
-            FocusItem(item);
-
-            item.Loaded -= new RoutedEventHandler(item_Loaded);
-
-        }
-
-        private void LstListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ListView lv = sender as ListView;
-            //var lvItem = (ListViewItem)lv.SelectedItem;
-            //var item = lv.ItemContainerGenerator.ContainerFromItem(lv.SelectedItem);
-            //var temp = lv.ItemContainerStyle.TargetType;
-            return;
-            //FocusItem(item);
-
-            //var container = lv.ItemContainerStyle.TargetType;
-            //var cont2 = lv.ItemContainerGenerator.ContainerFromIndex(0);
-            //ListViewItem lvi = (ListViewItem)lv.ItemContainerGenerator.ContainerFromItem(lv.SelectedItem);
-            //TextBox textBox = GetVisualChild<TextBox>(lvi);
-            //if (textBox != null)
-            //    textBox.Focus();
-        }
-
-        private T GetVisualChild<T>(Visual parent) where T : Visual
-        {
-            T child = default(T);
-            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < numVisuals; i++)
-            {
-                Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
-                child = v as T;
-                if (child == null)
-                {
-                    child = GetVisualChild<T>(v);
-                }
-                if (child != null)
-                {
-                    break;
-                }
-            }
-            return child;
-        }
-
+        /// <summary>
+        /// Keydown method for Listview Item Textbox.  This method is an alternate way of
+        /// implementing the XAML properties for Listviews:
+        /// Focusable="True"
+        /// KeyboardNavigation.TabNavigation="Continue"
+        /// Unused but here for future reference
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-
             try
+            {
+                if (e.Key == Key.Tab)
                 {
-                    if (e.Key == Key.A)
-                    {
-
                     // Locate current item.
-                    var currentLstView = ((sender as TextBox).TemplatedParent as ContentPresenter).Content;
-                    int currentIndex = lstListView.Items.IndexOf(currentLstView);
+                    var myListBox = ((sender as TextBox).TemplatedParent as ContentPresenter).Content;
+                    int currentIndex = lstListBox.Items.IndexOf(myListBox);
 
                     //Locate the next item
                     int next = currentIndex + 1;
 
-                    if (next > lstListView.Items.Count - 1)
+                    if (next > lstListBox.Items.Count - 1)
                     {
                         BtnOk.Focus();
                         return;
@@ -113,67 +68,48 @@ namespace PB.MVVMToolkit.Dialogs
                     }
 
                     // Focus the item.
-                    //(lstListView.Items[next] as TextBox).Focus();
-
-                    var nextLstView = lstListView.Items[next];
-
-                    ListViewItem myListViewItem =
-                        (ListViewItem)lstListView.ItemContainerGenerator.ContainerFromItem(nextLstView);
-
+                    var nextListBox = lstListBox.Items[next];
 
                     // Getting the currently selected ListBoxItem
                     // Note that the ListBox must have
                     // IsSynchronizedWithCurrentItem set to True for this to work
-                    //ListViewItem myListViewItem =
-                    //    (ListViewItem)lstListView.ItemContainerGenerator.ContainerFromItem(currentLstView);
 
-
+                    ListBoxItem myListBoxItem =
+                        (ListBoxItem)lstListBox.ItemContainerGenerator.ContainerFromItem(nextListBox);
 
                     // Getting the ContentPresenter of myListBoxItem
-                    ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListViewItem);
+                    ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListBoxItem);
 
-                    // Finding textBlock from the DataTemplate that is set on that ContentPresenter
+                    // Find textBlock from the DataTemplate that is set on that ContentPresenter
                     DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
                     TextBox myTextBox = (TextBox)myDataTemplate.FindName("txtTextBox", myContentPresenter);
                     var success = myTextBox.Focus();
-
-
-                    // Do something to the DataTemplate-generated TextBlock
-                    //MessageBox.Show("The text of the TextBlock of the selected list item: "
-                    //                + myTextBox.Text);
-
-
-
-
-
-                    //// Locate current item.
-                    //int current = lstListView.Items.IndexOf(sender);
-
-                    //var parent = ((sender as TextBox).TemplatedParent) as ContentPresenter;
-                    //var supparent = parent.Content;
-                    //var supparentlst = supparent as ListViewItem;
-
-                    //var items = lstListView.Items;
-
-                    }
+                    //Notes keypress has been handled so it stops any further events
+                    e.Handled = true;
+                }
             }
             catch (Exception ex)
             {
             }
         }
 
+        #endregion
 
-        private void FocusItem(ListViewItem item)
+        #region Private Methods
 
+        /// <summary>
+        /// Set focus to a textbox at a listbox item
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="textBoxName"></param>
+        private void FocusTextBoxItem(ListBoxItem item, string textBoxName)
         {
+            ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(item);
 
-            ContentPresenter contentPresenter = FindVisualChild<ContentPresenter>(item);
-
-            DataTemplate dataTemplate = (DataTemplate)this.Resources["lstTemplate"];
-
-            TextBox nameTextBox = (TextBox)dataTemplate.FindName("txtTextBox", contentPresenter);
-
-            nameTextBox.Focus();
+            // Find textBlock from the DataTemplate that is set on that ContentPresenter
+            DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
+            TextBox myTextBox = (TextBox)myDataTemplate.FindName(textBoxName, myContentPresenter);
+            myTextBox.Focus();
 
         }
 
@@ -194,7 +130,8 @@ namespace PB.MVVMToolkit.Dialogs
             }
             return null;
         }
-    }
 
+        #endregion
+    }
 }
 

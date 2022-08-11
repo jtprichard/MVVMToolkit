@@ -40,6 +40,11 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// </summary>
         public bool DuplicateAllowed { get; set; }
 
+        /// <summary>
+        /// Sets whether the input response is required
+        /// </summary>
+        public bool Required { get; set; }
+
         public DialogInput(){}
 
         public DialogInput(string description, string caption, string defaultAnswer = "")
@@ -48,6 +53,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
             Caption = caption;
             Answer = defaultAnswer;
             DuplicateAllowed = true;
+            Required = false;
         }
 
         #endregion

@@ -117,7 +117,7 @@ namespace PB.MVVMToolkit.Dialogs
             set { _visibleListItems = value; OnPropertyChanged(nameof(VisibleListItems)); }
         }
 
-        private ListItem _selectedListItem;
+        protected ListItem _selectedListItem;
         /// <summary>
         /// The selected list item
         /// </summary>
@@ -396,15 +396,18 @@ namespace PB.MVVMToolkit.Dialogs
             {
                 if (property.IsLocked != true)
                 {
+                    var required = property.IsRequired;
                     inputs.Add(new DialogInput(property.Name, property.Name + ": ")
                     {
-                        DuplicateAllowed = property.DuplicateAllowed
+                        DuplicateAllowed = property.DuplicateAllowed,
+                        Required = required
                     });
                 }
             }
 
             string message = "What " + ItemType + " item do you want to add?";
-            var dialog = new DialogMultiInputOkCancel(message, inputs);
+            string caption = "Enter " + ItemType;
+            var dialog = new DialogMultiInputOkCancel(message, caption, inputs, DialogImage.Info);
             dialog.Image = DialogImage.Question;
 
             var result = dialog.Show();
@@ -415,7 +418,7 @@ namespace PB.MVVMToolkit.Dialogs
             }
             else
             {
-                //Check for duplicate descriptions
+                //Check for duplicate or empty descriptions
                 var descriptionAnswer = inputs.FirstOrDefault(x => x.Description == nameof(ListItem.Description))?.Answer;
                 var descriptionDuplicated = VisibleListItems.Any(x => x.Description == descriptionAnswer);
 
@@ -432,9 +435,24 @@ namespace PB.MVVMToolkit.Dialogs
                     }
                 }
 
+                //Check for missing required properties
+                var requiredPropertyIsEmpty = inputs.Any(x => x.Required && x.Answer == String.Empty);
+
                 if (descriptionDuplicated)
                 {
                     string errorMsg = "Item must be unique";
+                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+                }
+
+                else if (descriptionAnswer == string.Empty)
+                {
+                    string errorMsg = "Value cannot be blank";
+                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+                }
+
+                else if (requiredPropertyIsEmpty)
+                {
+                    string errorMsg = "Value cannot be blank";
                     DialogOk.Show(errorMsg, "Error", DialogImage.Error);
                 }
 
@@ -481,6 +499,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="parameter"></param>
         private void OnOpenDialogDelete(object parameter)
         {
+            var item = GetSelectedListItem(SelectedListItem);
 
             //Confirm item is not locked
             if (GetSelectedListItem(SelectedListItem).IsLocked)
@@ -531,12 +550,6 @@ namespace PB.MVVMToolkit.Dialogs
         private void AddItemToList(ObservableCollection<DialogInput> inputs, int id)
         {
             ObservableCollection<ListItemProperty> properties = new ObservableCollection<ListItemProperty>();
-            //foreach (var input in inputs)
-            //{
-            //    properties.Add(ListItemProperty.Create(input.Description, input.Answer));
-            //}
-
-            //var description = properties.FirstOrDefault(x => x.Name == nameof(ListItem.Description));
 
             var answer = inputs.FirstOrDefault(x => x.Description == nameof(ListItem.Description))?.Answer;
             var customPropertyInputs = inputs.Where(x => x.Description != nameof(ListItem.Description));
@@ -566,6 +579,8 @@ namespace PB.MVVMToolkit.Dialogs
         /// <returns></returns>
         private ListItem GetSelectedListItem(ListItem item)
         {
+            var returnedItem = ListItems.FirstOrDefault(x => x.Id == item.Id);
+
             return ListItems.FirstOrDefault(x => x.Id == item.Id);
 
         }

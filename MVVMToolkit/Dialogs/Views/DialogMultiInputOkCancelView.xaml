@@ -17,8 +17,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/Styles.xaml"/>
-                <ResourceDictionary>
-                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -60,24 +58,20 @@
                         </Grid.RowDefinitions>
 
 
-                        <ListView x:Name="lstListView"
+                        <ListBox x:Name="lstListBox"
                                   Grid.Row="1"
                                   ItemsSource="{Binding InputCollection}"
                                   Background="{StaticResource MainBackgroundBrush}"
                                   BorderThickness="0"
                                   Grid.IsSharedSizeScope="True"
-                                  SelectedIndex="0"
-                                  SelectionChanged="LstListView_OnSelectionChanged"
                                   IsSynchronizedWithCurrentItem="True"
-                                  >
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListViewItem}">
-                                    <Setter Property="IsTabStop"
-                                            Value="False"/>
-                                </Style>
-                            </ListView.ItemContainerStyle>
+                                  Focusable="True"
+                                  KeyboardNavigation.TabNavigation="Continue"
+                                  Style="{StaticResource ListBoxDefault}"
+                                  ItemContainerStyle="{StaticResource ListBoxItemNoSelect}"
+                        >
 
-                            <ListView.ItemTemplate>
+                            <ListBox.ItemTemplate>
                                 <DataTemplate x:Name="lstTemplate">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -95,12 +89,11 @@
                                                      Grid.Column="1"
                                                      MinWidth="150"
                                                      Text="{Binding Answer}"
-                                                     KeyDown="TextBox_KeyDown"
                                                      />
                                         </Grid>
                                 </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </Grid>
 
                 </StackPanel>

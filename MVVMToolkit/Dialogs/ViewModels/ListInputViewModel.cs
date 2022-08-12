@@ -21,6 +21,7 @@ namespace PB.MVVMToolkit.Dialogs
         private readonly ObservableCollection<IListItem> _originalItemList = null;
         private int _listId;
         private List<ListItemProperty> _itemCustomProperties = null;
+        private ListItem _dummyListItem;
 
 
         #endregion
@@ -266,7 +267,18 @@ namespace PB.MVVMToolkit.Dialogs
             Title = "Edit " + ItemType;
 
             //Store the full item list regardless of dependency
-            ListItems = ListItem.Clone(listItems);
+            //If the list item is empty, capture properties from dummy item
+            var tempItems = ListItem.Clone(listItems);
+            if (tempItems.Count < 2 && tempItems.FirstOrDefault().Id == -1)
+            {
+                _dummyListItem = tempItems.FirstOrDefault();
+                ListItems = new ObservableCollection<ListItem>();
+            }
+            else
+            {
+                ListItems = ListItem.Clone(listItems);
+                _dummyListItem = ListItems.FirstOrDefault();
+            }
 
             //Populate the list and select the first item as default
             if (ComboEnabled)
@@ -372,7 +384,9 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="parameter"></param>
         private void OnOpenDialogEdit(object parameter)
         {
-            var inputs = CreateDialogInputs();
+            var selectedItem = SelectedListItem;
+
+            var inputs = CreateDialogInputs(selectedItem);
 
             string message = "Edit the current " + ItemType + " item";
             string caption = "Edit " + ItemType;
@@ -381,14 +395,15 @@ namespace PB.MVVMToolkit.Dialogs
             var dialog = new DialogMultiInputOkCancel(message, caption, inputs, DialogImage.Info);
 
             dialog.Image = DialogImage.Question;
+            
 
-            dialog.Answer = SelectedListItem.Description;
+            //dialog.Answer = SelectedListItem.Description;
             var result = dialog.Show();
-            string answer = dialog.Answer;
+            //string answer = dialog.Answer;
 
             if (result == DialogResult.Ok)
             {
-                EditItemOnList(SelectedListItem, answer);
+                //EditItemOnList(SelectedListItem, answer);
             }
 
         }
@@ -467,17 +482,31 @@ namespace PB.MVVMToolkit.Dialogs
 
         #endregion
 
-        private ObservableCollection<DialogInput> CreateDialogInputs()
+        private ObservableCollection<DialogInput> CreateDialogInputs(ListItem item = null)
         {
             //Create Inputs
             var inputs = new ObservableCollection<DialogInput>();
-            var customProperties = ListItems.FirstOrDefault()?.CustomProperties;
 
-            //Add Id and Description to Inputs
-            inputs.Add(new DialogInput(nameof(ListItem.Description), ItemType + ": ")
+            //if no list item is provided, get custom properties from other items
+            var customProperties = new ObservableCollection<ListItemProperty>();
+
+            if(item == null)
+                customProperties = _dummyListItem?.CustomProperties;
+
+            //Else - get them from the provided item
+            else
+                customProperties = item.CustomProperties;
+
+            //Add Description to Inputs
+            var descriptionInput = new DialogInput(nameof(ListItem.Description), ItemType + ": ");
+            descriptionInput.DuplicateAllowed = false;
+            if (item != null)
             {
-                DuplicateAllowed = false
-            });
+                descriptionInput.Answer = item.Description;
+            }
+
+            inputs.Add(descriptionInput);
+
 
             //Add Custom Properties
             if (customProperties != null)
@@ -486,12 +515,12 @@ namespace PB.MVVMToolkit.Dialogs
                 {
                     if (property.IsLocked != true)
                     {
-                        var required = property.IsRequired;
-                        inputs.Add(new DialogInput(property.Name, property.Name + ": ")
-                        {
-                            DuplicateAllowed = property.DuplicateAllowed,
-                            Required = required
-                        });
+                        var customInput = new DialogInput(property.Name, property.Name + ": ");
+                        customInput.DuplicateAllowed = property.DuplicateAllowed;
+                        customInput.Required = property.IsRequired;
+                        customInput.Answer = property.Value;
+
+                        inputs.Add(customInput);
                     }
                 }
             }
@@ -648,12 +677,16 @@ namespace PB.MVVMToolkit.Dialogs
         private void PopulateListItems()
         {
             var items = new ObservableCollection<ListItem>();
-            foreach (var item in ListItems)
-            {
-                var newItem = new ListItem(item.Description, item.Id, item.IsLocked);
-                newItem.AddCustomProperties(item.CustomProperties);
 
-                items.Add(newItem);
+            if (ListItems != null && ListItems.Count!= 0 )
+            {
+                foreach (var item in ListItems)
+                {
+                    var newItem = new ListItem(item.Description, item.Id, item.IsLocked);
+                    newItem.AddCustomProperties(item.CustomProperties);
+
+                    items.Add(newItem);
+                }
             }
 
             VisibleListItems = items;

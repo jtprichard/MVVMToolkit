@@ -35,6 +35,16 @@ namespace PB.MVVMToolkit.Dialogs.Data
 
         }
 
+        private int _id;
+        /// <summary>
+        /// The Id of the item (optional)
+        /// </summary>
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; OnPropertyChanged(nameof(Id)); }
+        }
+
         /// <summary>
         /// Sets whether the input item can be a duplicate
         /// </summary>

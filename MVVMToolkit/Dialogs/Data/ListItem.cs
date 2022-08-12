@@ -117,6 +117,18 @@ namespace PB.MVVMToolkit.Dialogs
             CustomProperties = properties;
         }
 
+        /// <summary>
+        /// Create an empty listitem to feed into ListInputViewModel
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <returns></returns>
+        public static ListItem CreateEmptyListItem()
+        {
+            var item = new ListItem();
+            item.Id = -1;
+            return item;
+        }
+
         #region Private Methods
 
         #endregion

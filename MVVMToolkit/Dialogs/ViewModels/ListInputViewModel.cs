@@ -10,6 +10,7 @@ using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
 using PB.MVVMToolkit.Dialogs.Data;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PB.MVVMToolkit.Dialogs
 {
@@ -101,10 +102,12 @@ namespace PB.MVVMToolkit.Dialogs
         /// List items as observable collection that may be retrieved following edits.
         /// </summary>
         public ObservableCollection<ListItem> ListItems { get; private set; }
+
         /// <summary>
         /// Instance of viewmodel for databinding
         /// </summary>
         internal static ListInputViewModel Instance { get; set; }
+
         private ObservableCollection<ListItem> _visibleListItems;
         /// <summary>
         /// List items used in the listbox user interface.  Note that while these list items may be retrieved outside of the interface,
@@ -210,15 +213,18 @@ namespace PB.MVVMToolkit.Dialogs
         /// Item type description that the dialog is working with
         /// </summary>
         public string ItemType { get;}
+
         /// <summary>
         /// Dialog window title
         /// </summary>
         public string Title { get; set; }
+
         /// <summary>
         /// Property to determine whether you must always have one item in the list.
         /// The default is false;
         /// </summary>
         public bool ItemRequired { get; set; }
+
         /// <summary>
         /// View's Owner
         /// </summary>
@@ -232,11 +238,10 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Default Constructor
         /// </summary>
-        /// <param name="listItems">List Items as IEnumerable/param>
+        /// <param name="listItems">List Items as IEnumerable</param>
         /// <param name="message">Dialog message</param>
         /// <param name="itemType">Item type to use in response dialogs</param>
         /// <param name="defaultId">Optional - set the default Id to start with</param>
-
         public ListInputViewModel(IEnumerable<IListItem> listItems, string message, string itemType, int defaultId = 0)
         {
             //Convert IEnumerable to ObservableCollection
@@ -314,7 +319,7 @@ namespace PB.MVVMToolkit.Dialogs
         #region Public Methods
 
         /// <summary>
-        /// Show dialog
+        /// Show the dialog.
         /// </summary>
         public void Show()
         {
@@ -326,84 +331,16 @@ namespace PB.MVVMToolkit.Dialogs
 
         #region Private Methods
 
+        #region Command Events
+
         /// <summary>
         /// Open the dialog window to add an item
         /// </summary>
         /// <param name="parameter"></param>
         private void OnOpenDialogAdd(object parameter)
         {
-            //If there are custom properties, then open multi-property box.
-            var items = new ObservableCollection<ListItem>(ListItems);
-
-            if(items.FirstOrDefault()?.CustomProperties == null || ListItems.FirstOrDefault().CustomProperties.Count == 0)
-                AddSinglePropertyDialog();
-            else
-                AddMultiPropertyDialog();
-        }
-
-        /// <summary>
-        /// Open the dialog window to add a property with a single parameter
-        /// </summary>
-        private void AddSinglePropertyDialog()
-        {
-            string message = "What " + ItemType + " item do you want to add?";
-            var dialog = new DialogInputOkCancel(message, "Add Item");
-            dialog.Image = DialogImage.Question;
-            var result = dialog.Show();
-            string answer = dialog.Answer;
-
-            if (result == DialogResult.Cancel)
-            {
-                DialogOk.Show("No " + ItemType + " item was added", "Cancel", DialogImage.Info);
-            }
-            else
-            {
-                bool answerDuplicated = VisibleListItems.Any(x => x.Description == answer);
-                if (!answerDuplicated)
-                {
-                    _listId++;
-                    if (VisibleListItems.Any(x => x.Id == _listId))
-                    {
-                        throw new DuplicateNameException("The Id " + _listId + " is duplicated.");
-                    }
-                    AddItemToList(answer, _listId);
-                }
-                else
-                {
-                    string errorMsg = ItemType + " name must be unique";
-                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Open the dialog window to add a property with more than one parameter
-        /// </summary>
-        private void AddMultiPropertyDialog()
-        {
             //Create Inputs
-            var inputs = new ObservableCollection<DialogInput>();
-            var properties = ListItems.FirstOrDefault();
-            var customProperties = ListItems.FirstOrDefault().CustomProperties;
-
-            //Add Id and Description to Inputs
-            inputs.Add(new DialogInput(nameof(ListItem.Description), ItemType + " Name: ")
-            {
-                DuplicateAllowed = false
-            });
-
-            foreach (var property in customProperties)
-            {
-                if (property.IsLocked != true)
-                {
-                    var required = property.IsRequired;
-                    inputs.Add(new DialogInput(property.Name, property.Name + ": ")
-                    {
-                        DuplicateAllowed = property.DuplicateAllowed,
-                        Required = required
-                    });
-                }
-            }
+            var inputs = CreateDialogInputs();
 
             string message = "What " + ItemType + " item do you want to add?";
             string caption = "Enter " + ItemType;
@@ -415,84 +352,47 @@ namespace PB.MVVMToolkit.Dialogs
             if (result == DialogResult.Cancel)
             {
                 DialogOk.Show("No " + ItemType + " item was added", "Cancel", DialogImage.Info);
+                return;
             }
-            else
+
+            if (ValidateDialogInputs(inputs))
             {
-                //Check for duplicate or empty descriptions
-                var descriptionAnswer = inputs.FirstOrDefault(x => x.Description == nameof(ListItem.Description))?.Answer;
-                var descriptionDuplicated = VisibleListItems.Any(x => x.Description == descriptionAnswer);
-
-                //Check for duplicate properties
-                string dupItem = string.Empty;
-                var dupRestrictedProps = inputs.Where(x => x.DuplicateAllowed == false).ToList();
-                
-                foreach (var prop in dupRestrictedProps)
+                _listId++;
+                if (VisibleListItems.Any(x => x.Id == _listId))
                 {
-                    if (VisibleListItems.Any(y => y.CustomProperties.Any(z => z.Value == prop.Answer)))
-                    {
-                        dupItem = prop.Answer;
-                        break;
-                    }
+                    throw new DuplicateNameException("The Id " + _listId + " is duplicated.");
                 }
-
-                //Check for missing required properties
-                var requiredPropertyIsEmpty = inputs.Any(x => x.Required && x.Answer == String.Empty);
-
-                if (descriptionDuplicated)
-                {
-                    string errorMsg = "Item must be unique";
-                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
-                }
-
-                else if (descriptionAnswer == string.Empty)
-                {
-                    string errorMsg = "Value cannot be blank";
-                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
-                }
-
-                else if (requiredPropertyIsEmpty)
-                {
-                    string errorMsg = "Value cannot be blank";
-                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
-                }
-
-                else if (dupItem != string.Empty)
-                {
-                    string errorMsg = "Item must be unique";
-                    DialogOk.Show(errorMsg, "Error", DialogImage.Error);
-                }
-                else
-                {
-                    _listId++;
-                    if (VisibleListItems.Any(x => x.Id == _listId))
-                    {
-                        throw new DuplicateNameException("The Id " + _listId + " is duplicated.");
-                    }
-                    AddItemToList(inputs, _listId);
-                }
+                AddItemToList(inputs, _listId);
             }
         }
 
-            /// <summary>
-            /// Open the dialog to edit an item
-            /// </summary>
-            /// <param name="parameter"></param>
-            private void OnOpenDialogEdit(object parameter)
+        /// <summary>
+        /// Open the dialog to edit an item
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void OnOpenDialogEdit(object parameter)
         {
-            string message = "Edit the current " + ItemType +" item";
+            var inputs = CreateDialogInputs();
 
-            var dialog = new DialogInputOkCancel(message, "Edit " + ItemType + " Item");
+            string message = "Edit the current " + ItemType + " item";
+            string caption = "Edit " + ItemType;
+
+            //var dialog = new DialogInputOkCancel(message, "Edit " + ItemType + " Item");
+            var dialog = new DialogMultiInputOkCancel(message, caption, inputs, DialogImage.Info);
+
             dialog.Image = DialogImage.Question;
+
             dialog.Answer = SelectedListItem.Description;
             var result = dialog.Show();
             string answer = dialog.Answer;
 
             if (result == DialogResult.Ok)
             {
-                EditItemOnList(SelectedListItem,answer);
+                EditItemOnList(SelectedListItem, answer);
             }
 
         }
+
         /// <summary>
         /// Open the dialog to delete an item
         /// </summary>
@@ -526,6 +426,133 @@ namespace PB.MVVMToolkit.Dialogs
             }
         }
 
+        /// <summary>
+        /// Command for clicking Ok on dialog
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void OnOkClicked(object parameter)
+        {
+            this.OkClicked(this, EventArgs.Empty);
+            CloseDialog(parameter as Window);
+        }
+
+        /// <summary>
+        /// Command for clicking cancel on dialog
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void OnCancelClicked(object parameter)
+        {
+            if (VerifyItemsChanged())
+            {
+                var result = DialogYesNo.Show(ItemType + " items have changed.  Are you sure you want to cancel?", "List Items", DialogImage.Warning);
+                if (result != DialogResult.Yes)
+                    return;
+            }
+
+            this.CancelClicked(this, EventArgs.Empty);
+            CloseDialog(parameter as Window);
+        }
+
+        private void OnHelpClicked(object parameter)
+        {
+            if (File.Exists(HelpFilePath))
+            {
+                Help.ShowHelp(null, HelpFilePath, HelpTopic);
+            }
+            else
+            {
+                DialogOk.Show("No Help File Found", "Error", DialogImage.Error);
+            }
+        }
+
+        #endregion
+
+        private ObservableCollection<DialogInput> CreateDialogInputs()
+        {
+            //Create Inputs
+            var inputs = new ObservableCollection<DialogInput>();
+            var customProperties = ListItems.FirstOrDefault()?.CustomProperties;
+
+            //Add Id and Description to Inputs
+            inputs.Add(new DialogInput(nameof(ListItem.Description), ItemType + ": ")
+            {
+                DuplicateAllowed = false
+            });
+
+            //Add Custom Properties
+            if (customProperties != null)
+            {
+                foreach (var property in customProperties)
+                {
+                    if (property.IsLocked != true)
+                    {
+                        var required = property.IsRequired;
+                        inputs.Add(new DialogInput(property.Name, property.Name + ": ")
+                        {
+                            DuplicateAllowed = property.DuplicateAllowed,
+                            Required = required
+                        });
+                    }
+                }
+            }
+            return inputs;
+        }
+
+        private bool ValidateDialogInputs(ObservableCollection<DialogInput> inputs)
+        {
+            bool success = true;
+
+            //Check for duplicate or empty descriptions
+            var descriptionAnswer = inputs.FirstOrDefault(x => x.Description == nameof(ListItem.Description))?.Answer;
+            var descriptionDuplicated = VisibleListItems.Any(x => x.Description == descriptionAnswer);
+
+            //Check for duplicate properties
+            string dupItem = string.Empty;
+            var dupRestrictedProps = inputs.Where(x => x.DuplicateAllowed == false).ToList();
+
+            foreach (var prop in dupRestrictedProps)
+            {
+                if (VisibleListItems.Any(y => y.CustomProperties.Any(z => z.Value == prop.Answer)))
+                {
+                    dupItem = prop.Answer;
+                    break;
+                }
+            }
+
+            //Check for missing required properties
+            var requiredPropertyIsEmpty = inputs.Any(x => x.Required && x.Answer == String.Empty);
+
+            if (descriptionDuplicated)
+            {
+                success = false;
+                string errorMsg = "Item must be unique";
+                DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+            }
+
+            else if (descriptionAnswer == string.Empty)
+            {
+                success = false;
+                string errorMsg = "Value cannot be blank";
+                DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+            }
+
+            else if (requiredPropertyIsEmpty)
+            {
+                success = false;
+                string errorMsg = "Value cannot be blank";
+                DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+            }
+
+            else if (dupItem != string.Empty)
+            {
+                success = false;
+                string errorMsg = "Item must be unique";
+                DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+            }
+
+            return success;
+        }
+
         private void RemoveItemFromList(ListItem item)
         {
             //Look for the selected item in the list and remove it
@@ -535,7 +562,7 @@ namespace PB.MVVMToolkit.Dialogs
         }
 
         /// <summary>
-        /// Adds an item to the list
+        /// Adds a single property item to the list
         /// </summary>
         /// <param name="item"></param>
         private void AddItemToList(string item, int id)
@@ -547,6 +574,11 @@ namespace PB.MVVMToolkit.Dialogs
             UpdateListItems();
         }
 
+        /// <summary>
+        /// Adds a multi-property item to the list
+        /// </summary>
+        /// <param name="inputs"></param>
+        /// <param name="id"></param>
         private void AddItemToList(ObservableCollection<DialogInput> inputs, int id)
         {
             ObservableCollection<ListItemProperty> properties = new ObservableCollection<ListItemProperty>();
@@ -585,10 +617,34 @@ namespace PB.MVVMToolkit.Dialogs
 
         }
 
+        private void UpdateListItems()
+        {
+            if(ComboEnabled)
+                PopulateListItemsWithDependency();
+            else
+                PopulateListItems();
+        }
+
+        private bool VerifyItemsChanged()
+        {
+            if (_originalItemList.Count != ListItems.Count)
+                return true;
+            for (int i = 0; i < ListItems.Count; i++)
+            {
+                if (ListItems[i].Description != _originalItemList[i].Description)
+                    return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
+        #region Populate
+
         /// <summary>
         /// Populate the list at startup
         /// </summary>
-        /// <param name="listItems"></param>
         private void PopulateListItems()
         {
             var items = new ObservableCollection<ListItem>();
@@ -613,12 +669,11 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Populate the list at startup
         /// </summary>
-        /// <param name="listItems"></param>
         private void PopulateListItemsWithDependency()
         {
             var items = new ObservableCollection<ListItem>();
             foreach (var item in ListItems)
-                if(item.Dependency.Id == SelectedComboboxItem.Id)
+                if (item.Dependency.Id == SelectedComboboxItem.Id)
                     items.Add(new ListItem(item.Description, item.Id, item.IsLocked));
 
             VisibleListItems = items;
@@ -630,68 +685,9 @@ namespace PB.MVVMToolkit.Dialogs
                 SelectedListItem = null;
         }
 
-        private void UpdateListItems()
-        {
-            if(ComboEnabled)
-                PopulateListItemsWithDependency();
-            else
-                PopulateListItems();
-        }
-
-
-        /// <summary>
-        /// Command for clicking Ok on dialog
-        /// </summary>
-        /// <param name="parameter"></param>
-        private void OnOkClicked(object parameter)
-        {
-            this.OkClicked(this, EventArgs.Empty);
-            CloseDialog(parameter as Window);
-        }
-
-        /// <summary>
-        /// Command for clicking cancel on dialog
-        /// </summary>
-        /// <param name="parameter"></param>
-        private void OnCancelClicked(object parameter)
-        {
-            if (VerifyItemsChanged())
-            {
-                var result = DialogYesNo.Show(ItemType + " items have changed.  Are you sure you want to cancel?", "List Items", DialogImage.Warning);
-                if (result != DialogResult.Yes)
-                    return;
-            }
-
-            this.CancelClicked(this, EventArgs.Empty);
-            CloseDialog(parameter as Window);
-        }
-
-        private void OnHelpClicked(object parameter)
-        {
-            if (System.IO.File.Exists(HelpFilePath))
-            {
-                Help.ShowHelp(null, HelpFilePath,HelpTopic);
-            }
-            else
-            {
-                DialogOk.Show("No Help File Found", "Error", DialogImage.Error);
-            }
-        }
-
-        private bool VerifyItemsChanged()
-        {
-            if (_originalItemList.Count != ListItems.Count)
-                return true;
-            for (int i = 0; i < ListItems.Count; i++)
-            {
-                if (ListItems[i].Description != _originalItemList[i].Description)
-                    return true;
-            }
-
-            return false;
-        }
-
         #endregion
+
+
 
     }
 }

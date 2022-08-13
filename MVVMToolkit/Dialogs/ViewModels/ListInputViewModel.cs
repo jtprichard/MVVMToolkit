@@ -652,6 +652,8 @@ namespace PB.MVVMToolkit.Dialogs
             }
 
             var newItem = new ListItem(answer, id);
+            if (ComboEnabled)
+                newItem.Dependency = SelectedComboboxItem;
             newItem.AddCustomProperties(properties);
 
             ListItems.Add(newItem);

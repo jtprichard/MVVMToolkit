@@ -76,6 +76,7 @@
                                 ToolTip="Edit an item name"
                                 Style="{StaticResource DialogButton}"
                                 Command="{Binding OpenDialogEditCommand}"
+                                IsEnabled="{Binding ModifyButtonActive}"
                                 />
                     <Button Content="Delete"
                                 HorizontalAlignment="Right"
@@ -83,6 +84,7 @@
                                 x:Name="DeleteItem" 
                                 ToolTip="Delete the item"
                                 Style="{StaticResource DialogButton}"
+                                IsEnabled="{Binding DeleteButtonActive}"
                                 Command="{Binding OpenDialogDeleteCommand}"/>
 
                 </StackPanel>

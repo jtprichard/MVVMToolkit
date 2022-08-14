@@ -316,7 +316,7 @@ namespace PB.MVVMToolkit.Dialogs
             //Check if default Id was added, and if so, that it doesn't conflict with existing
             if (defaultId != 0)
             {
-                if (items.Count != 0 && items.All(x => x.Id != defaultId))
+                if (items.All(x => x.Id != defaultId))
                 {
                     _listId = defaultId - 1;
                 }

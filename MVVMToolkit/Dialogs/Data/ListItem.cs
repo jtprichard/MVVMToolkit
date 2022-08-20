@@ -39,7 +39,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Determines if item is dependent on another listitem
         /// </summary>
-        public IListItem Dependency { get; set; }
+        public IListItem Parent { get; set; }
 
         public ObservableCollection<ListItemProperty> CustomProperties { get; private set; }
 
@@ -88,7 +88,7 @@ namespace PB.MVVMToolkit.Dialogs
             foreach (var item in items)
             {
                 var newItem = new ListItem(item.Description, item.Id, item.IsLocked);
-                newItem.Dependency = item.Dependency;
+                newItem.Parent = item.Parent;
 
                 //Get Custom Properties
                 newItem.CustomProperties = new ObservableCollection<ListItemProperty>();

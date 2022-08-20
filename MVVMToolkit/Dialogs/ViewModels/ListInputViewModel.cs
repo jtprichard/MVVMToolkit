@@ -308,7 +308,7 @@ namespace PB.MVVMToolkit.Dialogs
 
             //Populate the list and select the first item as default
             if (ComboEnabled)
-                PopulateListItemsWithDependency();
+                PopulateListItemsWithParent();
             else
                 PopulateListItems();
 
@@ -653,7 +653,7 @@ namespace PB.MVVMToolkit.Dialogs
 
             var newItem = new ListItem(answer, id);
             if (ComboEnabled)
-                newItem.Dependency = SelectedComboboxItem;
+                newItem.Parent = SelectedComboboxItem;
             newItem.AddCustomProperties(properties);
 
             ListItems.Add(newItem);
@@ -707,7 +707,7 @@ namespace PB.MVVMToolkit.Dialogs
         private void UpdateListItems()
         {
             if(ComboEnabled)
-                PopulateListItemsWithDependency();
+                PopulateListItemsWithParent();
             else
                 PopulateListItems();
         }
@@ -779,14 +779,14 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Populate the list at startup
         /// </summary>
-        private void PopulateListItemsWithDependency()
+        private void PopulateListItemsWithParent()
         {
             var items = new ObservableCollection<ListItem>();
             foreach (var item in ListItems)
-                if (item.Dependency.Id == SelectedComboboxItem.Id)
+                if (item.Parent.Id == SelectedComboboxItem.Id)
                 {
                     var addedItem = new ListItem(item.Description, item.Id, item.IsLocked);
-                    addedItem.Dependency = item.Dependency;
+                    addedItem.Parent = item.Parent;
                     items.Add(addedItem);
                 }
 

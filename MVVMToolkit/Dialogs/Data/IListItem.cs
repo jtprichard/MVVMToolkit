@@ -22,7 +22,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// <summary>
         /// Dependency object as IListItem
         /// </summary>
-        IListItem Dependency { get; set; }
+        IListItem Parent { get; set; }
 
     }
 }

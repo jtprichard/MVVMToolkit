@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PB.MVVMToolkit.Styles"
              >
 
     <!--PB Standards-->
@@ -38,6 +37,9 @@
 
     <Color x:Key="PBWhite">#ffffff</Color>
     <SolidColorBrush x:Key="PBWhiteBrush" Color="{StaticResource PBWhite}"/>
+
+    <Color x:Key="PBAccent">#CF5C36</Color>
+    <SolidColorBrush x:Key="PBAccentBrush" Color="{StaticResource PBAccent}"/>
 
     <Color x:Key="PBTest">red</Color>
     <SolidColorBrush x:Key="PBTestBrush" Color="{StaticResource PBTest}"/>

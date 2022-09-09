@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Colors.xaml"/>
+        <ResourceDictionary Source="../Fonts.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Progress Bar styles. -->
+    <Style TargetType="{x:Type ProgressBar}" x:Key="BaseProgressBarStyle">
+        <Setter Property="Background" Value="{StaticResource PBGrayBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource PBMediumBlueBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource PBBlueBrush}"/>
+    </Style>
+
+
+
+</ResourceDictionary>

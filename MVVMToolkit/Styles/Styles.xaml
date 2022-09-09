@@ -17,6 +17,7 @@
         <ResourceDictionary Source="Text/TextBox.xaml"/>
         <ResourceDictionary Source="Text/TextBlock.xaml"/>
         <ResourceDictionary Source="Tooltips/Tooltips.xaml"/>
+        <ResourceDictionary Source="ProgressBar/ProgressBar.xaml"/>
 
 
         <!-- Converters. -->

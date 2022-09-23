@@ -87,7 +87,7 @@
                                                        />
                                             <TextBox x:Name="txtTextBox"
                                                      Grid.Column="1"
-                                                     MinWidth="150"
+                                                     Width="200"
                                                      Text="{Binding Answer}"
                                                      />
                                         </Grid>

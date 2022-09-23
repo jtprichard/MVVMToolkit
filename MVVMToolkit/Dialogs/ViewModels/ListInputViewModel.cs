@@ -20,7 +20,7 @@ namespace PB.MVVMToolkit.Dialogs
         private const int DefaultListId = 1000;
 
         private readonly ObservableCollection<IListItem> _originalItemList = null;
-        private int _listId;
+        protected int _listId;
         private List<ListItemProperty> _itemCustomProperties = null;
         private ListItem _dummyListItem;
 
@@ -507,7 +507,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         #region Process
 
-        private ObservableCollection<DialogInput> CreateDialogInputs(ListItem item = null)
+        protected ObservableCollection<DialogInput> CreateDialogInputs(ListItem item = null)
         {
             //Create Inputs
             var inputs = new ObservableCollection<DialogInput>();
@@ -557,7 +557,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="inputs">Dialog Inputs as ObservableCollection</param>
         /// <returns></returns>
-        private bool ValidateDialogInputs(ObservableCollection<DialogInput> inputs)
+        protected bool ValidateDialogInputs(ObservableCollection<DialogInput> inputs)
         {
             bool success = true;
 
@@ -638,7 +638,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="inputs">User inputs as observablecollection</param>
         /// <param name="id">ListItem Id</param>
-        private void AddItemToList(ObservableCollection<DialogInput> inputs, int id)
+        protected void AddItemToList(ObservableCollection<DialogInput> inputs, int id)
         {
             ObservableCollection<ListItemProperty> properties = new ObservableCollection<ListItemProperty>();
 
@@ -665,7 +665,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="item">Listitem object</param>
         /// <param name="inputs">Inputs from user</param>
-        private void EditItemOnList(ListItem item, ObservableCollection<DialogInput> inputs)
+        protected void EditItemOnList(ListItem item, ObservableCollection<DialogInput> inputs)
         {
             ObservableCollection<ListItemProperty> properties = new ObservableCollection<ListItemProperty>();
 
@@ -733,7 +733,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// Removes answers from dialog inputs
         /// </summary>
         /// <param name="inputs">DialogInput objects as observable collection</param>
-        private ObservableCollection<DialogInput> ClearInputAnswers(ObservableCollection<DialogInput> inputs)
+        protected ObservableCollection<DialogInput> ClearInputAnswers(ObservableCollection<DialogInput> inputs)
         {
             foreach (var input in inputs)
             {

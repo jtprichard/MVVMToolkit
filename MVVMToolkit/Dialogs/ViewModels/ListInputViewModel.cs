@@ -109,13 +109,13 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         internal static ListInputViewModel Instance { get; set; }
 
-        private ObservableCollection<ListItem> _visibleListItems;
+        protected ObservableCollection<ListItem> _visibleListItems;
         /// <summary>
         /// List items used in the listbox user interface.  Note that while these list items may be retrieved outside of the interface,
         /// if there are dependencies, you will only retrieve the list items that are dependent on the combobox when the retrieval is initiated.
         /// List items should generally be retrieved from the ListItems property, which holds all items regardless of dependencies.
         /// </summary>
-        public ObservableCollection<ListItem> VisibleListItems
+        public virtual ObservableCollection<ListItem> VisibleListItems
         {
             get { return _visibleListItems; }
             set { _visibleListItems = value; OnPropertyChanged(nameof(VisibleListItems)); }
@@ -522,6 +522,34 @@ namespace PB.MVVMToolkit.Dialogs
             else
                 customProperties = item.CustomProperties;
 
+            AddDescriptionToInputs(item, inputs);
+
+            //Add Custom Properties
+            if (customProperties != null)
+            {
+                foreach (var property in customProperties)
+                {
+                    AddCustomPropertyToInputs(property, inputs);
+                }
+            }
+            return inputs;
+        }
+
+        protected virtual void AddCustomPropertyToInputs(ListItemProperty property, ObservableCollection<DialogInput> inputs)
+        {
+            if (property.IsLocked != true)
+            {
+                var customInput = new DialogInput(property.Name, property.Name + ": ");
+                customInput.DuplicateAllowed = property.DuplicateAllowed;
+                customInput.Required = property.IsRequired;
+                customInput.Answer = property.Value;
+
+                inputs.Add(customInput);
+            }
+        }
+
+        protected virtual void AddDescriptionToInputs(ListItem item, ObservableCollection<DialogInput> inputs)
+        {
             //Add Description to Inputs
             var descriptionInput = new DialogInput(nameof(ListItem.Description), ItemType + ": ");
             descriptionInput.DuplicateAllowed = false;
@@ -532,24 +560,6 @@ namespace PB.MVVMToolkit.Dialogs
             }
 
             inputs.Add(descriptionInput);
-
-            //Add Custom Properties
-            if (customProperties != null)
-            {
-                foreach (var property in customProperties)
-                {
-                    if (property.IsLocked != true)
-                    {
-                        var customInput = new DialogInput(property.Name, property.Name + ": ");
-                        customInput.DuplicateAllowed = property.DuplicateAllowed;
-                        customInput.Required = property.IsRequired;
-                        customInput.Answer = property.Value;
-
-                        inputs.Add(customInput);
-                    }
-                }
-            }
-            return inputs;
         }
 
         /// <summary>

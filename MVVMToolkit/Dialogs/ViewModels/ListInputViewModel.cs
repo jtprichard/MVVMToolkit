@@ -529,13 +529,13 @@ namespace PB.MVVMToolkit.Dialogs
             {
                 foreach (var property in customProperties)
                 {
-                    AddCustomPropertyToInputs(property, inputs);
+                    AddCustomPropertyToInputs(item, property, inputs);
                 }
             }
             return inputs;
         }
 
-        protected virtual void AddCustomPropertyToInputs(ListItemProperty property, ObservableCollection<DialogInput> inputs)
+        protected virtual void AddCustomPropertyToInputs(IListItem item, ListItemProperty property, ObservableCollection<DialogInput> inputs)
         {
             if (property.IsLocked != true)
             {
@@ -543,7 +543,8 @@ namespace PB.MVVMToolkit.Dialogs
                 customInput.DuplicateAllowed = property.DuplicateAllowed;
                 customInput.Required = property.IsRequired;
                 customInput.Answer = property.Value;
-
+                if(item != null)
+                    customInput.Id = item.Id;
                 inputs.Add(customInput);
             }
         }
@@ -768,8 +769,7 @@ namespace PB.MVVMToolkit.Dialogs
             {
                 foreach (var item in ListItems)
                 {
-                    var newItem = new ListItem(item.Description, item.Id, item.IsLocked);
-                    newItem.AddCustomProperties(item.CustomProperties);
+                    var newItem = CreateListItem(item);
 
                     items.Add(newItem);
                 }
@@ -786,6 +786,14 @@ namespace PB.MVVMToolkit.Dialogs
             UpdateButtons();
         }
 
+        protected virtual IListItem CreateListItem(IListItem item, IListItem parent = null)
+        {
+            var listeItem = new ListItem(item.Description, item.Id, item.IsLocked);
+            listeItem.Parent = parent;
+            listeItem.AddCustomProperties(item.CustomProperties);
+            return listeItem;
+        }
+
         /// <summary>
         /// Populate the list at startup
         /// </summary>
@@ -795,8 +803,7 @@ namespace PB.MVVMToolkit.Dialogs
             foreach (var item in ListItems)
                 if (item.Parent.Id == SelectedComboboxItem.Id)
                 {
-                    var addedItem = new ListItem(item.Description, item.Id, item.IsLocked);
-                    addedItem.Parent = item.Parent;
+                    var addedItem = CreateListItem(item, item.Parent);
                     items.Add(addedItem);
                 }
 

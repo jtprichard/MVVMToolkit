@@ -24,5 +24,6 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// </summary>
         IListItem Parent { get; set; }
 
+        ObservableCollection<ListItemProperty> CustomProperties { get; set; }
     }
 }

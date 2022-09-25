@@ -41,7 +41,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         public IListItem Parent { get; set; }
 
-        public ObservableCollection<ListItemProperty> CustomProperties { get; private set; }
+        public ObservableCollection<ListItemProperty> CustomProperties { get; set; }
 
         #endregion
 
@@ -82,9 +82,9 @@ namespace PB.MVVMToolkit.Dialogs
             return items;
         }
 
-        public static ObservableCollection<ListItem> Clone(IEnumerable<IListItem> items)
+        public static ObservableCollection<IListItem> Clone(IEnumerable<IListItem> items)
         {
-            var clonedItems = new ObservableCollection<ListItem>();
+            var clonedItems = new ObservableCollection<IListItem>();
             foreach (var item in items)
             {
                 var newItem = new ListItem(item.Description, item.Id, item.IsLocked);

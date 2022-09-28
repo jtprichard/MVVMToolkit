@@ -88,7 +88,7 @@ namespace PB.MVVMToolkit.Dialogs
                     e.Handled = true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
             }
         }

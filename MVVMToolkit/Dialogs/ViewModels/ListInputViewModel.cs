@@ -249,7 +249,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// View's Owner
         /// </summary>
-        public Window Owner { get; set; }
+        public new Window Owner { get; set; }
 
         #endregion
 

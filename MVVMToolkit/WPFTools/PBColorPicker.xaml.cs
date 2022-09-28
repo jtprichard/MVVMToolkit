@@ -74,7 +74,7 @@ namespace PB.MVVMToolkit.WPFTools
 
                 return (Color)color;
             }
-            catch (Exception e)
+            catch
             {
                 return Color.FromRgb(0, 0, 0);
             }

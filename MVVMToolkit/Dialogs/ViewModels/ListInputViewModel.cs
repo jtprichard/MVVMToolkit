@@ -131,9 +131,10 @@ namespace PB.MVVMToolkit.Dialogs
             set
             {
                 _selectedListItem = value;
-                OnPropertyChanged(nameof(SelectedListItem));
+                Refresh();
             }
         }
+
 
         private bool _comboEnabled;
         /// <summary>
@@ -382,7 +383,7 @@ namespace PB.MVVMToolkit.Dialogs
 
             if (result == DialogResult.Cancel)
             {
-                DialogOk.Show("No " + ItemType + " item was added", "Cancel", DialogImage.Info);
+                Refresh();
                 return;
             }
 
@@ -395,6 +396,7 @@ namespace PB.MVVMToolkit.Dialogs
                 }
                 AddItemToList(inputs, _listId);
             }
+            Refresh();
         }
 
         /// <summary>
@@ -424,6 +426,7 @@ namespace PB.MVVMToolkit.Dialogs
                     EditItemOnList(selectedItem, inputs);
                 }
             }
+            Refresh();
 
         }
 
@@ -458,6 +461,7 @@ namespace PB.MVVMToolkit.Dialogs
             {
                 RemoveItemFromList(SelectedListItem);
             }
+            Refresh();
         }
 
         /// <summary>
@@ -834,6 +838,12 @@ namespace PB.MVVMToolkit.Dialogs
 
         }
         #endregion
+
+        protected virtual void Refresh()
+        {
+            OnPropertyChanged(nameof(SelectedListItem));
+        }
+
 
         #endregion
 

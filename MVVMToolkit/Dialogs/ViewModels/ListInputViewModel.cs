@@ -719,7 +719,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Updates the listitems for re-population
         /// </summary>
-        private void UpdateListItems()
+        protected void UpdateListItems()
         {
             if(ComboEnabled)
                 PopulateListItemsWithParent();

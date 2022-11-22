@@ -115,9 +115,17 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="parameter"></param>
         private void OnOkClicked(object parameter)
         {
+            var inputError = ValidateInputs();
+            if (inputError != null)
+            {
+                DialogOk.Show(inputError.Caption + " cannot be empty.", "Subcategory Manager", DialogImage.Error);
+                return;
+            }
+
             Result = DialogResult.Ok;
             CloseDialog(parameter as Window);
         }
+
         /// <summary>
         /// No clicked command event
         /// </summary>
@@ -127,6 +135,18 @@ namespace PB.MVVMToolkit.Dialogs
             Result = DialogResult.Cancel;
             CloseDialog(parameter as Window);
         }
+
+        private DialogInput ValidateInputs()
+        {
+            foreach (var input in InputCollection)
+            {
+                if (input.Required && string.IsNullOrEmpty(input.Answer))
+                    return input;
+            }
+
+            return null;
+        }
+
 
         #endregion
 

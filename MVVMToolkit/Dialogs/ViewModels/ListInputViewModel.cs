@@ -541,7 +541,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         protected virtual void AddCustomPropertyToInputs(IListItem item, ListItemProperty property, ObservableCollection<DialogInput> inputs)
         {
-            if (property.IsLocked != true)
+            if (property.IsLocked != true && property.IsVisible != true)
             {
                 var customInput = new DialogInput(property.Name, property.Name + ": ");
                 customInput.DuplicateAllowed = property.DuplicateAllowed;

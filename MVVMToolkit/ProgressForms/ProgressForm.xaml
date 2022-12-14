@@ -48,7 +48,8 @@
                                  Height="20"
                                  Width="250"
                                  Margin="0,5,0,0"
-                    />
+                                 IsIndeterminate="{Binding Indeterminate}"
+                                 />
                 </StackPanel>
             </Grid>
 

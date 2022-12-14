@@ -28,6 +28,11 @@ namespace PB.MVVMToolkit.ProgressForms
         private bool _abortFlag = false;
 
         /// <summary>
+        /// Sets whether the Indeterminate property for the progress bar should be true
+        /// </summary>
+        public bool Indeterminate { get; set; }
+
+        /// <summary>
         /// ProgressForm constructor takes a window title and maximum value.
         /// Default value for title is blank, and the default maximum is 100.
         /// </summary>
@@ -39,6 +44,7 @@ namespace PB.MVVMToolkit.ProgressForms
             InitializeSize();
 
             //Set defaults
+            Indeterminate = false;
             this.Title = title;
             this.ProgressBar.Maximum = maximum;
 
@@ -47,6 +53,23 @@ namespace PB.MVVMToolkit.ProgressForms
             {
                 IsClosed = true;
             };
+        }
+
+        public ProgressForm(bool isIndeterminate, string title = "")
+        {
+            //Set defaults
+            Indeterminate = isIndeterminate;
+            this.Title = title;
+
+            InitializeComponent();
+            InitializeSize();
+            
+            //Event handler as window is closing
+            this.Closed += (s, e) =>
+            {
+                IsClosed = true;
+            };
+
         }
 
         /// <summary>
@@ -68,6 +91,7 @@ namespace PB.MVVMToolkit.ProgressForms
         {
             this.Message.Text = message;
             UpdateTaskDoEvent();
+
             if (this.ProgressBar.Value + value >= ProgressBar.Maximum)
             {
                 ProgressBar.Maximum += value;

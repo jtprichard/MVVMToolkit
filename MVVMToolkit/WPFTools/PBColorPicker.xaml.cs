@@ -33,7 +33,8 @@ namespace PB.MVVMToolkit.WPFTools
         /// </summary>
         public PBColorPicker()
         {
-            _= new StandardColorPicker();
+            //https://github.com/microsoft/XamlBehaviorsWpf/issues/86
+            var _ = new Microsoft.Xaml.Behaviors.DefaultTriggerAttribute(typeof(Trigger), typeof(Microsoft.Xaml.Behaviors.TriggerBase), null);
             _originalColor = Color.FromRgb(0, 0, 0);
             InitializeComponent();
         }
@@ -44,6 +45,7 @@ namespace PB.MVVMToolkit.WPFTools
         /// <param name="hex"></param>
         public PBColorPicker(string hex)
         {
+            var _ = new Microsoft.Xaml.Behaviors.DefaultTriggerAttribute(typeof(Trigger), typeof(Microsoft.Xaml.Behaviors.TriggerBase), null);
             InitializeComponent();
             _originalColor = ConvertHexToColor(hex);
             Picker.SelectedColor = _originalColor;
@@ -55,6 +57,7 @@ namespace PB.MVVMToolkit.WPFTools
         /// <param name="color"></param>
         public PBColorPicker(Color color)
         {
+            var _ = new Microsoft.Xaml.Behaviors.DefaultTriggerAttribute(typeof(Trigger), typeof(Microsoft.Xaml.Behaviors.TriggerBase), null);
             InitializeComponent();
             _originalColor = color;
             Picker.SelectedColor = color;

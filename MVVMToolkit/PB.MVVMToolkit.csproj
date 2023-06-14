@@ -285,4 +285,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(Configuration) == Release (
+call E:\Repos\PB\Signing\postbuildsign.bat $(TargetDir)$(TargetFileName)
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

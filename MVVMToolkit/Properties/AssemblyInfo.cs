@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MVVMToolkit")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Toolkit to support Performance BIM WPF UI applications")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Performance BIM")]
 [assembly: AssemblyProduct("MVVMToolkit")]
-[assembly: AssemblyCopyright("Copyright ©  2022")]
+[assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("22.1.1.0")]
-[assembly: AssemblyFileVersion("22.1.1.0")]
+[assembly: AssemblyVersion("23.1.1.0")]
+[assembly: AssemblyFileVersion("23.1.1.0")]

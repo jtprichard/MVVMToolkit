@@ -21,7 +21,7 @@
 
 
         <!-- Converters. -->
-
+        <ResourceDictionary Source="pack://application:,,,/PB.MVVMToolkit;component/Dialogs/Converters/Converters.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 

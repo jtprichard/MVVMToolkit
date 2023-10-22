@@ -14,6 +14,7 @@ namespace PB.MVVMToolkit.ProgressForms
         private readonly List<string> _filenames;
         private CancellationTokenSource _cts;
         private IProgressFormCommand _command;
+        private Func <IProgress<int>, bool> _action;
 
         /// <summary>
         /// Event handler when the abort button is clicked
@@ -35,6 +36,17 @@ namespace PB.MVVMToolkit.ProgressForms
         public ProgressFormAsync(IProgressFormCommand command, string message, bool showProgressBar = true)
         {
             _command = command;
+            ShowProgressBar = showProgressBar;
+
+            InitializeComponent();
+
+            this.Message.Text = message;
+            this.ProgressPercentage.Text = "0%";
+        }
+
+        public ProgressFormAsync(Func<IProgress<int>, bool> action, string message, bool showProgressBar = true)
+        {
+            _action = action;
             ShowProgressBar = showProgressBar;
 
             InitializeComponent();
@@ -87,6 +99,8 @@ namespace PB.MVVMToolkit.ProgressForms
             });
 
             await Task.Run(() => _command.Execute(progress));
+            //await Task.Run(() => _action(progress));
+
         }
 
     }

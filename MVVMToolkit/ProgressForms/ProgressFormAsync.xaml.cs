@@ -14,7 +14,7 @@ namespace PB.MVVMToolkit.ProgressForms
         private readonly List<string> _filenames;
         private CancellationTokenSource _cts;
         private IProgressFormCommand _command;
-        private Func <IProgress<int>, bool> _action;
+        private Action<IProgress<int>> _action;
 
         /// <summary>
         /// Event handler when the abort button is clicked
@@ -44,15 +44,32 @@ namespace PB.MVVMToolkit.ProgressForms
             this.ProgressPercentage.Text = "0%";
         }
 
-        public ProgressFormAsync(Func<IProgress<int>, bool> action, string message, bool showProgressBar = true)
+        public ProgressFormAsync(string message, bool showProgressBar = true)
         {
-            _action = action;
             ShowProgressBar = showProgressBar;
 
             InitializeComponent();
 
             this.Message.Text = message;
             this.ProgressPercentage.Text = "0%";
+        }
+
+        public void Run(Action<IProgress<int>> action)
+        {
+            //var task = RunCommand(action);
+
+            var result = Task.Run(async () => await RunCommand(action)).Result;
+
+        }
+
+         public async Task<bool> RunCommand(Action<IProgress<int>> action)
+        {
+            _action = action;
+            this.Show();
+            await ExecuteCommand(action);
+
+            this.Close();
+            return true;
         }
 
         /// <summary>
@@ -62,10 +79,10 @@ namespace PB.MVVMToolkit.ProgressForms
         /// <param name="e"></param>
         private async void ProgressForm_OnContentRendered(object sender, EventArgs e)
         {
-            var type = _command.GetType();
-            await ExecuteCommand();
+            //var type = _command.GetType();
+            //await ExecuteCommand(_action);
 
-            this.Close();
+            //this.Close();
 
         }
 
@@ -87,20 +104,22 @@ namespace PB.MVVMToolkit.ProgressForms
         /// Method to execute command
         /// </summary>
         /// <returns></returns>
-        private async Task ExecuteCommand()
+        private async Task<bool> ExecuteCommand(Action<Progress<int>> action)
         {
             ProgressBar.Value = 0;
             _cts = new CancellationTokenSource();
 
+            
             var progress = new Progress<int>(percent =>
             {
                 ProgressBar.Value = percent;
                 ProgressPercentage.Text = percent + "%";
             });
 
-            await Task.Run(() => _command.Execute(progress));
+            await Task.Run(() => action(progress));
             //await Task.Run(() => _action(progress));
 
+            return true;
         }
 
     }

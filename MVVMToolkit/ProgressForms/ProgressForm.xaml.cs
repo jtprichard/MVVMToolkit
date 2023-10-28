@@ -33,6 +33,17 @@ namespace PB.MVVMToolkit.ProgressForms
         public bool Indeterminate { get; set; }
 
         /// <summary>
+        /// Sets whether the progress bar should be shown
+        /// </summary>
+        public bool ShowProgressBar { get; set; }
+
+        /// <summary>
+        /// Indicates if the progress bar should be shown
+        /// </summary>
+        public bool ShowProgressBarText => ShowProgressBar && !Indeterminate;
+
+
+        /// <summary>
         /// ProgressForm constructor takes a window title and maximum value.
         /// Default value for title is blank, and the default maximum is 100.
         /// </summary>
@@ -40,11 +51,14 @@ namespace PB.MVVMToolkit.ProgressForms
         /// <param name="maximum">Maximum value to increment to as double</param>
         public ProgressForm(string title = "", double maximum = 100)
         {
+
+            //Set defaults
+            ShowProgressBar = true;
+            Indeterminate = false;
+
             InitializeComponent();
             InitializeSize();
 
-            //Set defaults
-            Indeterminate = false;
             this.Title = title;
             this.ProgressBar.Maximum = maximum;
 
@@ -53,22 +67,28 @@ namespace PB.MVVMToolkit.ProgressForms
             {
                 IsClosed = true;
             };
+
+            this.Progress.Text = "0%";
         }
 
         public ProgressForm(bool isIndeterminate, string title = "")
         {
             //Set defaults
             Indeterminate = isIndeterminate;
-            this.Title = title;
+            ShowProgressBar = true;
 
             InitializeComponent();
             InitializeSize();
-            
+            this.Title = title;
+
+
             //Event handler as window is closing
             this.Closed += (s, e) =>
             {
                 IsClosed = true;
             };
+
+            this.Progress.Text = "0%";
 
         }
 
@@ -97,6 +117,13 @@ namespace PB.MVVMToolkit.ProgressForms
                 ProgressBar.Maximum += value;
             }
             ProgressBar.Value += value;
+
+            if (!Indeterminate)
+            {
+                var perc = (int)(((double)ProgressBar.Value / (double)ProgressBar.Maximum) * 100);
+                Progress.Text = perc + "%";
+            }
+
             return IsClosed;
         }
 

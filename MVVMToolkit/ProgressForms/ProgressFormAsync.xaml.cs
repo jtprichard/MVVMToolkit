@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,13 +7,17 @@ namespace PB.MVVMToolkit.ProgressForms
 {
     /// <summary>
     /// Interaction logic for ProgressForm.xaml
+    /// This progress form uses multi-thread.  This form will not work for a Revit
+    /// application that requires transactions as it separates the Revit UI thread
+    /// from the data thread.  Only use for non-Revit transactions.
     /// </summary>
     public partial class ProgressFormAsync : Window
     {
-        private readonly List<string> _filenames;
         private CancellationTokenSource _cts;
-        private IProgressFormCommand _command;
-        private Action<IProgress<int>> _action;
+        private Func<IProgress<ProgressData>, object[], object> _action;
+        private object[] _params;
+        private object _returnObject;
+
 
         /// <summary>
         /// Event handler when the abort button is clicked
@@ -22,55 +25,68 @@ namespace PB.MVVMToolkit.ProgressForms
         internal event EventHandler AbortButtonClickedEvent = delegate { };
 
         /// <summary>
+        /// Maximum value of the progress bar
+        /// </summary>
+        public int MaxValue { get; set; }
+
+        /// <summary>
         /// Indicates if the progress bar should be shown
         /// </summary>
         public bool ShowProgressBar { get; set; }
+        
+        /// <summary>
+        /// Indicates if progress bar should be indeterminate
+        /// </summary>
+        public bool IsIndeterminate { get; set; }
 
         /// <summary>
-        /// Default Constructor
+        /// Indicates if the progress bar should be shown
+        /// </summary>
+        public bool ShowProgressBarText => ShowProgressBar && !IsIndeterminate;
+
+        /// <summary>
+        /// This progress form uses multi-thread.  This form will not work for a Revit
+        /// application that requires transactions as it separates the Revit UI thread
+        /// from the data thread.  Only use for non-Revit transactions.
         /// </summary>
         /// <param name="fileTransfer">An IFileTransfer object</param>
         /// <param name="filenames">A list of file names</param>
         /// <param name="message">Message to show in the dialog window</param>
         /// <param name="showProgressBar">Indicate whether progress bar should be displayed</param>
-        public ProgressFormAsync(IProgressFormCommand command, string message, bool showProgressBar = true)
+        public ProgressFormAsync(string message, int maxValue = 100, bool showProgressBar = true)
         {
-            _command = command;
             ShowProgressBar = showProgressBar;
+            MaxValue = maxValue;
 
             InitializeComponent();
 
-            this.Message.Text = message;
-            this.ProgressPercentage.Text = "0%";
+            Message.Text = message;
+            this.Progress.Text = "0%";
         }
 
-        public ProgressFormAsync(string message, bool showProgressBar = true)
-        {
-            ShowProgressBar = showProgressBar;
-
-            InitializeComponent();
-
-            this.Message.Text = message;
-            this.ProgressPercentage.Text = "0%";
-        }
-
-        public void Run(Action<IProgress<int>> action)
-        {
-            //var task = RunCommand(action);
-
-            var result = Task.Run(async () => await RunCommand(action)).Result;
-
-        }
-
-         public async Task<bool> RunCommand(Action<IProgress<int>> action)
+         public object Execute(Func<IProgress<ProgressData>, object[], object> action, params object[] parameters)
         {
             _action = action;
-            this.Show();
-            await ExecuteCommand(action);
+            _params = parameters;
+            ProgressBar.IsIndeterminate = IsIndeterminate;
 
-            this.Close();
-            return true;
+            AsyncShowDialog();
+            return _returnObject;
         }
+
+         private async void AsyncShowDialog()
+         {
+             await AsyncShowDialogCommand();
+             return;
+
+         }
+
+         private async Task<bool> AsyncShowDialogCommand()
+         {
+             this.ShowDialog();
+             return true;
+         }
+
 
         /// <summary>
         /// Content rendered event
@@ -79,10 +95,9 @@ namespace PB.MVVMToolkit.ProgressForms
         /// <param name="e"></param>
         private async void ProgressForm_OnContentRendered(object sender, EventArgs e)
         {
-            //var type = _command.GetType();
-            //await ExecuteCommand(_action);
+            await ExecuteCommand();
 
-            //this.Close();
+            this.Close();
 
         }
 
@@ -104,23 +119,28 @@ namespace PB.MVVMToolkit.ProgressForms
         /// Method to execute command
         /// </summary>
         /// <returns></returns>
-        private async Task<bool> ExecuteCommand(Action<Progress<int>> action)
+        private async Task ExecuteCommand()
         {
             ProgressBar.Value = 0;
             _cts = new CancellationTokenSource();
-
             
-            var progress = new Progress<int>(percent =>
+            
+            var progress = new Progress<ProgressData>(progressData =>
             {
-                ProgressBar.Value = percent;
-                ProgressPercentage.Text = percent + "%";
+                if (!IsIndeterminate)
+                {
+                    var perc = (int)(((double)progressData.Count / (double)MaxValue) * 100);
+                    ProgressBar.Value = perc;
+                    Progress.Text = perc + "%";
+                }
+
+                Message.Text = progressData.Message;
             });
 
-            await Task.Run(() => action(progress));
-            //await Task.Run(() => _action(progress));
-
-            return true;
+            _returnObject = await Task.Run(() => _action(progress, _params));
         }
+
+
 
     }
 }

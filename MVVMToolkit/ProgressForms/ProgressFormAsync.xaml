@@ -53,12 +53,12 @@
                                      Visibility="{Binding Path=ShowProgressBar, Converter={StaticResource VisibilityConverter}}"
                         />
 
-                        <TextBlock x:Name="ProgressPercentage"
+                        <TextBlock x:Name="Progress"
                                    Text=""
                                    Foreground="{StaticResource PBDarkBlueBrush}"
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource DialogMessageTextBlockStyle}"
-                                   Visibility="{Binding Path=ShowProgressBar, Converter={StaticResource VisibilityConverter}}"
+                                   Visibility="{Binding Path=ShowProgressBarText, Converter={StaticResource VisibilityConverter}}"
                         />
 
 

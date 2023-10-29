@@ -79,6 +79,7 @@
       <DependentUpon>ProgressFormAsync.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProgressForms\IProgressFormCommand.cs" />
+    <Compile Include="Dialogs\Helpers\UiRefresh.cs" />
     <Compile Include="WPFTools\PBColorPicker.xaml.cs">
       <DependentUpon>PBColorPicker.xaml</DependentUpon>
     </Compile>

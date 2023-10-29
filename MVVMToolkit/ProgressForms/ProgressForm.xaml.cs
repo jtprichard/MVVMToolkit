@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
+using PB.MVVMToolkit.Dialogs.Helpers;
 
 namespace PB.MVVMToolkit.ProgressForms
 {
@@ -12,6 +13,7 @@ namespace PB.MVVMToolkit.ProgressForms
     /// </summary>
     public partial class ProgressForm : Window, IDisposable
     {
+
         /// <summary>
         /// Returns whether the form is closed.
         /// </summary>
@@ -32,10 +34,17 @@ namespace PB.MVVMToolkit.ProgressForms
         /// </summary>
         public bool Indeterminate { get; set; }
 
+
+        private bool _showProgressBar;
+
         /// <summary>
         /// Sets whether the progress bar should be shown
         /// </summary>
-        public bool ShowProgressBar { get; set; }
+        public bool ShowProgressBar
+        {
+            get { return _showProgressBar; }
+            set { _showProgressBar = value; SetProgressBarVisibility(value); }
+        }
 
         /// <summary>
         /// Indicates if the progress bar should be shown
@@ -93,6 +102,29 @@ namespace PB.MVVMToolkit.ProgressForms
         }
 
         /// <summary>
+        /// Shows the modeless dialog window and forces a render refresh of the window
+        /// </summary>
+        public new void Show()
+        {
+            base.Show();
+            this.Refresh();
+        }
+
+        /// <summary>
+        /// Shows the modeless dialog window and forces a render refresh of the window
+        /// and updates the message.
+        /// </summary>
+        /// <param name="message"></param>
+        public void Show(string message)
+        {
+            this.Message.Text = message;
+            this.ProgressBar.Refresh();
+
+            base.Show();
+            this.Refresh();
+        }
+
+        /// <summary>
         /// Disposes instance.  Ensures window closes if class is disposed.
         /// </summary>
         public void Dispose()
@@ -124,6 +156,10 @@ namespace PB.MVVMToolkit.ProgressForms
                 Progress.Text = perc + "%";
             }
 
+            Message.Refresh();
+            this.Refresh();
+            
+
             return IsClosed;
         }
 
@@ -151,7 +187,16 @@ namespace PB.MVVMToolkit.ProgressForms
         }
 
         /// <summary>
-        /// Updates the task on the asynch thread
+        /// Returns whether the abort flag has been turned to true
+        /// </summary>
+        /// <returns>True if abort flag has turned true</returns>
+        public bool GetAbortFlag()
+        {
+            return _abortFlag;
+        }
+
+        /// <summary>
+        /// Updates the task on the async thread
         /// </summary>
         private void UpdateTaskDoEvent()
         {
@@ -206,13 +251,12 @@ namespace PB.MVVMToolkit.ProgressForms
             _abortFlag = true;
         }
 
-        /// <summary>
-        /// Returns whether the abort flag has been turned to true
-        /// </summary>
-        /// <returns>True if abort flag has turned true</returns>
-        public bool GetAbortFlag()
+        private void SetProgressBarVisibility(bool visible)
         {
-            return _abortFlag;
+            if (ProgressBar == null) return;
+            this.ProgressBar.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        
     }
 }

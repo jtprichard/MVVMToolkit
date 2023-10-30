@@ -19,7 +19,6 @@
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>

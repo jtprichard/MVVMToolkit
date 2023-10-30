@@ -156,10 +156,6 @@ namespace PB.MVVMToolkit.ProgressForms
                 Progress.Text = perc + "%";
             }
 
-            Message.Refresh();
-            this.Refresh();
-            
-
             return IsClosed;
         }
 

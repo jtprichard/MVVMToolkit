@@ -74,6 +74,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\Data\IListItemAdv.cs" />
+    <Compile Include="Dialogs\Data\ListItemAdv.cs" />
+    <Compile Include="Dialogs\Enumerations\ListItemFlag.cs" />
+    <Compile Include="Dialogs\ViewModels\ListInputAdvViewModel.cs" />
     <Compile Include="ProgressForms\ProgressData.cs" />
     <Compile Include="ProgressForms\ProgressFormAsync.xaml.cs">
       <DependentUpon>ProgressFormAsync.xaml</DependentUpon>

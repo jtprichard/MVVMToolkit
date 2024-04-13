@@ -643,23 +643,10 @@ namespace PB.MVVMToolkit.Dialogs
         {
             //Look for the selected item in the list and remove it
             var deletedItem = GetSelectedListItem(item);
-            deletedItem.Flag = ListItemFlag.Deleted;
+            deletedItem.Flag = ModifiedFlag.Deleted;
 
             UpdateListItems();
         }
-
-        ///// <summary>
-        ///// Removes an item from the List
-        ///// </summary>
-        ///// <param name="item">Listitem object</param>
-        //private void RemoveItemFromList(IListItemAdv item)
-        //{
-        //    //Look for the selected item in the list and remove it
-        //    ListItems.Remove(GetSelectedListItem(SelectedListItem));
-
-        //    UpdateListItems();
-        //}
-
 
 
         /// <summary>
@@ -681,7 +668,7 @@ namespace PB.MVVMToolkit.Dialogs
             }
 
             var newItem = new ListItemAdv(answer, id);
-            newItem.Flag = ListItemFlag.Added;
+            newItem.Flag = ModifiedFlag.Added;
             if (ComboEnabled)
                 newItem.Parent = SelectedComboboxItem;
             newItem.AddCustomProperties(properties);
@@ -708,8 +695,8 @@ namespace PB.MVVMToolkit.Dialogs
 
             var selectedItem = GetSelectedListItem(item);
             selectedItem.Description = answer;
-            selectedItem.AddCustomProperties(properties);
-            selectedItem.Flag = ListItemFlag.Changed;
+            selectedItem.UpdateCustomProperties(properties);
+            selectedItem.Flag = ModifiedFlag.Changed;
 
             UpdateListItems();
         }
@@ -789,7 +776,7 @@ namespace PB.MVVMToolkit.Dialogs
             {
                 foreach (var item in ListItems)
                 {
-                    if(item.Flag != ListItemFlag.Deleted)
+                    if(item.Flag != ModifiedFlag.Deleted)
                         items.Add(CreateListItem(item));
                 }
             }
@@ -822,7 +809,7 @@ namespace PB.MVVMToolkit.Dialogs
             foreach (var item in ListItems)
                 if (item.Parent.Id == SelectedComboboxItem.Id)
                 {
-                    if(item.Flag != ListItemFlag.Deleted)
+                    if(item.Flag != ModifiedFlag.Deleted)
                         items.Add(CreateListItem(item, item.Parent));
                 }
 

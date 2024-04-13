@@ -4,7 +4,7 @@ namespace PB.MVVMToolkit.Dialogs
     /// <summary>
     /// Enumeration for a List Item Edited Flag
     /// </summary>
-    public enum ListItemFlag
+    public enum ModifiedFlag
     {
         None,
         Added,

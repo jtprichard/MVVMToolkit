@@ -44,7 +44,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Flag for the addition, changing, or deleting of a list item
         /// </summary>
-        public ListItemFlag Flag { get; set; }
+        public ModifiedFlag Flag { get; set; }
 
 
         #endregion
@@ -120,6 +120,24 @@ namespace PB.MVVMToolkit.Dialogs
         public void AddCustomProperties(ObservableCollection<ListItemProperty> properties)
         {
             CustomProperties = properties;
+        }
+
+        /// <summary>
+        /// Updates Custom Properties via a list of properties to update
+        /// </summary>
+        /// <param name="properties">An observable collection of properties to update</param>
+        public void UpdateCustomProperties(ObservableCollection<ListItemProperty> properties)
+        {
+            if (properties == null) return;
+            foreach (var property in properties)
+            {
+                var propToUpdate = CustomProperties.FirstOrDefault(x => x.Name == property.Name);
+                if (propToUpdate != null)
+                {
+                    var index = CustomProperties.IndexOf(propToUpdate);
+                    CustomProperties[index] = property;
+                }
+            }
         }
 
         /// <summary>

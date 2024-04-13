@@ -6,7 +6,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
     /// Interface that defines a ListItem object for use in the Revit Dialog ListInput View and Viewmodel.
     /// Interface includes flags for added, changed, and deleted list items. 
     /// </summary>
-    public interface IListItemAdv
+    public interface IListItemAdv : IModified
     {
         /// <summary>
         /// Id number as integer
@@ -25,8 +25,15 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// </summary>
         IListItemAdv Parent { get; set; }
 
-        ObservableCollection<ListItemProperty> CustomProperties { get; set; }
-        ListItemFlag Flag { get; set; }
+        /// <summary>
+        /// A collection of custom properties
+        /// </summary>
+        ObservableCollection<ListItemProperty> CustomProperties { get; }
+
+        /// <summary>
+        /// Flag to set or return if an item was modified
+        /// </summary>
+        ModifiedFlag Flag { get; set; }
 
     }
 }

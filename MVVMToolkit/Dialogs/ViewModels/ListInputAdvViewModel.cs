@@ -594,9 +594,9 @@ namespace PB.MVVMToolkit.Dialogs
             foreach (var prop in dupRestrictedProps)
             {
                 if (VisibleListItems.Where(x => x.Id != prop.Id).
-                    Any(y => y.CustomProperties != null && y.CustomProperties.Any(z => z.Value == prop.Answer)))
+                    Any(y => y.CustomProperties != null && y.CustomProperties.Any(z => z?.Value == prop.Answer)))
                 {
-                        dupItem = prop.Answer;
+                    dupItem = prop.Answer;
                     break;
                 }
             }

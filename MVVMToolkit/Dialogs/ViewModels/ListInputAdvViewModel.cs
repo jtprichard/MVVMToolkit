@@ -266,6 +266,8 @@ namespace PB.MVVMToolkit.Dialogs
         /// <param name="defaultId">Optional - set the default Id to start with</param>
         public ListInputAdvViewModel(IEnumerable<IListItemAdv> listItems, string message, string itemType, int defaultId = 0)
         {
+            if (listItems == null) listItems = new List<IListItemAdv>();
+            
             //Convert IEnumerable to ObservableCollection
             var items = new ObservableCollection<IListItemAdv>(listItems);
 

@@ -1,4 +1,6 @@
-﻿namespace PB.MVVMToolkit.ProgressForms
+﻿using System.Threading;
+
+namespace PB.MVVMToolkit.ProgressForms
 {
     /// <summary>
     /// Data for progress form window
@@ -16,6 +18,16 @@
         /// Message on window
         /// </summary>
         public string Message { get; set; }
+
+        /// <summary>
+        /// Group message on window
+        /// </summary>
+        public string GroupMessage { get; set; }
+
+        /// <summary>
+        /// The CancellationTokenSource
+        /// </summary>
+        public CancellationToken CancellationToken { get; set; }
 
         #endregion
 

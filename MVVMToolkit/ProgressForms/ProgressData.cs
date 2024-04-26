@@ -25,7 +25,7 @@ namespace PB.MVVMToolkit.ProgressForms
         public string GroupMessage { get; set; }
 
         /// <summary>
-        /// The CancellationTokenSource
+        /// The CancellationToken
         /// </summary>
         public CancellationToken CancellationToken { get; set; }
 
@@ -66,6 +66,16 @@ namespace PB.MVVMToolkit.ProgressForms
             Count = count;
             Message = message;
         }
+
+
+        /// <summary>
+        /// Empty Constructor
+        /// </summary>
+        public ProgressData(CancellationTokenSource cts)
+        {
+            CancellationToken = cts.Token;
+        }
+
 
         #endregion
 

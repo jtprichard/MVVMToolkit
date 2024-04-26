@@ -69,7 +69,7 @@ namespace PB.MVVMToolkit.ProgressForms
 
             //Set defaults
             ShowProgressBar = true;
-            Indeterminate = true;
+            Indeterminate = false;
 
             InitializeComponent();
             InitializeSize();
@@ -95,7 +95,8 @@ namespace PB.MVVMToolkit.ProgressForms
 
             //Set defaults
             ShowProgressBar = true;
-            Indeterminate = true;
+            Indeterminate = false;
+
 
             InitializeComponent();
             InitializeSize();
@@ -114,6 +115,8 @@ namespace PB.MVVMToolkit.ProgressForms
             };
 
             this.Progress.Text = "0%";
+            this.ProgressBar.Maximum = maximum;
+
         }
 
 
@@ -132,7 +135,9 @@ namespace PB.MVVMToolkit.ProgressForms
 
                 var progress = new Progress<ProgressData>(value =>
                 {
-                    ProgressBar.Value = value.Count;
+                    var percValue = ((double)value.Count) / ProgressBar.Maximum;
+                    ProgressBar.Value = percValue;
+                    Progress.Text =  percValue + "%";
                     Message.Text = value.Message;
                     GroupMessage.Text = value.GroupMessage;
                     cancellationToken = value.CancellationToken;

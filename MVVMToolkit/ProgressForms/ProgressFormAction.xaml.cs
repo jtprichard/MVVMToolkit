@@ -35,10 +35,17 @@ namespace PB.MVVMToolkit.ProgressForms
         ///// </summary>
         //private bool _abortFlag = false;
 
+        private bool _indeterminate;
+
         /// <summary>
         /// Sets whether the Indeterminate property for the progress bar should be true
         /// </summary>
-        public bool Indeterminate { get; set; }
+        public bool Indeterminate
+        {
+            get { return _indeterminate; }
+            set { _indeterminate = value; SetIndeterminate(value); }
+
+        }
 
 
         private bool _showProgressBar;
@@ -55,7 +62,7 @@ namespace PB.MVVMToolkit.ProgressForms
         /// <summary>
         /// Indicates if the progress bar should be shown
         /// </summary>
-        public bool ShowProgressBarText => ShowProgressBar && !Indeterminate;
+        public bool ShowProgressBarText { get; set; }
 
 
         /// <summary>
@@ -70,7 +77,7 @@ namespace PB.MVVMToolkit.ProgressForms
             //Set defaults
             ShowProgressBar = true;
             Indeterminate = false;
-
+            ShowProgressBarText = !Indeterminate;
             InitializeComponent();
             InitializeSize();
 
@@ -78,6 +85,7 @@ namespace PB.MVVMToolkit.ProgressForms
             this.ProgressBar.Maximum = maximum;
             this._asyncMethodToRun = asyncMethodToRun;
             _cancellationTokenSource = cancellationTokenSource;
+            this.Progress.Text = "0%";
 
             Loaded += ProgressWindow_Loaded;
 
@@ -87,24 +95,21 @@ namespace PB.MVVMToolkit.ProgressForms
                 IsClosed = true;
             };
 
-            this.Progress.Text = "0%";
         }
 
-        public ProgressFormAction(Func<IProgress<ProgressData>, Task> asyncMethodToRun, CancellationTokenSource cancellationTokenSource, string title = "", double maximum = 100)
+        public ProgressFormAction(Func<IProgress<ProgressData>, Task> asyncMethodToRun, CancellationTokenSource cancellationTokenSource, string title = "")
         {
 
-            //Set defaults
             ShowProgressBar = true;
             Indeterminate = false;
-
-
+            ShowProgressBarText = !Indeterminate;
             InitializeComponent();
             InitializeSize();
 
             this.Title = title;
-            this.ProgressBar.Maximum = maximum;
             this._asyncRevisedMethodToRun = asyncMethodToRun;
             _cancellationTokenSource = cancellationTokenSource;
+            this.Progress.Text = "0%";
 
             Loaded += ProgressWindow_Loaded;
 
@@ -114,9 +119,14 @@ namespace PB.MVVMToolkit.ProgressForms
                 IsClosed = true;
             };
 
-            this.Progress.Text = "0%";
-            this.ProgressBar.Maximum = maximum;
+        }
 
+        public void SetIndeterminate(bool indeterminate)
+        {
+            if (ProgressBar == null) return;
+            ProgressBar.IsIndeterminate = indeterminate;
+            ShowProgressBarText = !indeterminate;
+            //Progress.Visibility = indeterminate ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
@@ -124,32 +134,27 @@ namespace PB.MVVMToolkit.ProgressForms
         {
             try
             {
-                //var progress = new Progress<int>(value =>
-                //{
-                //    ProgressBar.Value = value;
-                //});
-
-                //await _asyncMethodToRun(progress, _cancellationTokenSource.Token);
-
                 CancellationToken cancellationToken;
 
                 var progress = new Progress<ProgressData>(value =>
                 {
-                    var percValue = ((double)value.Count) / ProgressBar.Maximum;
-                    ProgressBar.Value = percValue;
+                    ProgressBar.Maximum = value.Total;
+                    var percValue =  (int)((((double)value.Count) / ProgressBar.Maximum)*100);
+                    ProgressBar.Value = value.Count;
                     Progress.Text =  percValue + "%";
                     Message.Text = value.Message;
                     GroupMessage.Text = value.GroupMessage;
                     cancellationToken = value.CancellationToken;
                 });
 
+                if(cancellationToken == null) BtnCancel.Visibility = Visibility.Collapsed;
                 await _asyncRevisedMethodToRun(progress);
 
 
             }
-            catch
+            catch(Exception ex) 
             {
-
+                Console.WriteLine(ex);
             }
             finally
             {
@@ -173,12 +178,8 @@ namespace PB.MVVMToolkit.ProgressForms
         /// <param name="e"></param>
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
-            //this.Message.Text = "Aborting...";
-            //_abortFlag = true;
             _cancellationTokenSource.Cancel();
         }
-
-
 
         private void SetProgressBarVisibility(bool visible)
         {
@@ -186,160 +187,11 @@ namespace PB.MVVMToolkit.ProgressForms
             this.ProgressBar.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
 
-
-
-        //public ProgressFormAction(bool isIndeterminate, string title = "")
-        //{
-        //    //Set defaults
-        //    Indeterminate = isIndeterminate;
-        //    ShowProgressBar = true;
-
-        //    InitializeComponent();
-        //    InitializeSize();
-        //    this.Title = title;
-
-
-        //    //Event handler as window is closing
-        //    this.Closed += (s, e) =>
-        //    {
-        //        IsClosed = true;
-        //    };
-
-        //    this.Progress.Text = "0%";
-
-        //}
-
-        ///// <summary>
-        ///// Shows the modeless dialog window and forces a render refresh of the window
-        ///// </summary>
-        //public new void Show()
-        //{
-        //    base.Show();
-        //    this.Refresh();
-        //}
-
-
-
-        ///// <summary>
-        ///// Shows the modeless dialog window and forces a render refresh of the window
-        ///// and updates the message.
-        ///// </summary>
-        ///// <param name="message"></param>
-        //public void Show(string message)
-        //{
-        //    this.Message.Text = message;
-        //    this.ProgressBar.Refresh();
-
-        //    base.Show();
-        //    this.Refresh();
-        //}
-
-        /// <summary>
-        /// Disposes instance.  Ensures window closes if class is disposed.
-        /// </summary>
         public void Dispose()
         {
             if (!IsClosed) 
                 Close();
         }
-
-        ///// <summary>
-        ///// Updates the value of the progress bar
-        ///// </summary>
-        ///// <param name="message">Message to show above the progress bar</param>
-        ///// <param name="value">Current value as string</param>
-        ///// <returns>True if window is closing</returns>
-        //public bool Update(string message, double value = 1.0)
-        //{
-        //    this.Message.Text = message;
-        //    //UpdateTaskDoEvent();
-
-        //    if (this.ProgressBar.Value + value >= ProgressBar.Maximum)
-        //    {
-        //        ProgressBar.Maximum += value;
-        //    }
-        //    ProgressBar.Value += value;
-
-        //    if (!Indeterminate)
-        //    {
-        //        var perc = (int)(((double)ProgressBar.Value / (double)ProgressBar.Maximum) * 100);
-        //        Progress.Text = perc + "%";
-        //    }
-
-        //    return IsClosed;
-        //}
-
-        ///// <summary>
-        ///// Resets the progress bar to 0.
-        ///// </summary>
-        ///// <param name="maximum">Maximum value as double</param>
-        ///// <param name="message">Message to show above the progress bar</param>
-        //public void Reset(double maximum = 100, string message = "")
-        //{
-        //    this.ProgressBar.Maximum = maximum;
-        //    this.Message.Text = message;
-        //    ProgressBar.Value = 0;
-        //}
-
-        ///// <summary>
-        ///// Sets a group message.  This is intended, through the use of the Reset method, to increment the same
-        ///// progressbar form through multiple lists.
-        ///// </summary>
-        ///// <param name="groupMessage">A group message as a string</param>
-        //public void SetGroupMessage(string groupMessage)
-        //{
-        //    this.GroupMessage.Text = groupMessage;
-        //    this.GroupMessage.Height = 20;
-        //}
-
-        ///// <summary>
-        ///// Returns whether the abort flag has been turned to true
-        ///// </summary>
-        ///// <returns>True if abort flag has turned true</returns>
-        //public bool GetAbortFlag()
-        //{
-        //    return _abortFlag;
-        //}
-
-        ///// <summary>
-        ///// Updates the task on the async thread
-        ///// </summary>
-        //private void UpdateTaskDoEvent()
-        //{
-        //    if (taskDoEvent == null) 
-        //        taskDoEvent = GetTaskUpdateEvent();
-        //    if (taskDoEvent.IsCompleted)
-        //    {
-        //        Show();
-        //        DoEvents();
-        //        taskDoEvent = null;
-        //    }
-        //}
-
-
-
-        ///// <summary>
-        ///// Updates the task
-        ///// </summary>
-        ///// <returns></returns>
-        //private Task GetTaskUpdateEvent()
-        //{
-        //    return Task.Run(async () => { await Task.Delay(50); });
-        //}
-
-        ///// <summary>
-        ///// Perform the event to update via the Forms class
-        ///// </summary>
-        //private void DoEvents()
-        //{
-        //    System.Windows.Forms.Application.DoEvents();
-        //    System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.WaitCursor;
-        //}
-
-        /// <summary>
-        /// Initialize the window
-        /// </summary>
-
         
     }
 }

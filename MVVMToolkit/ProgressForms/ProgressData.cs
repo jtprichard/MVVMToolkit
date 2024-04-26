@@ -15,6 +15,11 @@ namespace PB.MVVMToolkit.ProgressForms
         public int Count { get; set; }
 
         /// <summary>
+        /// Total items to process
+        /// </summary>
+        public int Total { get; set; }
+
+        /// <summary>
         /// Message on window
         /// </summary>
         public string Message { get; set; }
@@ -69,7 +74,7 @@ namespace PB.MVVMToolkit.ProgressForms
 
 
         /// <summary>
-        /// Empty Constructor
+        /// Constructor with cancellation token source (required for abort)
         /// </summary>
         public ProgressData(CancellationTokenSource cts)
         {

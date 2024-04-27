@@ -80,13 +80,14 @@
     <Compile Include="Dialogs\Enumerations\ModifiedFlag.cs" />
     <Compile Include="Dialogs\ViewModels\ListInputAdvViewModel.cs" />
     <Compile Include="ProgressForms\ProgressData.cs" />
-    <Compile Include="ProgressForms\ProgressFormAction.xaml.cs">
-      <DependentUpon>ProgressFormAction.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ProgressForms\ProgressFormAsync.xaml.cs">
       <DependentUpon>ProgressFormAsync.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProgressForms\ProgressFormAsyncOld.xaml.cs">
+      <DependentUpon>ProgressFormAsyncOld.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\Helpers\UiRefresh.cs" />
+    <Compile Include="ProgressForms\ProgressFormAsyncSample.cs" />
     <Compile Include="WPFTools\PBColorPicker.xaml.cs">
       <DependentUpon>PBColorPicker.xaml</DependentUpon>
     </Compile>
@@ -205,11 +206,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ProgressForms\ProgressFormAction.xaml">
+    <Page Include="ProgressForms\ProgressFormAsync.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ProgressForms\ProgressFormAsync.xaml">
+    <Page Include="ProgressForms\ProgressFormAsyncOld.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

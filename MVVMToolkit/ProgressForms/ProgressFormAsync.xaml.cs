@@ -6,141 +6,193 @@ using System.Windows;
 namespace PB.MVVMToolkit.ProgressForms
 {
     /// <summary>
-    /// Interaction logic for ProgressForm.xaml
-    /// This progress form uses multi-thread.  This form will not work for a Revit
-    /// application that requires transactions as it separates the Revit UI thread
-    /// from the data thread.  Only use for non-Revit transactions.
+    /// A progress bar window created in WPF.  The window allows for a single progress bar to any desired
+    /// maximum value.  Values are incremented by 1 or by the value provided.
+    /// A message is available to coincide with progress.  A secondary message is available for sequencing
+    /// through groups of items.
     /// </summary>
-    public partial class ProgressFormAsync : Window
+    public partial class ProgressFormAsync : Window, IDisposable
     {
-        private CancellationTokenSource _cts;
-        private Func<IProgress<ProgressData>, object[], object> _action;
-        private object[] _params;
-        private object _returnObject;
-
+        private Func<IProgress<int>, CancellationToken, Task> _asyncMethodToRun;
+        private Func<IProgress<ProgressData>, Task> _asyncRevisedMethodToRun;
+        private CancellationTokenSource _cancellationTokenSource;
 
         /// <summary>
-        /// Event handler when the abort button is clicked
+        /// Returns whether the form is closed.
         /// </summary>
-        internal event EventHandler AbortButtonClickedEvent = delegate { };
+        public bool IsClosed { get; private set; }
+
+        private bool _indeterminate;
 
         /// <summary>
-        /// Maximum value of the progress bar
+        /// Sets whether the Indeterminate property for the progress bar should be true
         /// </summary>
-        public int MaxValue { get; set; }
-
-        /// <summary>
-        /// Indicates if the progress bar should be shown
-        /// </summary>
-        public bool ShowProgressBar { get; set; }
-        
-        /// <summary>
-        /// Indicates if progress bar should be indeterminate
-        /// </summary>
-        public bool IsIndeterminate { get; set; }
-
-        /// <summary>
-        /// Indicates if the progress bar should be shown
-        /// </summary>
-        public bool ShowProgressBarText => ShowProgressBar && !IsIndeterminate;
-
-        /// <summary>
-        /// This progress form uses multi-thread.  This form will not work for a Revit
-        /// application that requires transactions as it separates the Revit UI thread
-        /// from the data thread.  Only use for non-Revit transactions.
-        /// </summary>
-        /// <param name="fileTransfer">An IFileTransfer object</param>
-        /// <param name="filenames">A list of file names</param>
-        /// <param name="message">Message to show in the dialog window</param>
-        /// <param name="showProgressBar">Indicate whether progress bar should be displayed</param>
-        public ProgressFormAsync(string message, int maxValue = 100, bool showProgressBar = true)
+        public bool Indeterminate
         {
-            ShowProgressBar = showProgressBar;
-            MaxValue = maxValue;
+            get { return _indeterminate; }
+            set { _indeterminate = value; SetIndeterminate(value); }
 
+        }
+
+        private bool _showProgressBar;
+
+        /// <summary>
+        /// Sets whether the progress bar should be shown
+        /// </summary>
+        public bool ShowProgressBar
+        {
+            get { return _showProgressBar; }
+            set { _showProgressBar = value; SetProgressBarVisibility(value); }
+        }
+
+        private bool _showProgressBarText;
+
+        /// <summary>
+        /// Indicates if the progress bar should be shown
+        /// </summary>
+        public bool ShowProgressBarText
+        {
+            get { return _showProgressBarText;}
+            set { _showProgressBarText = value; SetProgressBarTextVisibility(value); }
+        }
+
+
+        /// <summary>
+        /// ProgressForm constructor takes a window title and maximum value.
+        /// Default value for title is blank, and the default maximum is 100.
+        /// </summary>
+        /// <param name="title">Window title as string</param>
+        /// <param name="maximum">Maximum value to increment to as double</param>
+        public ProgressFormAsync(Func<IProgress<int>, CancellationToken, Task> asyncMethodToRun, CancellationTokenSource cancellationTokenSource, string title = "", double maximum = 100)
+        {
+
+            //Set defaults
+            ShowProgressBar = true;
+            Indeterminate = false;
+            ShowProgressBarText = !Indeterminate;
             InitializeComponent();
+            InitializeSize();
 
-            Message.Text = message;
+            this.Title = title;
+            this.ProgressBar.Maximum = maximum;
+            this._asyncMethodToRun = asyncMethodToRun;
+            _cancellationTokenSource = cancellationTokenSource;
             this.Progress.Text = "0%";
-        }
 
-         public object Execute(Func<IProgress<ProgressData>, object[], object> action, params object[] parameters)
-        {
-            _action = action;
-            _params = parameters;
-            ProgressBar.IsIndeterminate = IsIndeterminate;
+            Loaded += ProgressWindow_Loaded;
 
-            AsyncShowDialog();
-            return _returnObject;
-        }
-
-         private async void AsyncShowDialog()
-         {
-             await AsyncShowDialogCommand();
-             return;
-
-         }
-
-         private async Task<bool> AsyncShowDialogCommand()
-         {
-             this.ShowDialog();
-             return true;
-         }
-
-
-        /// <summary>
-        /// Content rendered event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void ProgressForm_OnContentRendered(object sender, EventArgs e)
-        {
-            await ExecuteCommand();
-
-            this.Close();
-
-        }
-
-        /// <summary>
-        /// Event handler for the abort button click event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AbortButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            _cts.Cancel();
-
-            AbortButtonClickedEvent?.Invoke(this, EventArgs.Empty);
-            this.Close();
-        }
-
-
-        /// <summary>
-        /// Method to execute command
-        /// </summary>
-        /// <returns></returns>
-        private async Task ExecuteCommand()
-        {
-            ProgressBar.Value = 0;
-            _cts = new CancellationTokenSource();
-            
-            
-            var progress = new Progress<ProgressData>(progressData =>
+            //Event handler as window is closing
+            this.Closed += (s, e) =>
             {
-                if (!IsIndeterminate)
-                {
-                    var perc = (int)(((double)progressData.Count / (double)MaxValue) * 100);
-                    ProgressBar.Value = perc;
-                    Progress.Text = perc + "%";
-                }
+                IsClosed = true;
+            };
 
-                Message.Text = progressData.Message;
-            });
-
-            _returnObject = await Task.Run(() => _action(progress, _params));
         }
 
 
+        public ProgressFormAsync(Func<IProgress<ProgressData>, Task> asyncMethodToRun, CancellationTokenSource cancellationTokenSource, string title = "")
+        {
 
+            ShowProgressBar = true;
+            Indeterminate = false;
+            ShowProgressBarText = !Indeterminate;
+            InitializeComponent();
+            InitializeSize();
+
+            this.Title = title;
+            this._asyncRevisedMethodToRun = asyncMethodToRun;
+            _cancellationTokenSource = cancellationTokenSource;
+            this.Progress.Text = "0%";
+
+            Loaded += ProgressWindow_Loaded;
+
+            //Event handler as window is closing
+            this.Closed += (s, e) =>
+            {
+                IsClosed = true;
+            };
+        }
+
+        private void SetIndeterminate(bool indeterminate)
+        {
+            if (ProgressBar == null) return;
+            ProgressBar.IsIndeterminate = indeterminate;
+            ShowProgressBarText = !indeterminate;
+        }
+
+        private async void ProgressWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CancellationToken cancellationToken;
+
+                var progress = new Progress<ProgressData>(value =>
+                {
+                    ProgressBar.Maximum = value.Total;
+                    int percValue = 0;
+                    if (ProgressBar.Maximum == 0)
+                        percValue = 100;
+                    else
+                        percValue =  (int)((((double)value.Count) / ProgressBar.Maximum)*100);
+                    ProgressBar.Value = value.Count;
+                    Progress.Text =  percValue + "%";
+                    Message.Text = value.Message;
+                    GroupMessage.Text = value.GroupMessage;
+                    cancellationToken = value.CancellationToken;
+                });
+
+                if(cancellationToken == null) BtnCancel.Visibility = Visibility.Collapsed;
+                await _asyncRevisedMethodToRun(progress);
+
+
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                Dispatcher.Invoke(() => Close());
+            }
+        }
+
+        private void InitializeSize()
+        {
+            this.SizeToContent = SizeToContent.WidthAndHeight;
+            this.Topmost = true;
+            this.ShowInTaskbar = false;
+            this.ResizeMode = ResizeMode.NoResize;
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        }
+
+        /// <summary>
+        /// Event called when abort button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            _cancellationTokenSource.Cancel();
+        }
+
+        private void SetProgressBarVisibility(bool visible)
+        {
+            if (ProgressBar == null) return;
+            this.ProgressBar.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+            ShowProgressBarText = false;
+        }
+
+        private void SetProgressBarTextVisibility(bool visible)
+        {
+            if (ProgressBar == null) return;
+            this.Progress.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public void Dispose()
+        {
+            if (!IsClosed) 
+                Close();
+        }
+        
     }
 }

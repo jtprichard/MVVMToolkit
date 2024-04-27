@@ -30,9 +30,14 @@ namespace PB.MVVMToolkit.ProgressForms
         public string GroupMessage { get; set; }
 
         /// <summary>
+        /// The Cancellation Token Source
+        /// </summary>
+        public CancellationTokenSource CancellationTokenSource { get; set; }
+
+        /// <summary>
         /// The CancellationToken
         /// </summary>
-        public CancellationToken CancellationToken { get; set; }
+        public CancellationToken CancellationToken => CancellationTokenSource.Token;
 
         #endregion
 
@@ -41,7 +46,10 @@ namespace PB.MVVMToolkit.ProgressForms
         /// <summary>
         /// Empty Constructor
         /// </summary>
-        public ProgressData() { }
+        public ProgressData()
+        {
+            CancellationTokenSource = new CancellationTokenSource();
+        }
 
         /// <summary>
         /// Constructor with Count
@@ -78,7 +86,7 @@ namespace PB.MVVMToolkit.ProgressForms
         /// </summary>
         public ProgressData(CancellationTokenSource cts)
         {
-            CancellationToken = cts.Token;
+            CancellationTokenSource = cts;
         }
 
 

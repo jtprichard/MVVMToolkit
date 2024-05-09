@@ -30,10 +30,5 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// </summary>
         ObservableCollection<ListItemProperty> CustomProperties { get; }
 
-        /// <summary>
-        /// Flag to set or return if an item was modified
-        /// </summary>
-        ModifiedFlag Flag { get; set; }
-
     }
 }

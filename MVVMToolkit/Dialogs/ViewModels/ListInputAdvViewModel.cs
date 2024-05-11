@@ -674,6 +674,7 @@ namespace PB.MVVMToolkit.Dialogs
             if (ComboEnabled)
                 newItem.Parent = SelectedComboboxItem;
             newItem.AddCustomProperties(properties);
+            newItem.Flag = ModifiedFlag.Added;
 
             ListItems.Add(newItem);
             UpdateListItems();

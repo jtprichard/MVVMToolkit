@@ -34,6 +34,15 @@ namespace PB.MVVMToolkit.ProgressForms
 
         }
 
+        private string _message;
+
+        public string Message
+        {
+            get { return _message; }
+            set { _message = value; SetMessageText(value);
+            }
+        }
+
         private bool _showProgressBar;
 
         /// <summary>
@@ -78,19 +87,15 @@ namespace PB.MVVMToolkit.ProgressForms
             this._asyncMethodToRun = asyncMethodToRun;
             _cancellationTokenSource = cancellationTokenSource;
             this.Progress.Text = "0%";
+            this.MessageTxt.Text = string.Empty;
 
             Loaded += ProgressWindow_Loaded;
-
-            //Event handler as window is closing
-            this.Closed += (s, e) =>
-            {
-                IsClosed = true;
-            };
+            Closed += (s, e) => IsClosed = true;
 
         }
 
 
-        public ProgressFormAsync(Func<IProgress<ProgressData>, Task> asyncMethodToRun, CancellationTokenSource cancellationTokenSource, string title = "")
+        public ProgressFormAsync(Func<IProgress<ProgressData>, Task> asyncMethodToRun, CancellationTokenSource cancellationTokenSource, string title = "", string message = "")
         {
 
             ShowProgressBar = true;
@@ -103,14 +108,10 @@ namespace PB.MVVMToolkit.ProgressForms
             this._asyncRevisedMethodToRun = asyncMethodToRun;
             _cancellationTokenSource = cancellationTokenSource;
             this.Progress.Text = "0%";
+            this.MessageTxt.Text = message;
 
             Loaded += ProgressWindow_Loaded;
-
-            //Event handler as window is closing
-            this.Closed += (s, e) =>
-            {
-                IsClosed = true;
-            };
+            Closed += (s, e) => IsClosed = true;
         }
 
         private void SetIndeterminate(bool indeterminate)
@@ -136,7 +137,7 @@ namespace PB.MVVMToolkit.ProgressForms
                         percValue =  (int)((((double)value.Count) / ProgressBar.Maximum)*100);
                     ProgressBar.Value = value.Count;
                     Progress.Text =  percValue + "%";
-                    Message.Text = value.Message;
+                    Message = value.Message;
                     GroupMessage.Text = value.GroupMessage;
                     cancellationToken = value.CancellationToken;
                 });
@@ -173,6 +174,11 @@ namespace PB.MVVMToolkit.ProgressForms
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
         {
             _cancellationTokenSource.Cancel();
+        }
+
+        private void SetMessageText(string value)
+        {
+            this.MessageTxt.Text = value;
         }
 
         private void SetProgressBarVisibility(bool visible)

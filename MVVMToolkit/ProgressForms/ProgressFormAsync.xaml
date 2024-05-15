@@ -38,7 +38,7 @@
                                Style="{StaticResource DialogMessageTextBlockStyle}"
                                Margin="4,0,4,4"/>
 
-                    <TextBlock x:Name="Message"
+                    <TextBlock x:Name="MessageTxt"
                                Text="Message"
                                Style="{StaticResource DialogMessageTextBlockStyle}"
                                MinHeight="20"

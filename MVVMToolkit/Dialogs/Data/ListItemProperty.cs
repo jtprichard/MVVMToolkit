@@ -18,6 +18,10 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// </summary>
         public string Value { get; set; }
         /// <summary>
+        /// The caption to use in the input dialog
+        /// </summary>
+        public string Caption { get; set; }
+        /// <summary>
         /// Determines if the property should be locked.
         /// </summary>
         public bool IsLocked { get; set; }

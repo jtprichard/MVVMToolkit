@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Drawing;
-using System.Security.Cryptography;
 
 namespace PB.MVVMToolkit.Dialogs.Data
 {
@@ -55,6 +53,11 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// </summary>
         public bool Required { get; set; }
 
+        /// <summary>
+        /// Notes whether input is enabled for editing
+        /// </summary>
+        public bool IsEnabled { get; set; }
+
         public DialogInput(){}
 
         public DialogInput(string description, string caption, string defaultAnswer = "")
@@ -64,6 +67,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
             Answer = defaultAnswer;
             DuplicateAllowed = true;
             Required = false;
+            IsEnabled = true;
         }
 
         #endregion

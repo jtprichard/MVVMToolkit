@@ -13,6 +13,12 @@
         <Setter Property="FontWeight" Value="Normal"/>
     </Style>
 
+    <Style TargetType="{x:Type TextBlock}" x:Key="MediumTextBlockStyle">
+        <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}" />
+        <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
+        <Setter Property="FontWeight" Value="Normal"/>
+    </Style>
+
     <Style TargetType="{x:Type TextBlock}" x:Key="BaseBoldTextBlockStyle">
         <Setter Property="FontFamily" Value="{StaticResource PBBoldFont}" />
         <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
@@ -26,12 +32,18 @@
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="MediumBoldTextBlockStyle">
-        <Setter Property="FontFamily" Value="{StaticResource PBMediumFont}" />
-        <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
+        <Setter Property="FontFamily" Value="{StaticResource PBBoldFont}" />
+        <Setter Property="FontSize" Value="{StaticResource RegularFontSize}" />
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 
     <Style TargetType="{x:Type TextBlock}" x:Key="LargeBoldTextBlockStyle">
+        <Setter Property="FontFamily" Value="{StaticResource PBBoldFont}" />
+        <Setter Property="FontSize" Value="{StaticResource ExtraLargeFontSize}" />
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" x:Key="ExtraLargeBoldTextBlockStyle">
         <Setter Property="FontFamily" Value="{StaticResource PBBoldFont}" />
         <Setter Property="FontSize" Value="{StaticResource ExtraExtraLargeFontSize}" />
         <Setter Property="FontWeight" Value="Bold"/>

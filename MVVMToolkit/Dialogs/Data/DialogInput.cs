@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace PB.MVVMToolkit.Dialogs.Data
 {
@@ -58,6 +59,11 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// </summary>
         public bool IsEnabled { get; set; }
 
+        /// <summary>
+        /// The Type for the input to return
+        /// </summary>
+        public Type InputType { get; set; }
+
         public DialogInput(){}
 
         public DialogInput(string description, string caption, string defaultAnswer = "")
@@ -68,6 +74,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
             DuplicateAllowed = true;
             Required = false;
             IsEnabled = true;
+            InputType = typeof(string);
         }
 
         #endregion

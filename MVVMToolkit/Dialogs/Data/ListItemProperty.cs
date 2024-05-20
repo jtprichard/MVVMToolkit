@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace PB.MVVMToolkit.Dialogs.Data
 {
@@ -37,6 +38,10 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// Notes whether an answer Value is required.
         /// </summary>
         public bool IsRequired { get; set; }
+        /// <summary>
+        /// The input Type
+        /// </summary>
+        public Type PropertyType { get; set; }
 
         #endregion
 
@@ -52,7 +57,8 @@ namespace PB.MVVMToolkit.Dialogs.Data
                 IsLocked = isLocked,
                 IsVisible = isVisible,
                 IsRequired = isRequired,
-                DuplicateAllowed = true
+                DuplicateAllowed = true,
+                PropertyType = typeof(string)
             };
             return property;
         }

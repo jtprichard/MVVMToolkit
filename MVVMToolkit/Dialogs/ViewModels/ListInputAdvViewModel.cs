@@ -9,7 +9,9 @@ using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
 using PB.MVVMToolkit.Dialogs.Data;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using static System.Resources.ResXFileRef;
 
 namespace PB.MVVMToolkit.Dialogs
 {
@@ -550,6 +552,7 @@ namespace PB.MVVMToolkit.Dialogs
                 customInput.Required = property.IsRequired;
                 customInput.Answer = property.Value;
                 customInput.IsEnabled = !property.IsLocked;
+                customInput.InputType = property.PropertyType;
                 if(item != null)
                     customInput.Id = item.Id;
                 inputs.Add(customInput);
@@ -635,7 +638,42 @@ namespace PB.MVVMToolkit.Dialogs
                 DialogOk.Show(errorMsg, "Error", DialogImage.Error);
             }
 
+            success = ValidatePropertyTypes(inputs);
+
             return success;
+        }
+
+        private bool ValidatePropertyTypes(ObservableCollection<DialogInput> inputs)
+        {
+            foreach (var input in inputs)
+            {
+                if (!ValidateInputType(input)) return false;
+            }
+            return true;
+        }
+
+        private bool ValidateInputType(DialogInput input)
+        {
+            if (input == null || input.Answer == string.Empty) return true;
+            var converter = TypeDescriptor.GetConverter(input.InputType);
+            try
+            {
+                if (converter.CanConvertFrom(typeof(string)))
+                {
+                    converter.ConvertFromString(input.Answer);
+                    return true;
+                }
+                string errorMsg = string.Format("{0} must be of type {1}", input.Caption, input.InputType);
+                DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+                return false;
+
+            }
+            catch
+            {
+                string errorMsg = string.Format("{0} must be of type {1}", input.Caption, input.InputType);
+                DialogOk.Show(errorMsg, "Error", DialogImage.Error);
+                return false;
+            }
         }
 
         /// <summary>

@@ -135,7 +135,7 @@ namespace PB.MVVMToolkit.Dialogs
                 if (propToUpdate != null)
                 {
                     var index = CustomProperties.IndexOf(propToUpdate);
-                    CustomProperties[index] = property;
+                    CustomProperties[index].Value = property.Value;
                 }
             }
         }

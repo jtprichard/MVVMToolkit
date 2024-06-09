@@ -21,6 +21,10 @@ namespace PB.MVVMToolkit.Dialogs.Data
         /// </summary>
         bool IsLocked { get; set; }
         /// <summary>
+        /// Determines if Item is visible in the editor
+        /// </summary>
+        bool IsHidden { get; set; }
+        /// <summary>
         /// Dependency object as IListItem
         /// </summary>
         IListItemAdv Parent { get; set; }

@@ -11,7 +11,6 @@ using PB.MVVMToolkit.Dialogs.Data;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using static System.Resources.ResXFileRef;
 
 namespace PB.MVVMToolkit.Dialogs
 {
@@ -25,6 +24,7 @@ namespace PB.MVVMToolkit.Dialogs
         protected int _listId;
         private List<ListItemProperty> _itemCustomProperties = null;
         private ListItemAdv _dummyListItem;
+        private readonly Dictionary<Type, string> _inputDictionary = GetInputTypeDictionary();
 
         #endregion
 
@@ -545,18 +545,16 @@ namespace PB.MVVMToolkit.Dialogs
 
         protected virtual void AddCustomPropertyToInputs(IListItemAdv item, ListItemProperty property, ObservableCollection<DialogInput> inputs)
         {
-            if (property.IsVisible)
-            {
-                var customInput = new DialogInput(property.Name, property.Name + ": ");
-                customInput.DuplicateAllowed = property.DuplicateAllowed;
-                customInput.Required = property.IsRequired;
-                customInput.Answer = property.Value;
-                customInput.IsEnabled = !property.IsLocked;
-                customInput.InputType = property.PropertyType;
-                if(item != null)
-                    customInput.Id = item.Id;
-                inputs.Add(customInput);
-            }
+            var customInput = new DialogInput(property.Name, property.Name + ": ");
+            customInput.DuplicateAllowed = property.DuplicateAllowed;
+            customInput.Required = property.IsRequired;
+            customInput.Answer = property.Value;
+            customInput.IsEnabled = !property.IsLocked;
+            customInput.InputType = property.PropertyType;
+            customInput.IsVisible = property.IsVisible;
+            if(item != null)
+                customInput.Id = item.Id;
+            inputs.Add(customInput);
         }
 
         protected virtual void AddDescriptionToInputs(IListItemAdv item, ObservableCollection<DialogInput> inputs)
@@ -663,6 +661,8 @@ namespace PB.MVVMToolkit.Dialogs
                     converter.ConvertFromString(input.Answer);
                     return true;
                 }
+                var typeFound = _inputDictionary.TryGetValue(input.InputType, out var inputString);
+                if (!typeFound) inputString = input.InputType.ToString();
                 string errorMsg = string.Format("{0} must be of type {1}", input.Caption, input.InputType);
                 DialogOk.Show(errorMsg, "Error", DialogImage.Error);
                 return false;
@@ -670,7 +670,9 @@ namespace PB.MVVMToolkit.Dialogs
             }
             catch
             {
-                string errorMsg = string.Format("{0} must be of type {1}", input.Caption, input.InputType);
+                var typeFound = _inputDictionary.TryGetValue(input.InputType, out var inputString);
+                if (!typeFound) inputString = input.InputType.ToString();
+                string errorMsg = string.Format("{0} must be of type {1}", input.Caption, inputString);
                 DialogOk.Show(errorMsg, "Error", DialogImage.Error);
                 return false;
             }
@@ -810,7 +812,7 @@ namespace PB.MVVMToolkit.Dialogs
         /// <summary>
         /// Populate the list at startup
         /// </summary>
-        private void PopulateListItems()
+        protected void PopulateListItems()
         {
             var items = new ObservableCollection<IListItemAdv>();
 
@@ -823,7 +825,7 @@ namespace PB.MVVMToolkit.Dialogs
                 }
             }
 
-            VisibleListItems = items;
+            VisibleListItems = new ObservableCollection<IListItemAdv>(items.Where(x => !x.IsHidden));
 
             //Adjust the default selecteditem
             if (VisibleListItems.Count > 0)
@@ -855,7 +857,7 @@ namespace PB.MVVMToolkit.Dialogs
                         items.Add(CreateListItem(item, item.Parent));
                 }
 
-            VisibleListItems = items;
+            VisibleListItems = new ObservableCollection<IListItemAdv>(items.Where(x => !x.IsHidden));
 
             //Adjust the default selecteditem
             if (VisibleListItems.Count > 0)
@@ -886,6 +888,20 @@ namespace PB.MVVMToolkit.Dialogs
         protected virtual void Refresh()
         {
             OnPropertyChanged(nameof(SelectedListItem));
+        }
+
+        private static Dictionary<Type, string> GetInputTypeDictionary()
+        {
+            var dictionary = new Dictionary<Type, string>
+            {
+                { typeof(string), "String" },
+                { typeof(bool), "Boolean" },
+                { typeof(int), "Integer" },
+                { typeof(double), "Number" },
+                { typeof(decimal), "Decimal Number" }
+            };
+
+            return dictionary;
         }
 
 

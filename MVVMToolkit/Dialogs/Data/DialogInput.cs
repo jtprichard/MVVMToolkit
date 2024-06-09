@@ -60,6 +60,11 @@ namespace PB.MVVMToolkit.Dialogs.Data
         public bool IsEnabled { get; set; }
 
         /// <summary>
+        /// Notes whether input is visible
+        /// </summary>
+        public bool IsVisible { get; set; }
+        
+        /// <summary>
         /// The Type for the input to return
         /// </summary>
         public Type InputType { get; set; }
@@ -74,6 +79,7 @@ namespace PB.MVVMToolkit.Dialogs.Data
             DuplicateAllowed = true;
             Required = false;
             IsEnabled = true;
+            IsVisible = true;
             InputType = typeof(string);
         }
 

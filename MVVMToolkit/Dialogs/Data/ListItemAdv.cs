@@ -35,6 +35,11 @@ namespace PB.MVVMToolkit.Dialogs
         public bool IsLocked { get; set; }
 
         /// <summary>
+        /// Determines if item is visible in the editor
+        /// </summary>
+        public bool IsHidden { get; set; }
+
+        /// <summary>
         /// Determines if item is dependent on another listitem
         /// </summary>
         public IListItemAdv Parent { get; set; }
@@ -94,18 +99,34 @@ namespace PB.MVVMToolkit.Dialogs
                 var newItem = new ListItemAdv(item.Description, item.Id, item.IsLocked);
                 newItem.Parent = item.Parent;
                 newItem.Flag = item.Flag;
+                newItem.IsHidden = item.IsHidden;
 
                 //Get Custom Properties
                 newItem.CustomProperties = new ObservableCollection<ListItemProperty>();
                 var props = item.GetType().GetProperties();
-                var filteredProps = props.Where(x => x.PropertyType == typeof(ListItemProperty)).ToList();
+                var filteredProps = props.Where(x => x.PropertyType == typeof(ListItemProperty) || x.PropertyType == typeof(IList<ListItemProperty>)).ToList();
 
                 foreach (var prop in filteredProps)
                 {
-                    var property = item.GetType().GetProperty(prop.Name);
-                    var propertyValue = property.GetValue(item, null) as ListItemProperty;
-                    if(propertyValue != null)
-                        newItem.CustomProperties.Add(propertyValue);
+                    if (prop.PropertyType == typeof(ListItemProperty))
+                    {
+                        var property = item.GetType().GetProperty(prop.Name);
+                        var propertyValue = property.GetValue(item, null) as ListItemProperty;
+                        if (propertyValue != null)
+                            newItem.CustomProperties.Add(propertyValue);
+
+                    }
+                    if(prop.PropertyType == typeof(IList<ListItemProperty>))
+                    {
+                        var propertyList = item.GetType().GetProperty(prop.Name);
+                        var propertyListValues = propertyList.GetValue(item, null) as IList<ListItemProperty>;
+                        foreach (var propertyItem in propertyListValues)
+                        {
+                            if (propertyItem != null)
+                                newItem.CustomProperties.Add(propertyItem);
+                        }
+                    }
+
                 }
 
                 clonedItems.Add(newItem);

@@ -16,7 +16,6 @@ namespace PB.MVVMToolkit.Dialogs
     {
         #region Private Fields
 
-        private ObservableCollection<IListItemCustom> _originalItemList = null;
 
         #endregion
 
@@ -99,20 +98,30 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         internal static ListInputCustomViewModel Instance { get; set; }
 
+        private IList<IListItemCustom> _listItems;
+
         /// <summary>
         /// List items as observable collection that may be retrieved following edits.
         /// </summary>
-        public ObservableCollection<IListItemCustom> ListItems { get; private set; }
-        
-        protected ObservableCollection<IListItemCustom> _visibleListItems;
+        public IList<IListItemCustom> ListItems
+        {
+            get { return _listItems; }
+            set { _listItems = value; OnPropertyChanged(nameof(VisibleListItems)); }
+        }
+
+        /// <summary>
+        /// Stored original listitems prior to editing
+        /// </summary>
+        public ObservableCollection<IListItemCustom> OriginalListItems { get; private set; }
+
         /// <summary>
         /// List items used in the listbox user interface.
         /// </summary>
-        public virtual ObservableCollection<IListItemCustom> VisibleListItems
-        {
-            get { return _visibleListItems; }
-            set { _visibleListItems = value; OnPropertyChanged(nameof(VisibleListItems)); }
-        }
+        public virtual ObservableCollection<IListItemCustom> VisibleListItems => GetVisibleListItems();
+        //{
+        //    get { return _visibleListItems; }
+        //    set { _visibleListItems = value; OnPropertyChanged(nameof(VisibleListItems)); }
+        //}
 
         protected IListItemCustom _selectedListItem;
         /// <summary>
@@ -124,7 +133,7 @@ namespace PB.MVVMToolkit.Dialogs
             set
             {
                 _selectedListItem = value;
-                Refresh();
+                OnPropertyChanged(nameof(SelectedListItem));
             }
         }
         
@@ -385,11 +394,11 @@ namespace PB.MVVMToolkit.Dialogs
         /// <returns></returns>
         private bool VerifyItemsChanged()
         {
-            if (_originalItemList.Count != ListItems.Count)
+            if (OriginalListItems.Count != ListItems.Count)
                 return true;
             for (int i = 0; i < ListItems.Count; i++)
             {
-                if (ListItems[i].Description != _originalItemList[i].Description)
+                if (ListItems[i].Description != OriginalListItems[i].Description)
                     return true;
             }
 
@@ -416,7 +425,7 @@ namespace PB.MVVMToolkit.Dialogs
                 }
             }
 
-            VisibleListItems = new ObservableCollection<IListItemCustom>(items.Where(x => !x.IsHidden));
+            //VisibleListItems = new ObservableCollection<IListItemCustom>(items.Where(x => !x.IsHidden));
 
             if (VisibleListItems.Count > 0)
                 SelectedListItem = VisibleListItems.FirstOrDefault();
@@ -424,6 +433,11 @@ namespace PB.MVVMToolkit.Dialogs
                 SelectedListItem = null;
 
             UpdateButtons();
+        }
+
+        private ObservableCollection<IListItemCustom> GetVisibleListItems()
+        {
+            return new ObservableCollection<IListItemCustom>(ListItems?.Where(x => !x.IsHidden && x.Flag != ModifiedFlag.Deleted) ?? Array.Empty<IListItemCustom>());
         }
 
         private void SetDefaults()
@@ -444,7 +458,7 @@ namespace PB.MVVMToolkit.Dialogs
             if (listItems == null) listItems = new List<IListItemCustom>();
             var items = new ObservableCollection<IListItemCustom>(listItems);
             ListItems = items;
-            _originalItemList = new ObservableCollection<IListItemCustom>(Clone(listItems));
+            OriginalListItems = new ObservableCollection<IListItemCustom>(Clone(listItems));
         }
 
         private void InitializeCommands()
@@ -475,6 +489,7 @@ namespace PB.MVVMToolkit.Dialogs
         protected virtual void Refresh()
         {
             OnPropertyChanged(nameof(SelectedListItem));
+            OnPropertyChanged(nameof(VisibleListItems));
         }
 
 

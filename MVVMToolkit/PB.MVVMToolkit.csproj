@@ -1,317 +1,48 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5982A92C-47BA-4EAD-BF1B-29555B08947C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PB.MVVMToolkit</RootNamespace>
-    <AssemblyName>PB.MVVMToolkit</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="ColorPicker, Version=3.4.1.0, Culture=neutral, PublicKeyToken=1c61eec504ce2276, processorArchitecture=MSIL">
-      <HintPath>..\packages\PixiEditor.ColorPicker.3.4.1\lib\net451\ColorPicker.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.31\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Dialogs\Data\IListItemCustom.cs" />
-    <Compile Include="Dialogs\Data\IListItemAdv.cs" />
-    <Compile Include="Dialogs\Data\IModified.cs" />
-    <Compile Include="Dialogs\Data\ListItemAdv.cs" />
-    <Compile Include="Dialogs\Enumerations\ModifiedFlag.cs" />
-    <Compile Include="Dialogs\ViewModels\ListInputAdvViewModel.cs" />
-    <Compile Include="Dialogs\ViewModels\ListInputCustomViewModel.cs" />
-    <Compile Include="ProgressForms\ProgressData.cs" />
-    <Compile Include="ProgressForms\ProgressFormAsync.xaml.cs">
-      <DependentUpon>ProgressFormAsync.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ProgressForms\ProgressFormAsyncOld.xaml.cs">
-      <DependentUpon>ProgressFormAsyncOld.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\Helpers\UiRefresh.cs" />
-    <Compile Include="ProgressForms\ProgressFormAsyncSample.cs" />
-    <Compile Include="WPFTools\PBColorPicker.xaml.cs">
-      <DependentUpon>PBColorPicker.xaml</DependentUpon>
-    </Compile>
-    <None Include="Dialogs\For Reference Future\DialogYesNo - Event Handler.cs" />
-    <Compile Include="DialogServices\BaseDialogViewModel.cs" />
-    <Compile Include="DialogServices\BaseDialogWindow.cs" />
-    <Compile Include="DialogServices\DialogCloseRequestedEventArgs.cs" />
-    <Compile Include="DialogServices\DialogService.cs" />
-    <None Include="DialogServices\IDialogWindow.cs" />
-    <Compile Include="DialogServices\IDialog.cs" />
-    <Compile Include="DialogServices\IDialogRequestClose.cs" />
-    <Compile Include="DialogServices\IDialogService.cs" />
-    <Compile Include="Dialogs\Converters\RowVisibleValueConverter.cs" />
-    <Compile Include="Dialogs\Converters\VisibilityValueConverter.cs" />
-    <Compile Include="Dialogs\Data\DialogInput.cs" />
-    <Compile Include="Dialogs\Data\IListItem.cs" />
-    <Compile Include="Dialogs\Data\ListItemProperty.cs" />
-    <Compile Include="Dialogs\ViewModels\About.cs" />
-    <Compile Include="Dialogs\ViewModels\DialogMultiInputOkCancel.cs" />
-    <Compile Include="Dialogs\ViewModels\DialogInputOkCancel.cs" />
-    <Compile Include="Dialogs\ViewModels\DialogOk.cs" />
-    <Compile Include="Dialogs\ViewModels\DialogOkCancel.cs" />
-    <Compile Include="Dialogs\Data\ListItem.cs" />
-    <Compile Include="Dialogs\ViewModels\DialogYesNoCancel.cs" />
-    <Compile Include="Dialogs\ViewModels\ListInputViewModel.cs" />
-    <Compile Include="Dialogs\Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\Views\DialogMultiInputOkCancelView.xaml.cs">
-      <DependentUpon>DialogMultiInputOkCancelView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\Views\DialogOkCancelView.xaml.cs">
-      <DependentUpon>DialogOkCancelView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\Views\DialogOkView.xaml.cs">
-      <DependentUpon>DialogOkView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\Enumerations\DialogImage.cs" />
-    <Compile Include="Dialogs\Views\DialogInputOkCancelView.xaml.cs">
-      <DependentUpon>DialogInputOkCancelView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\Enumerations\DialogResult.cs" />
-    <Compile Include="Dialogs\Views\DialogYesNoCancelView.xaml.cs">
-      <DependentUpon>DialogYesNoCancelView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\Views\DialogYesNoView.xaml.cs">
-      <DependentUpon>DialogYesNoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ViewModels\DialogYesNo.cs" />
-    <Compile Include="Dialogs\Views\ListInputView.xaml.cs">
-      <DependentUpon>ListInputView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ProgressForms\ProgressForm.xaml.cs">
-      <DependentUpon>ProgressForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReferenceClass.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
-    <Compile Include="ViewModel\BaseViewModel.cs" />
-    <EmbeddedResource Include="Resources\Fonts\Charm\Charm-Bold.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Charm\Charm-Regular.ttf" />
-    <None Include="packages.config" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-Bold.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-BoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-ExtraLight.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-ExtraLightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-Italic.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-Light.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-LightItalic.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-Medium.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-MediumItalic.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-Regular.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-SemiBold.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-SemiBoldItalic.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-Thin.ttf" />
-    <Resource Include="Resources\Fonts\Livvic\Livvic-ThinItalic.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Dialogs\Converters\Converters.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\Views\AboutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\Views\DialogMultiInputOkCancelView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\Views\DialogInputOkCancelView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\Views\DialogOkCancelView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\Views\DialogOkView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\Views\DialogYesNoCancelView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\Views\DialogYesNoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\Views\ListInputView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ProgressForms\ProgressFormAsync.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ProgressForms\ProgressFormAsyncOld.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ProgressForms\ProgressForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\Buttons\ButtonAnimation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Buttons\DefaultButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Buttons\NormalButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Buttons\RevitPropertyBoxButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Buttons\DialogButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Buttons\ButtonBaseStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\ComboBox\ToggleButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\ComboBox\DefaultComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\ListBox\ListBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\ProgressBar\ProgressBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Text\TextBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Text\TextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Tooltips\Tooltips.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Windows\Window.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\Fonts.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="WPFTools\PBColorPicker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\dialog_error_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\dialog_information_icon.png" />
-    <Resource Include="Resources\Images\dialog_ok_icon.png" />
-    <Resource Include="Resources\Images\dialog_warning_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\dialog_question_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\pb_logo.png" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>if $(Configuration) == Release (
-call E:\Repos\PB\Signing\postbuildsign.bat $(TargetDir)$(TargetFileName)
-)</PostBuildEvent>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+	<PropertyGroup>
+		<UseWPF>true</UseWPF>
+		<LangVersion>latest</LangVersion>
+		<PlatformTarget>x64</PlatformTarget>
+		<ImplicitUsings>true</ImplicitUsings>
+		<Configurations>Debug R20;Debug R21;Debug R22;Debug R23;Debug R24;Debug R25</Configurations>
+		<Configurations>$(Configurations);Release R20;Release R21;Release R22;Release R23;Release R24;Release R25</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$(Configuration.Contains('R20'))">
+		<RevitVersion>2020</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('R21'))">
+		<RevitVersion>2021</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('R22'))">
+		<RevitVersion>2022</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('R23'))">
+		<RevitVersion>2023</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('R24'))">
+		<RevitVersion>2024</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="$(Configuration.Contains('R25'))">
+		<RevitVersion>2025</RevitVersion>
+		<TargetFramework>net8.0-windows</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Nice3point.Revit.Build.Tasks" Version="2.*" />
+		<PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*" />
+		<PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />
+		<PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*" />
+		<PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
+		<PackageReference Include="PixiEditor.ColorPicker" Version="3.4.1" />
+	</ItemGroup>
+
+
 </Project>

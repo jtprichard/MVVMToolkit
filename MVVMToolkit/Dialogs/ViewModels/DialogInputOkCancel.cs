@@ -97,8 +97,8 @@ namespace PB.MVVMToolkit.Dialogs
             Answer = defaultAnswer;
             Image = image;
 
-            this._okCommand = new RelayCommand(OnOkClicked);
-            this._cancelCommand = new RelayCommand(OnCancelClicked);
+            this._okCommand = new RelayCommand<object>(OnOkClicked);
+            this._cancelCommand = new RelayCommand<object>(OnCancelClicked);
             Instance = this;
         }
 
@@ -109,8 +109,8 @@ namespace PB.MVVMToolkit.Dialogs
             Answer = "";
             Image = DialogImage.None;
 
-            this._okCommand = new RelayCommand(OnOkClicked);
-            this._cancelCommand = new RelayCommand(OnCancelClicked);
+            this._okCommand = new RelayCommand<object>(OnOkClicked);
+            this._cancelCommand = new RelayCommand<object>(OnCancelClicked);
             Instance = this;
         }
 
@@ -121,8 +121,8 @@ namespace PB.MVVMToolkit.Dialogs
             Answer = "";
             Image = image;
 
-            this._okCommand = new RelayCommand(OnOkClicked);
-            this._cancelCommand = new RelayCommand(OnCancelClicked);
+            this._okCommand = new RelayCommand<object>(OnOkClicked);
+            this._cancelCommand = new RelayCommand<object>(OnCancelClicked);
             Instance = this;
         }
 

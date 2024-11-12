@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Visibility = System.Windows.Visibility;
 
 namespace PB.MVVMToolkit.ProgressForms
 {
@@ -125,7 +126,7 @@ namespace PB.MVVMToolkit.ProgressForms
         {
             try
             {
-                CancellationToken cancellationToken;
+                CancellationToken cancellationToken = CancellationToken.None;
 
                 var progress = new Progress<ProgressData>(value =>
                 {
@@ -142,7 +143,7 @@ namespace PB.MVVMToolkit.ProgressForms
                     cancellationToken = value.CancellationToken;
                 });
 
-                if(cancellationToken == null) BtnCancel.Visibility = Visibility.Collapsed;
+                if(cancellationToken == CancellationToken.None) BtnCancel.Visibility = Visibility.Collapsed;
                 await _asyncRevisedMethodToRun(progress);
 
 

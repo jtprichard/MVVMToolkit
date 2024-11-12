@@ -59,7 +59,7 @@ namespace PB.MVVMToolkit.Dialogs
             Caption = caption;
             Image = image;
 
-            this._okCommand = new RelayCommand(OnOkClicked);
+            this._okCommand = new RelayCommand<object>(OnOkClicked);
             Instance = this;
         }
 

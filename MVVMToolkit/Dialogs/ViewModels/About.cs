@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Input;
-using PB.MVVMToolkit.DialogServices;
+﻿using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
 
 namespace PB.MVVMToolkit.Dialogs
@@ -111,7 +109,7 @@ namespace PB.MVVMToolkit.Dialogs
             VersionNumber = versionNumber;
             CopyrightYear = copyrightYear;
 
-            this._okCommand = new RelayCommand(OnOkClicked);
+            this._okCommand = new RelayCommand<object>(OnOkClicked);
             Instance = this;
 
         }

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 using ColorPicker;
 using Color = System.Windows.Media.Color;
+using ColorConverter = System.Windows.Media.ColorConverter;
 
 namespace PB.MVVMToolkit.WPFTools
 {

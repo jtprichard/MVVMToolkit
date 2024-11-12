@@ -85,8 +85,8 @@ namespace PB.MVVMToolkit.Dialogs
             InputCollection = inputs;
             Caption = caption;
 
-            this._okCommand = new RelayCommand(OnOkClicked);
-            this._cancelCommand = new RelayCommand(OnCancelClicked);
+            this._okCommand = new RelayCommand<object>(OnOkClicked);
+            this._cancelCommand = new RelayCommand<object>(OnCancelClicked);
             Instance = this;
         }
 

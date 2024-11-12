@@ -79,9 +79,9 @@ namespace PB.MVVMToolkit.Dialogs
             Caption = caption;
             Image = image;
 
-            this.yesCommand = new RelayCommand(OnYesClicked);
-            this.noCommand = new RelayCommand(OnNoClicked);
-            this.cancelCommand = new RelayCommand(OnCancelClicked);
+            this.yesCommand = new RelayCommand<object>(OnYesClicked);
+            this.noCommand = new RelayCommand<object>(OnNoClicked);
+            this.cancelCommand = new RelayCommand<object>(OnCancelClicked);
             Instance = this;
         }
         #endregion

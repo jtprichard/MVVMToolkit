@@ -270,13 +270,13 @@ namespace PB.MVVMToolkit.Dialogs
             var items = new ObservableCollection<IListItem>(listItems);
 
             // Initiate commands
-            _openDialogAddCommand = new RelayCommand(OnOpenDialogAdd);
-            _openDialogEditCommand = new RelayCommand(OnOpenDialogEdit);
-            _openDialogDeleteCommand = new RelayCommand(OnOpenDialogDelete);
+            _openDialogAddCommand = new RelayCommand<object>(OnOpenDialogAdd);
+            _openDialogEditCommand = new RelayCommand<object>(OnOpenDialogEdit);
+            _openDialogDeleteCommand = new RelayCommand<object>(OnOpenDialogDelete);
             
-            this._okCommand = new RelayCommand(OnOkClicked);
-            this._cancelCommand = new RelayCommand(OnCancelClicked);
-            this._helpCommand = new RelayCommand(OnHelpClicked);
+            this._okCommand = new RelayCommand<object>(OnOkClicked);
+            this._cancelCommand = new RelayCommand<object>(OnCancelClicked);
+            this._helpCommand = new RelayCommand<object>(OnHelpClicked);
 
             //Add Message
             Message = message;

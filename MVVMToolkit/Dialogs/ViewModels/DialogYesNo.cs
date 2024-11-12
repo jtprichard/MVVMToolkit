@@ -1,8 +1,8 @@
 ﻿using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
+using System.Windows.Forms;
 
 namespace PB.MVVMToolkit.Dialogs
 {
@@ -120,9 +120,9 @@ namespace PB.MVVMToolkit.Dialogs
             Caption = caption;
             Image = image;
 
-            this.yesCommand = new RelayCommand(OnYesClicked);
-            this.noCommand = new RelayCommand(OnNoClicked);
-            this._helpCommand = new RelayCommand(OnHelpClicked);
+            this.yesCommand = new RelayCommand<object>(OnYesClicked);
+            this.noCommand = new RelayCommand<object>(OnNoClicked);
+            this._helpCommand = new RelayCommand<object>(OnHelpClicked);
 
             Instance = this;
         }

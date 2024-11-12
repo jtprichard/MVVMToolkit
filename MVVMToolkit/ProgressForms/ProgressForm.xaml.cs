@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using PB.MVVMToolkit.Dialogs.Helpers;
+using Visibility = System.Windows.Visibility;
 
 namespace PB.MVVMToolkit.ProgressForms
 {

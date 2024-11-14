@@ -1,4 +1,6 @@
-﻿using PB.MVVMToolkit.DialogServices;
+﻿using System.Windows;
+using System.Windows.Input;
+using PB.MVVMToolkit.DialogServices;
 using PB.MVVMToolkit.ViewModel;
 
 namespace PB.MVVMToolkit.Dialogs

@@ -53,5 +53,8 @@
 		<PackageReference Include="PixiEditor.ColorPicker" Version="3.4.1" />
 	</ItemGroup>
 
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Release'))">
+		<Exec Command="call E:\Repos\PB\Signing\postbuildsign.bat &quot;$(TargetDir)$(TargetFileName)&quot;" />
+	</Target>
 
 </Project>

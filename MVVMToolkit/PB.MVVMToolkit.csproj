@@ -39,6 +39,22 @@
 	  <Compile Remove="ViewModel\RelayCommand.cs" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Remove="Resources\Images\dialog_error_icon.png" />
+	  <None Remove="Resources\Images\dialog_information_icon.png" />
+	  <None Remove="Resources\Images\dialog_ok_icon.png" />
+	  <None Remove="Resources\Images\dialog_question_icon.png" />
+	  <None Remove="Resources\Images\dialog_warning_icon.png" />
+	  <None Remove="Resources\Images\pb_logo.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Images\dialog_error_icon.png" />
+	  <EmbeddedResource Include="Resources\Images\dialog_information_icon.png" />
+	  <EmbeddedResource Include="Resources\Images\dialog_ok_icon.png" />
+	  <EmbeddedResource Include="Resources\Images\dialog_question_icon.png" />
+	  <EmbeddedResource Include="Resources\Images\dialog_warning_icon.png" />
+	  <EmbeddedResource Include="Resources\Images\pb_logo.png" />
+	</ItemGroup>
+	<ItemGroup>
 	  <None Include="Dialogs\For Reference Future\DialogYesNo - Event Handler.cs" />
 	  <None Include="ViewModel\RelayCommand.cs" />
 	</ItemGroup>

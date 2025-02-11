@@ -78,6 +78,8 @@
                     <RowDefinition Height="{Binding Path=Custom1Visible, Converter={StaticResource RowVisibleConverter}}"/>
                     <RowDefinition Height="{Binding Path=Custom2Visible, Converter={StaticResource RowVisibleConverter}}"/>
                     <RowDefinition Height="{Binding Path=Custom3Visible, Converter={StaticResource RowVisibleConverter}}"/>
+                    <RowDefinition Height="{Binding Path=LoggingEnabled, Converter={StaticResource RowVisibleConverter}}"/>
+                    <RowDefinition Height="0"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
@@ -182,6 +184,49 @@
                            Text="{Binding Path=CustomValue3}"
                 >
                 </TextBlock>
+
+                <TextBlock Grid.Row="5"
+                           Grid.Column="0"
+                           Style="{StaticResource DialogMessageTextBlockStyle}"
+                           IsEnabled="True"
+                           HorizontalAlignment="Left"
+                           Margin="0 0 20 5"
+                           FontSize="14"
+                           Text="Export Log File"
+                >
+                </TextBlock>
+                <Button Grid.Row="5"
+                        Grid.Column="1"
+                        Margin="0,5,0,5"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource DialogButton}"
+                        IsEnabled="True"
+                        Content="Export"
+                        Command="{Binding ExportLogFileCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        ToolTip="Exports the log file for use by the application developer"
+                />
+
+                <TextBlock Grid.Row="6"
+                           Grid.Column="0"
+                           Style="{StaticResource DialogMessageTextBlockStyle}"
+                           IsEnabled="True"
+                           HorizontalAlignment="Left"
+                           Margin="0 0 20 5"
+                           FontSize="14"
+                           Text="Verbose Logging"
+                >
+                </TextBlock>
+                <CheckBox Grid.Row="7"
+                          Grid.Column="1"
+                          Margin="0,5,0,5"
+                          IsEnabled="True"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Center"
+                          IsChecked="{Binding VerboseLoggingChecked}"
+                          ToolTip="Enables Verbose Logging.  Enable only if requested by the developer."
+                />
+
 
 
             </Grid>

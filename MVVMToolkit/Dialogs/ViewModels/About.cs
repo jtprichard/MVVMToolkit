@@ -1,7 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Input;
+using Microsoft.VisualBasic.FileIO;
 using PB.MVVMToolkit.DialogServices;
-using PB.MVVMToolkit.ViewModel;
 
 namespace PB.MVVMToolkit.Dialogs
 {
@@ -33,6 +34,10 @@ namespace PB.MVVMToolkit.Dialogs
         /// The copyright year(s)
         /// </summary>
         public string CopyrightYear { get; }
+        /// <summary>
+        /// The settings to use if there is a logger
+        /// </summary>
+        public AboutLogSettings LogSettings { get; }
         /// <summary>
         /// The copyright string for the form
         /// </summary>
@@ -78,6 +83,23 @@ namespace PB.MVVMToolkit.Dialogs
         public bool Custom3Visible => ConfirmVisibility(CustomTag3);
 
         /// <summary>
+        /// Sets the visibility of the Logging items
+        /// </summary>
+        public bool LoggingEnabled { get; }
+
+
+        private bool _verboseLoggingChecked;
+        /// <summary>
+        /// Enables or disables Verbose Logging in the logging assembly
+        /// </summary>
+        public bool VerboseLoggingChecked
+        {
+            get { return _verboseLoggingChecked; }
+            set { _verboseLoggingChecked = value; OnPropertyChanged(nameof(VerboseLoggingChecked)); }
+        }
+
+
+        /// <summary>
         /// Dialog Result
         /// Dialog will return Yes or No
         /// </summary>
@@ -97,6 +119,16 @@ namespace PB.MVVMToolkit.Dialogs
             set { _okCommand = value; }
         }
 
+        private ICommand _exportLogFileCommand = null;
+        /// <summary>
+        /// Export the Log File Command
+        /// </summary>
+        public ICommand ExportLogFileCommand
+        {
+            get { return _exportLogFileCommand; }
+            set { _exportLogFileCommand = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -105,16 +137,37 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="productName">Input productName</param>
         /// <param name="versionNumber">Window caption</param>
-        public About(string productName, string versionNumber, string copyrightYear)
+        public About(string productName, string versionNumber, string copyrightYear, AboutLogSettings logSettings = null)
         {
             ProductName = productName;
             VersionNumber = versionNumber;
             CopyrightYear = copyrightYear;
+            LogSettings = logSettings;
+            LoggingEnabled = (logSettings != null);
 
             this._okCommand = new RelayCommand<object>(OnOkClicked);
+            this._exportLogFileCommand = new RelayCommand(OnExportLogFileClicked);
             Instance = this;
 
+            //Populate Properties
+            PopulateProperties();
+
+
         }
+
+        #endregion
+
+        #region Command Methods
+
+        /// <summary>
+        /// Method when Export Log File button is clicked
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void OnExportLogFileClicked()
+        {
+            ExportLogFile();
+        }
+
 
         #endregion
 
@@ -148,6 +201,21 @@ namespace PB.MVVMToolkit.Dialogs
 
         #region Private Methods
 
+        private void PopulateProperties()
+        {
+            PopulateVerboseLogging();
+        }
+
+        /// <summary>
+        /// Populate the license message
+        /// </summary>
+        private void PopulateVerboseLogging()
+        {
+            //if (LogSettings != null) VerboseLoggingChecked = LogSettings.VerboseLoggingEnabled;
+            VerboseLoggingChecked = true;
+        }
+
+
         /// <summary>
         /// Yes clicked command event
         /// </summary>
@@ -169,8 +237,60 @@ namespace PB.MVVMToolkit.Dialogs
             return language;
         }
 
+        /// <summary>
+        /// Exports the Log File
+        /// </summary>
+        private void ExportLogFile()
+        {
+            try
+            {
+                var logFileLocation = LogSettings.LogFilePath;
+                SaveLogFile(logFileLocation);
+                DialogOk.Show("Log File Saved", "Save Log File", DialogImage.Info);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                DialogOk.Show("Log File Not Saved - Contact the Developer", "Save Log Error", DialogImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Saves the log file to a user selected location
+        /// </summary>
+        /// <param name="path">Log file path</param>
+        static void SaveLogFile(string path)
+        {
+            var fileName = Path.GetFileName(path);
+
+            if (fileName != null)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.FileName = fileName;
+                saveFileDialog.Filter = "Log File|*.log";
+                saveFileDialog.Title = "Save Log File";
+                saveFileDialog.ShowDialog();
+
+                if (saveFileDialog.FileName != "")
+                {
+                    FileSystem.CopyFile(path, saveFileDialog.FileName, true);
+                }
+            }
+            else
+            {
+                throw new System.IO.FileNotFoundException();
+            }
+        }
+
 
         #endregion
 
+    }
+
+    public class AboutLogSettings
+    {
+        public bool VerboseLoggingEnabled { get; set; }
+        public bool LoggingEnabled { get; set; }
+        public string LogFilePath { get; set; }
     }
 }

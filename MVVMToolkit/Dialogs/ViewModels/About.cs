@@ -137,7 +137,28 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         /// <param name="productName">Input productName</param>
         /// <param name="versionNumber">Window caption</param>
-        public About(string productName, string versionNumber, string copyrightYear, AboutLogSettings logSettings = null)
+        public About(string productName, string versionNumber, string copyrightYear)
+        {
+            ProductName = productName;
+            VersionNumber = versionNumber;
+            CopyrightYear = copyrightYear;
+
+            this._okCommand = new RelayCommand<object>(OnOkClicked);
+            this._exportLogFileCommand = new RelayCommand(OnExportLogFileClicked);
+            Instance = this;
+
+            //Populate Properties
+            PopulateProperties();
+
+
+        }
+
+        /// <summary>
+        /// A dialog asks a question and return a DialogResult of Yes or No
+        /// </summary>
+        /// <param name="productName">Input productName</param>
+        /// <param name="versionNumber">Window caption</param>
+        public About(string productName, string versionNumber, string copyrightYear, AboutLogSettings logSettings)
         {
             ProductName = productName;
             VersionNumber = versionNumber;
@@ -154,6 +175,7 @@ namespace PB.MVVMToolkit.Dialogs
 
 
         }
+
 
         #endregion
 

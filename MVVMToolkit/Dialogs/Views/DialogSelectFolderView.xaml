@@ -1,0 +1,84 @@
+﻿<Window x:Class="PB.MVVMToolkit.Dialogs.Views.DialogSelectFolderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PB.MVVMToolkit.Dialogs.Views"
+        WindowStartupLocation="CenterOwner"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize"
+        Title="{Binding Caption}"
+>
+
+<!-- Resource Dictionary Reference-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Style>
+        <StaticResource ResourceKey="DialogWindow"/>
+    </Window.Style>
+
+
+    <Grid Margin="10" MinWidth="320" MaxWidth="420">
+        <StackPanel>
+
+            <Grid VerticalAlignment="Center" Margin="10">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0"  Width="auto" 
+                       VerticalAlignment="Stretch"
+                       Height="40" 
+                       Margin ="10,0,10,0" 
+                       Source="{Binding ImageFile}"
+                />
+
+                <Grid Grid.Column ="1">
+                    <StackPanel>
+                    <TextBlock 
+                               Style="{StaticResource DialogMessageTextBlockStyle}"
+                               Text="Please select a folder:" 
+                               Margin="0,0,0,8"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,8">
+                        <TextBox 
+                            Text="{Binding FolderPath, UpdateSourceTrigger=PropertyChanged}" 
+                            Width="260" 
+                            IsReadOnly="True"
+                            Style="{StaticResource DialogItemTextBox}"/>
+                        <Button 
+                            Content="Browse..." 
+                            Command="{Binding BrowseCommand}" 
+                            Margin="0,0,0,0"
+                            Style ="{StaticResource DialogButton}"/>
+                    </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+            </Grid>
+
+            <Grid>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="0,0,20,0">
+                    <Button Content="Ok" 
+                            IsDefault="True"
+                            Style="{StaticResource DialogButton}"
+                            Command="{Binding OkCommand}"   
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                    <Button Content="Cancel" 
+                            IsCancel="True"
+                            Style="{StaticResource DialogButton}"
+                            Command="{Binding CancelCommand}"  
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

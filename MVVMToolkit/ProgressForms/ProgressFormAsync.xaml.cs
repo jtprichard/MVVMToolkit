@@ -126,29 +126,39 @@ namespace PB.MVVMToolkit.ProgressForms
         {
             try
             {
-                CancellationToken cancellationToken = CancellationToken.None;
-
-                var progress = new Progress<ProgressData>(value =>
+                if (_asyncRevisedMethodToRun != null)
                 {
-                    ProgressBar.Maximum = value.Total;
-                    int percValue = 0;
-                    if (ProgressBar.Maximum == 0)
-                        percValue = 100;
-                    else
-                        percValue =  (int)((((double)value.Count) / ProgressBar.Maximum)*100);
-                    ProgressBar.Value = value.Count;
-                    Progress.Text =  percValue + "%";
-                    Message = value.Message;
-                    GroupMessage.Text = value.GroupMessage;
-                    cancellationToken = value.CancellationToken;
-                });
+                    CancellationToken cancellationToken = CancellationToken.None;
+                    var progress = new Progress<ProgressData>(value =>
+                    {
+                        ProgressBar.Maximum = value.Total;
+                        int percValue = 0;
+                        if (ProgressBar.Maximum == 0)
+                            percValue = 100;
+                        else
+                            percValue = (int)((((double)value.Count) / ProgressBar.Maximum) * 100);
+                        ProgressBar.Value = value.Count;
+                        Progress.Text = percValue + "%";
+                        Message = value.Message;
+                        GroupMessage.Text = value.GroupMessage;
+                        cancellationToken = value.CancellationToken;
+                    });
 
-                if(cancellationToken == CancellationToken.None) BtnCancel.Visibility = Visibility.Collapsed;
-                await _asyncRevisedMethodToRun(progress);
+                    if (cancellationToken == CancellationToken.None) BtnCancel.Visibility = Visibility.Collapsed;
+                    await _asyncRevisedMethodToRun(progress);
+                }
+                else if (_asyncMethodToRun != null)
+                {
+                    var progress = new Progress<int>(value =>
+                    {
+                        ProgressBar.Value = value;
+                        Progress.Text = value + "%";
+                    });
 
-
+                    await _asyncMethodToRun(progress, _cancellationTokenSource.Token);
+                }
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }

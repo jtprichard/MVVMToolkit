@@ -73,7 +73,8 @@
 
                             <ListBox.ItemTemplate>
                                 <DataTemplate x:Name="lstTemplate">
-                                        <Grid>
+                                        <Grid
+                                            Visibility="{Binding Path=IsVisible, Converter={StaticResource VisibilityConverter}}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width ="Auto" SharedSizeGroup="TBGroup"/>
                                                 <ColumnDefinition Width="Auto"/>
@@ -84,7 +85,7 @@
                                                        Style="{StaticResource DialogMessageTextBlockStyle}"
                                                        MinHeight="20"
                                                        Text="{Binding Caption}"
-                                                       />
+                                            />
                                             <TextBox x:Name="txtTextBox"
                                                      Grid.Column="1"
                                                      Width="200"

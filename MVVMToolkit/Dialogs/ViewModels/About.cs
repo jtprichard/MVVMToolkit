@@ -42,26 +42,47 @@ namespace PB.MVVMToolkit.Dialogs
         /// The copyright string for the form
         /// </summary>
         public string Copyright => GetCopyright();
+
+        private string _customTag1;
         /// <summary>
         /// Custom Entry #1 Tag
         /// </summary>
-        public string CustomTag1 { get; set; }
+        public string CustomTag1
+        {
+            get { return _customTag1; }
+            set { _customTag1 = value; OnPropertyChanged(nameof(Custom1Visible)); }
+        }
+
         /// <summary>
         /// Custom Entry #1 Value
         /// </summary>
         public string CustomValue1 { get; set; }
+
+        private string _customTag2;
         /// <summary>
         /// Custom Entry #2 Tag
         /// </summary>
-        public string CustomTag2 { get; set; }
+        public string CustomTag2
+        {
+            get { return _customTag2; }
+            set { _customTag2 = value; OnPropertyChanged(nameof(Custom2Visible)); }
+        }
+
         /// <summary>
         /// Custom Entry #2 Value
         /// </summary>
         public string CustomValue2 { get; set; }
+
+        private string _customTag3;
+
         /// <summary>
         /// Custom Entry #3 Tag
         /// </summary>
-        public string CustomTag3 { get; set; }
+        public string CustomTag3
+        {
+            get { return _customTag3; }
+            set { _customTag3 = value; OnPropertyChanged(nameof(Custom3Visible)); }
+        }
         /// <summary>
         /// Custom Entry #3 Value
         /// </summary>
@@ -233,8 +254,8 @@ namespace PB.MVVMToolkit.Dialogs
         /// </summary>
         private void PopulateVerboseLogging()
         {
-            //if (LogSettings != null) VerboseLoggingChecked = LogSettings.VerboseLoggingEnabled;
-            VerboseLoggingChecked = true;
+            if (LogSettings != null) VerboseLoggingChecked = LogSettings.VerboseLoggingEnabled;
+            //VerboseLoggingChecked = true;
         }
 
 
@@ -250,7 +271,7 @@ namespace PB.MVVMToolkit.Dialogs
 
         private bool ConfirmVisibility(string value)
         {
-            return value != "";
+            return !string.IsNullOrEmpty(value);
         }
 
         private string GetCopyright()

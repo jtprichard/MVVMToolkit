@@ -79,7 +79,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$(Configuration.Contains('Release'))">
-		<Exec Command="call E:\Repos\PB\Signing\postbuildsign.bat &quot;$(TargetDir)$(TargetFileName)&quot;" />
+		<Exec Command="call D:\Repos\PB\Signing\postbuildsign.bat &quot;$(TargetDir)$(TargetFileName)&quot;" />
 	</Target>
 
 </Project>

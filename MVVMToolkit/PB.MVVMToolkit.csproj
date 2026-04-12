@@ -9,8 +9,8 @@
 		<Configurations>Debug R20;Debug R21;Debug R22;Debug R23;Debug R24;Debug R25;Debug R26</Configurations>
 		<Configurations>$(Configurations);Release R20;Release R21;Release R22;Release R23;Release R24;Release R25;Release R26</Configurations>
 		<Copyright>2026 Performance BIM</Copyright>
-		<AssemblyVersion>26.1.2.0</AssemblyVersion>
-		<FileVersion>26.1.2.0</FileVersion>
+		<AssemblyVersion>26.1.3.0</AssemblyVersion>
+		<FileVersion>26.1.3.0</FileVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="$(Configuration.Contains('R20'))">
@@ -53,6 +53,7 @@
 	  <None Remove="Resources\Images\dialog_warning_icon.png" />
 	  <None Remove="Resources\Images\pb_logo.jpg" />
 	  <None Remove="Resources\Images\pb_logo.png" />
+	  <None Remove="Resources\Images\pb_logo_alt.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Resource Include="Resources\Images\dialog_error_icon.png" />
@@ -62,6 +63,7 @@
 	  <Resource Include="Resources\Images\dialog_warning_icon.png" />
 	  <Resource Include="Resources\Images\pb_logo.jpg" />
 	  <Resource Include="Resources\Images\pb_logo.png" />
+	  <Resource Include="Resources\Images\pb_logo_alt.png" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Include="Dialogs\For Reference Future\DialogYesNo - Event Handler.cs" />

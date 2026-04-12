@@ -40,7 +40,7 @@
                        Height="50" 
                        Margin="0, 0, 0, 0" 
                        HorizontalAlignment="Left"
-                       Source="/PB.MVVMToolkit;component/Resources/Images/pb_logo.jpg" />
+                       Source="/PB.MVVMToolkit;component/Resources/Images/pb_logo_alt.png" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
